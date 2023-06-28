@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cassert>
 #include <cmath>
 #include <iostream>
@@ -6,6 +7,7 @@
 #include <string_view>
 
 #include "stat_reader.hpp"
+#include "input_reader.hpp"
 #include "transport_catalogue.hpp"
 
 namespace stat_reader {
@@ -61,6 +63,70 @@ void StatReader::PrintStopInfo(std::ostream& out, const StopInfo& stop_info, boo
     }
     out << endline << std::flush;
 }
+
+// Executes bus output queries
+void StatReader::ExecuteStopQuery(std::ostream& out, const StopQuery& stop_query) const {
+    PrintStopInfo(out, catalogue_.GetStopInfo(stop_query.stop_name));
+}
+
+// Executes bus output queries
+void StatReader::ExecuteBusQuery(std::ostream& out, const BusQuery& bus_query) const {
+    PrintBusInfo(out, catalogue_.GetBusInfo(bus_query.bus_name));
+}
+
+// Parses bus output query. At this point query without a type is
+// just a bus name. So it just trims it from leading and
+// trailing spaces. EXAMPLE: 257
+BusQuery StatReader::ParseBusQuery(std::string_view raw_line) {
+    std::string_view bus_name = input_reader::util::view::Trim(raw_line, ' ');
+    return { bus_name };
+}
+
+// Parses output stop query. At this point, queries only contain
+// query type and stop name, so this function only trimms the name 
+// of trailing and leading spaces. INPUT EXAMPLE: Marushkino
+StopQuery StatReader::ParseStopQuery(std::string_view raw_line) {
+    return { input_reader::util::view::Trim(raw_line, ' ') }; 
+}
+
+// Execites output queries. Unlike input queries, these are not supposed
+// to be executed in a particular order. Instead, they are executed in the
+// same order as they were stated
+void StatReader::ExecuteQuery(std::ostream& out, const std::string& raw_line) {
+    std::string_view line_view = raw_line;
+    std::string_view type = input_reader::util::view::Substr(line_view, 0, line_view.find_first_of(' '));
+    std::string_view rest = input_reader::util::view::Substr(line_view, line_view.find_first_of(' ') + 1, line_view.size());
+
+    if (type == "Stop"sv) {
+        ExecuteStopQuery(out, ParseStopQuery(rest));
+    } else if (type == "Bus"sv) {
+        ExecuteBusQuery(out, ParseBusQuery(rest));
+    } else {
+        throw std::invalid_argument("Invalid query type: "s + std::string(type));
+    }
+}
+
+// Asks user for input
+void StatReader::ReadInput(std::istream& in) {
+    int output_queries_count;
+
+    in >> output_queries_count; // Prevents input from
+    in >> std::ws;              // falling into getline
+
+    for (int i = 0; i < output_queries_count; i++) {
+        std::string query;
+        getline(in, query);
+        raw_queries_.push_back(query);
+    }
+}
+
+// Executes queries
+void StatReader::DisplayOutput(std::ostream& out) {
+    std::for_each(raw_queries_.begin(), raw_queries_.end(), [this, &out](const std::string& query) {
+        ExecuteQuery(out, query);
+    });
+}
+
 
 namespace tests {
 
@@ -169,7 +235,7 @@ void TestBusStatReader() {
 
     for (const auto& bus : bus_info) tc.AddBus(bus.name, bus.stop_names);
 
-    StatReader sr;
+    StatReader sr(tc);
     
     sr.PrintBusInfo(out, tc.GetBusInfo("256"sv));
 
@@ -221,7 +287,7 @@ void TestStopStatReader() {
 
     std::ostringstream out;
 
-    StatReader sr;
+    StatReader sr(tc);
 
     cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, stop_info1);
     sr.PrintStopInfo(out, stop_info1);
@@ -247,6 +313,55 @@ void TestStopStatReader() {
     sr.PrintStopInfo(out, invalid_info);
     bool test4 = out.str() == "Stop Samara: not found\n";
     assert(test4);
+}
+
+void TestParseQuery() {
+    struct TestBusInfo { std::string_view name; std::vector<std::string_view> stop_names; };
+    struct TestStopInfo { std::string_view name; Coordinates coordinates; };
+    
+    TransportCatalogue tc;
+
+    TestStopInfo stop1{ "Marushkino"sv, { 55.595884, 37.209755 } };
+    TestStopInfo stop2{ "Tolstopaltsevo"sv, { 55.611087, 37.208290 } };
+    TestStopInfo stop3{ "Biryusinka Miryusinka"sv, { 55.581065, 37.648390 } };
+    TestStopInfo stop4{ "Rasskazovka"sv, {20.000000, 21.000000} };
+
+    tc.AddStop(stop1.name, stop1.coordinates);
+    tc.AddStop(stop2.name, stop2.coordinates);
+    tc.AddStop(stop3.name, stop3.coordinates);
+    tc.AddStop(stop4.name, stop3.coordinates);
+
+    TestBusInfo bus1{ "256"sv, { "Marushkino"sv, "Biryusinka Miryusinka"sv, "Marushkino"sv } };
+    TestBusInfo bus2{ "47"sv, { "Tolstopaltsevo"sv, "Biryusinka Miryusinka"sv, "Tolstopaltsevo"sv } };
+    TestBusInfo bus3{ "11"sv, { "Tolstopaltsevo"sv, "Marushkino"sv, "Tolstopaltsevo"sv } };
+
+    tc.AddBus(bus1.name, bus1.stop_names); 
+    tc.AddBus(bus2.name, bus2.stop_names); 
+    tc.AddBus(bus3.name, bus3.stop_names); 
+    
+    std::string query1 = "Stop Marushkino"s;
+    std::string query2 = "Stop Tolstopaltsevo"s;
+    std::string query3 = "Stop Rasskazovka"s;
+    std::string query4 = "Stop Samara"s;
+
+    StatReader sr(tc);
+
+    std::istringstream in{
+        "4"s
+        "Stop Marushkino"s
+        "Stop Tolstopaltsevo"s
+        "Stop Rasskazovka"s
+        "Stop Samara"s
+        "Bus 256"s
+        "Bus 47"s
+        "Bus 13"s
+    };
+
+    sr.ReadInput(in);
+
+    std::cout << "TestParseBusQuery (TEST OUTPUT):" << std::endl;
+
+    sr.DisplayOutput(std::cout);
 }
 
 } // namespace stat_reader::tests

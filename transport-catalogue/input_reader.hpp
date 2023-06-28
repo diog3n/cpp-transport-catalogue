@@ -10,23 +10,15 @@
 
 namespace input_reader {
 
-struct BusInputQuery {
+struct BusQuery {
     std::string_view bus_name;
     std::vector<std::string_view> stop_names;
 };
 
-struct StopInputQuery {
+struct StopQuery {
     std::string_view stop_name;
     Coordinates coordinates;
     std::unordered_map<std::string_view, int> distances;
-};
-
-struct BusOutputQuery {
-    std::string_view bus_name;
-};
-
-struct StopOutputQuery {
-    std::string_view stop_name;
 };
 
 class InputReader {
@@ -34,48 +26,37 @@ class InputReader {
 public:
     InputReader() = default;
 
-    explicit InputReader(transport_catalogue::TransportCatalogue& tc, stat_reader::StatReader sr): catalogue_(tc), stat_reader_(sr) {};
+    explicit InputReader(transport_catalogue::TransportCatalogue& tc): catalogue_(tc) {};
 
     std::vector<std::string> GetSeparateLines(std::istream& input); 
 
-    void AddInputQuery(const std::string& raw_line);
+    void ReadInput(std::istream& in);
 
-    void ExecuteOutputQuery(const std::string& raw_line);
+    void DisplayOutput(std::ostream& out);
 
-    void ExecuteInputQueries();
+    void AddQuery(const std::string& raw_line);
 
-    void ReadInput();
+    void ExecuteQueries();
 
-    std::vector<BusInputQuery>& GetBusQueries();
+    std::vector<BusQuery>& GetBusQueries();
 
-    std::vector<StopInputQuery>& GetStopQueries();
+    std::vector<StopQuery>& GetStopQueries();
+
+    const transport_catalogue::TransportCatalogue& GetCatalogue() const;
 
 private:
+
     transport_catalogue::TransportCatalogue catalogue_;
     
-    stat_reader::StatReader stat_reader_;
-
     std::deque<std::string> raw_queries_;
 
-    std::vector<BusInputQuery> bus_input_queries_;
+    std::vector<BusQuery> bus_input_queries_;
 
-    std::vector<StopInputQuery> stop_input_queries_;
+    std::vector<StopQuery> stop_input_queries_;
     
-    std::vector<BusOutputQuery> bus_output_queries_; 
+    static BusQuery ParseBusQuery(std::string_view raw_line);
 
-    std::vector<StopOutputQuery> stop_output_queries_;
-
-    void ExecuteStopOutputQuery(const StopOutputQuery& stop_query) const;
-
-    void ExecuteBusOutputQuery(const BusOutputQuery& bus_query) const;
-
-    static BusOutputQuery ParseBusOutputQuery(std::string_view raw_line);
-
-    static BusInputQuery ParseBusInputQuery(std::string_view raw_line);
-    
-    static StopOutputQuery ParseStopOutputQuery(std::string_view raw_line);
-
-    static StopInputQuery ParseStopInputQuery(std::string_view raw_line);
+    static StopQuery ParseStopQuery(std::string_view raw_line);
     
     static std::vector<std::string_view> GetStopSequence(std::string_view line);
     
@@ -88,9 +69,9 @@ private:
 
 namespace tests {
 
-void TestParseStopInputQuery();
-void TestParseBusInputQuery();
-void TestAddInputQuery();
+void TestParseStopQuery();
+void TestParseBusQuery();
+void TestAddQuery();
 void TestGetSeparateLines();
 
 } // namespace input_reader::tests

@@ -11,13 +11,13 @@ void RunTests() {
     {
         using namespace input_reader::tests;
 
-        TestParseBusInputQuery();
+        TestParseBusQuery();
         cerr << "TestParseBusQuery OK!"s << endl;
 
-        TestParseStopInputQuery();
+        TestParseStopQuery();
         cerr << "TestParseStopQuery OK!"s << endl;
         
-        TestAddInputQuery();
+        TestAddQuery();
         cerr << "TestAddQuery OK!"s << endl;
     }
 
@@ -54,7 +54,11 @@ int main() {
     RunTests();
 
     input_reader::InputReader ir;
-    ir.ReadInput();
+    stat_reader::StatReader sr(ir.GetCatalogue());
+
+    ir.ReadInput(cin);
+    sr.ReadInput(cin);
+    sr.DisplayOutput(cout);
 
     return 0;
 }

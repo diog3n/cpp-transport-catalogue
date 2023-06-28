@@ -92,110 +92,71 @@ std::vector<std::string_view> InputReader::GetStopSequence(std::string_view line
 // Adds queries to the internal containers of an input reader
 // Though queries could be given in any order, stop queries MUST
 // be executed first
-void InputReader::AddInputQuery(const std::string& raw_line) {
+void InputReader::AddQuery(const std::string& raw_line) {
     raw_queries_.push_back(raw_line);
     std::string_view line_view = raw_queries_.back();
     const std::string_view type = util::view::Substr(line_view, 0, line_view.find_first_of(' '));
     std::string_view rest = util::view::Substr(line_view, line_view.find_first_of(' ') + 1, line_view.size());
 
     if (type == "Stop"sv) {
-        stop_input_queries_.push_back(ParseStopInputQuery(rest));
+        stop_input_queries_.push_back(ParseStopQuery(rest));
     } else if (type == "Bus"sv) {
-        bus_input_queries_.push_back(ParseBusInputQuery(rest));
-    } else {
-        throw std::invalid_argument("Invalid query type: "s + std::string(type));
-    }
-}
-
-// Execites output queries. Unlike input queries, these are not supposed
-// to be executed in a particular order. Instead, they are executed in the
-// same order as they were stated
-void InputReader::ExecuteOutputQuery(const std::string& raw_line) {
-    raw_queries_.push_back(raw_line);
-    std::string_view line_view = raw_queries_.back();
-    std::string_view type = util::view::Substr(line_view, 0, line_view.find_first_of(' '));
-    std::string_view rest = util::view::Substr(line_view, line_view.find_first_of(' ') + 1, line_view.size());
-
-    if (type == "Stop"sv) {
-        ExecuteStopOutputQuery(ParseStopOutputQuery(rest));
-    } else if (type == "Bus"sv) {
-        ExecuteBusOutputQuery(ParseBusOutputQuery(rest));
+        bus_input_queries_.push_back(ParseBusQuery(rest));
     } else {
         throw std::invalid_argument("Invalid query type: "s + std::string(type));
     }
 }
 
 // Asks user for input
-void InputReader::ReadInput() {
-    using std::cin;
-
+void InputReader::ReadInput(std::istream& in) {
     int input_queries_count;
-    int output_queries_count;
 
-    cin >> input_queries_count; // Prevents input from
-    cin >> std::ws;             // falling into getline
+    in >> input_queries_count; // Prevents input from
+    in >> std::ws;             // falling into getline
     for (int i = 0; i < input_queries_count; i++) {
         std::string query;
-        getline(cin, query);
-        AddInputQuery(query);
+        getline(in, query);
+        AddQuery(query);
     } 
-    ExecuteInputQueries();
+    ExecuteQueries();   
+}
 
-    cin >> output_queries_count;
-    cin >> std::ws; 
-    for (int i = 0; i < output_queries_count; i++) {
-        std::string query;
-        getline(cin, query);
-        ExecuteOutputQuery(query);
-    }
+std::vector<BusQuery>& InputReader::GetBusQueries() {
+    return bus_input_queries_;
+}
+
+std::vector<StopQuery>& InputReader::GetStopQueries() {
+    return stop_input_queries_;
+}
+
+// Returns a constant reference to the internal transport catalogue. The main use case of
+// this function would be an initialization of stat_readers in order to use the same database
+const transport_catalogue::TransportCatalogue& InputReader::GetCatalogue() const {
+    return catalogue_;
 }
 
 // Executes input queries in a specific order: stop queries are executed
 // first, then the bus queries get executed after to avoid conflicts
-void InputReader::ExecuteInputQueries() {
-    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const StopInputQuery& stop_query) {
+void InputReader::ExecuteQueries() {
+    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const StopQuery& stop_query) {
         catalogue_.AddStop(std::string(stop_query.stop_name), stop_query.coordinates);
     });
-    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const StopInputQuery& stop_query) {
+    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const StopQuery& stop_query) {
         for (const auto& [dest_name, distance] : stop_query.distances) {
             catalogue_.AddDistance(stop_query.stop_name, dest_name, distance);
         }
     });
-    std::for_each(bus_input_queries_.begin(), bus_input_queries_.end(), [this](const BusInputQuery bus_query) {
+    std::for_each(bus_input_queries_.begin(), bus_input_queries_.end(), [this](const BusQuery bus_query) {
         catalogue_.AddBus(std::string(bus_query.bus_name), bus_query.stop_names);
     });
 }
 
-// Executes bus output queries
-void InputReader::ExecuteStopOutputQuery(const StopOutputQuery& stop_query) const {
-    stat_reader_.PrintStopInfo(std::cout, catalogue_.GetStopInfo(stop_query.stop_name));
-}
 
-// Executes bus output queries
-void InputReader::ExecuteBusOutputQuery(const BusOutputQuery& bus_query) const {
-    stat_reader_.PrintBusInfo(std::cout, catalogue_.GetBusInfo(bus_query.bus_name));
-}
-
-std::vector<BusInputQuery>& InputReader::GetBusQueries() {
-    return bus_input_queries_;
-}
-
-std::vector<StopInputQuery>& InputReader::GetStopQueries() {
-    return stop_input_queries_;
-}
-
-// Parses bus output query. At this point query without a type is
-// just a bus name. So it just trims it from leading and
-// trailing spaces. EXAMPLE: 257
-BusOutputQuery InputReader::ParseBusOutputQuery(std::string_view raw_line) {
-    std::string_view bus_name = util::view::Trim(raw_line, ' ');
-    return { bus_name };
-}
 
 // Parses a bus query. Input MUST contain route name and route,
 // delimited by a ':' character. Surrounding spaces are ignored.
 // EXAMPLE: 750: Tolstopaltsevo - Marushkino - Rasskazovka
-BusInputQuery InputReader::ParseBusInputQuery(std::string_view raw_line) {
+BusQuery InputReader::ParseBusQuery(std::string_view raw_line) {
     using namespace util;
 
     std::string_view bus_name(view::Substr(raw_line, raw_line.find_first_not_of(' '), raw_line.find_first_of(':')));
@@ -205,20 +166,13 @@ BusInputQuery InputReader::ParseBusInputQuery(std::string_view raw_line) {
     return { bus_name, stop_names };
 }
 
-// Parses output stop query. At this point, queries only contain
-// query type and stop name, so this function only trimms the name 
-// of trailing and leading spaces. INPUT EXAMPLE: Marushkino
-StopOutputQuery InputReader::ParseStopOutputQuery(std::string_view raw_line) {
-    return { util::view::Trim(raw_line, ' ') }; 
-}
-
 // Parses stop query. Input MUST contain stop name and coordinates
 // delimited by ':' character. Coordinates MUST be floating-point numbers
 // and MUST be delimited by ',' character, distances MUST follow the format "Xm to Y",
 // where X is a positive integer, Y is a name of a STOP that already exists in a database. 
 // Leading and trailing spaces are ignored.
 // EXAMPLE: Rasskazovka: 55.632761, 37.333324, 3200m to Tchepultsevo, 104m to Universam
-StopInputQuery InputReader::ParseStopInputQuery(std::string_view raw_line) {
+StopQuery InputReader::ParseStopQuery(std::string_view raw_line) {
     using namespace util;
 
     raw_line = view::Trim(raw_line, ' ');
@@ -253,7 +207,7 @@ StopInputQuery InputReader::ParseStopInputQuery(std::string_view raw_line) {
 
 namespace tests {
 
-void TestAddInputQuery() {
+void TestAddQuery() {
     std::istringstream input(
         "Bus 750: Tolstopaltsevo - Marushkino - Rasskazovka\n"s
         "Stop Tolstopaltsevo: 55.611087, 37.208290\n"s
@@ -262,12 +216,14 @@ void TestAddInputQuery() {
         "Bus 47: Universam Gavansky - Metro Primorskaya - Nalichnaya\n"s
     );
 
-    InputReader ir;
+     transport_catalogue::TransportCatalogue tc;
+
+    InputReader ir(tc);
 
     auto input_lines = ir.GetSeparateLines(input);
 
     for (const std::string& line : input_lines) {
-        ir.AddInputQuery(line);
+        ir.AddQuery(line);
     }
 
     auto& bus_queries = ir.GetBusQueries();
@@ -307,7 +263,9 @@ void TestGetSeparateLines() {
         "line 4\n"s
     );
 
-    InputReader ir;
+    transport_catalogue::TransportCatalogue tc;
+
+    InputReader ir(tc);
 
     auto v1 = ir.GetSeparateLines(input);
     assert(v1[0] == "  line 1    "s);
@@ -316,16 +274,18 @@ void TestGetSeparateLines() {
     assert(v1[3] == "line 4"s);
 }
 
-void TestParseStopInputQuery() {
+void TestParseStopQuery() {
     std::string input1 = "Stop Marushkino: 55.595884, 37.209755"s;
     std::string input2 = "Stop Tolstopaltsevo: 55.611087, 37.208290, 3200m to Marushkino, 120m to Universam Gavansky"s;
     std::string input3 = "Stop Biryusinka Miryusinka: 55.581065, 37.648390, 13m to Universam Gavansky"s;
 
-    InputReader ir;
+    transport_catalogue::TransportCatalogue tc;
 
-    ir.AddInputQuery(input1);
-    ir.AddInputQuery(input2);
-    ir.AddInputQuery(input3);
+    InputReader ir(tc);
+
+    ir.AddQuery(input1);
+    ir.AddQuery(input2);
+    ir.AddQuery(input3);
 
     auto stop_queries = ir.GetStopQueries();
 
@@ -350,14 +310,16 @@ void TestParseStopInputQuery() {
 
 }
 
-void TestParseBusInputQuery() {
+void TestParseBusQuery() {
     std::string input1 = "Bus 256: Biryulyovo Zapadnoye > Biryusinka > Universam > Biryulyovo Tovarnaya > Biryulyovo Passazhirskaya > Biryulyovo Zapadnoye"s;
     std::string input2 = "Bus 750: Tolstopaltsevo - Marushkino - Rasskazovka"s;
 
-    InputReader ir;
+    transport_catalogue::TransportCatalogue tc;
 
-    ir.AddInputQuery(input1);
-    ir.AddInputQuery(input2);
+    InputReader ir(tc);
+
+    ir.AddQuery(input1);
+    ir.AddQuery(input2);
 
     auto bus_queries = ir.GetBusQueries();
 
