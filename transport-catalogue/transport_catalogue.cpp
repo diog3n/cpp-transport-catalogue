@@ -13,19 +13,19 @@ namespace transport_catalogue {
 
 // Adds a stop to the transport catalogue. This operation involves population 
 // of stops_ deque as well as population of names_to_stops_ index
-void TransportCatalogue::AddStop(const std::string_view& name, const Coordinates& coordinates) {
+void TransportCatalogue::AddStop(const std::string_view name, const Coordinates& coordinates) {
     stops_.emplace_back(std::string(name), coordinates, std::set<Bus*, BusCompare>());
     names_to_stops_[stops_.back().name] = &stops_.back();
 }
 
 // Adds a stop to the transport catalogue. This operation involves population 
 // of buses_ deque as well as population of names_to_buses_ index
-void TransportCatalogue::AddBus(const std::string_view& name, const std::vector<std::string_view>& stop_names) {
+void TransportCatalogue::AddBus(const std::string_view name, const std::vector<std::string_view>& stop_names) {
     buses_.emplace_back(std::string(name), std::vector<Stop*>());
     
     Bus& bus = buses_.back();
 
-    for (const std::string_view& stop_name : stop_names) {
+    for (const std::string_view stop_name : stop_names) {
         bus.route.push_back(names_to_stops_.at(stop_name));
         names_to_stops_.at(stop_name)->buses.insert(&bus);
     }
@@ -34,7 +34,7 @@ void TransportCatalogue::AddBus(const std::string_view& name, const std::vector<
 }
 
 // Adds a distance between stops. Stops existence is required
-void TransportCatalogue::AddDistance(const std::string_view& stop_from, const std::string_view& stop_to, const int distance) {
+void TransportCatalogue::AddDistance(const std::string_view stop_from, const std::string_view stop_to, const int distance) {
     std::pair<Stop*, Stop*> stop_pair{ 
         names_to_stops_.at(stop_from),
         names_to_stops_.at(stop_to)
@@ -44,18 +44,18 @@ void TransportCatalogue::AddDistance(const std::string_view& stop_from, const st
 
 // Finds a bus by name and returns a reference to its struct 
 // contained in buses_ deque
-const Bus& TransportCatalogue::FindBus(const std::string_view& name) const {
+const Bus& TransportCatalogue::FindBus(const std::string_view name) const {
     return *names_to_buses_.at(name);
 }
 
 // Finds a stop by name and returns a reference to its struct
 // contained in stops_ deque
-const Stop& TransportCatalogue::FindStop(const std::string_view& name) const {
+const Stop& TransportCatalogue::FindStop(const std::string_view name) const {
     return *names_to_stops_.at(name);
 }
 
 // Returns info on a given bus in a specific format
-BusInfo TransportCatalogue::GetBusInfo(const std::string_view& name) const {
+BusInfo TransportCatalogue::GetBusInfo(const std::string_view name) const {
     if (names_to_buses_.count(name) == 0) return { InfoType::NOT_FOUND, std::string(name), 0, 0, 0.0, 0.0 };
 
     const Bus& bus = *names_to_buses_.at(name);
@@ -69,7 +69,7 @@ BusInfo TransportCatalogue::GetBusInfo(const std::string_view& name) const {
 }
 
 // Returns info on a given stop in a specific format
-StopInfo TransportCatalogue::GetStopInfo(const std::string_view& name) const {
+StopInfo TransportCatalogue::GetStopInfo(const std::string_view name) const {
     if (names_to_stops_.count(name) == 0) return { InfoType::NOT_FOUND, std::string(name), {} };
 
     const Stop& stop = *names_to_stops_.at(name);
@@ -85,7 +85,7 @@ StopInfo TransportCatalogue::GetStopInfo(const std::string_view& name) const {
 // Returns a distance between stops. Distances between same stops may be different 
 // depending on direction. If a distance between stops in a given direction is not found,
 // function will try to look for a distance in the opposite direction
-int TransportCatalogue::GetDistance(const std::string_view& stop_from, const std::string_view& stop_to) const {
+int TransportCatalogue::GetDistance(const std::string_view stop_from, const std::string_view stop_to) const {
     if (stop_distances_.count({ names_to_stops_.at(stop_from), names_to_stops_.at(stop_to) }) > 0) return stop_distances_.at({ names_to_stops_.at(stop_from), names_to_stops_.at(stop_to) });
     return stop_distances_.at({ names_to_stops_.at(stop_to), names_to_stops_.at(stop_from) });
 }

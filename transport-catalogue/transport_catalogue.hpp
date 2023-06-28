@@ -26,21 +26,21 @@ class TransportCatalogue {
 public:
     TransportCatalogue() {};
 
-    void AddBus(const std::string_view& name, const std::vector<std::string_view>& stop_names);
+    void AddBus(const std::string_view name, const std::vector<std::string_view>& stop_names);
 
-    void AddStop(const std::string_view& name, const Coordinates& coordinates);
+    void AddStop(const std::string_view name, const Coordinates& coordinates);
 
-    void AddDistance(const std::string_view& stop_from, const std::string_view& stop_to, const int distance);
+    void AddDistance(const std::string_view stop_from, const std::string_view stop_to, const int distance);
 
-    const Bus& FindBus(const std::string_view& name) const;
+    const Bus& FindBus(const std::string_view name) const;
 
-    const Stop& FindStop(const std::string_view& name) const;
+    const Stop& FindStop(const std::string_view name) const;
 
-    int GetDistance(const std::string_view& stop_from, const std::string_view& stop_to) const;
+    int GetDistance(const std::string_view stop_from, const std::string_view stop_to) const;
 
-    BusInfo GetBusInfo(const std::string_view& name) const;
+    BusInfo GetBusInfo(const std::string_view name) const;
 
-    StopInfo GetStopInfo(const std::string_view& name) const;
+    StopInfo GetStopInfo(const std::string_view name) const;
 
 private:
 

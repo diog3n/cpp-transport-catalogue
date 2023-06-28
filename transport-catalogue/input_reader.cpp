@@ -23,7 +23,7 @@ namespace util {
 namespace view {
 
 // Returns a substring [start_pos, end_pos) of a given string_view 
-std::string_view Substr(const std::string_view& view, size_t start_pos, size_t end_pos) {
+std::string_view Substr(std::string_view view, size_t start_pos, size_t end_pos) {
     assert(end_pos > start_pos);
     size_t length = end_pos - start_pos;
     return view.substr(start_pos, length);
