@@ -1,15 +1,42 @@
 #pragma once
+#include <deque>
+#include <memory>
+#include <vector>
 
-/*
- * Здесь можно было бы разместить код обработчика запросов к базе, содержащего логику, которую не
- * хотелось бы помещать ни в transport_catalogue, ни в json reader.
- *
- * В качестве источника для идей предлагаем взглянуть на нашу версию обработчика запросов.
- * Вы можете реализовать обработку запросов способом, который удобнее вам.
- *
- * Если вы затрудняетесь выбрать, что можно было бы поместить в этот файл,
- * можете оставить его пустым.
- */
+#include "transport_catalogue.hpp"
+
+namespace request_handler {
+
+struct BusQuery {
+    std::string_view bus_name;
+    std::vector<std::string_view> stop_names;
+};
+
+struct StopQuery {
+    std::string_view stop_name;
+    geo::Coordinates coordinates;
+    std::unordered_map<std::string_view, int> distances;
+};
+
+class RequestHandler {
+public:
+    RequestHandler(std::unique_ptr<transport_catalogue::TransportCatalogue>&& catalogue);
+
+private:
+    std::shared_ptr<transport_catalogue::TransportCatalogue> catalogue_;
+    
+    std::deque<std::string> raw_queries_;
+
+    std::vector<BusQuery> bus_input_queries_;
+
+    std::vector<StopQuery> stop_input_queries_;
+};
+
+namespace tests {
+
+} // namespace request_handler::tests
+
+} // namespace request_handler
 
 // Класс RequestHandler играет роль Фасада, упрощающего взаимодействие JSON reader-а
 // с другими подсистемами приложения.
@@ -17,7 +44,7 @@
 /*
 class RequestHandler {
 public:
-    // MapReПОйдЯ nderer понадобится в следующей части итогового проекта
+    // MapRenderer понадобится в следующей части итогового проекта
     RequestHandler(const TransportCatalogue& db, const renderer::MapRenderer& renderer);
 
     // Возвращает информацию о маршруте (запрос Bus)
