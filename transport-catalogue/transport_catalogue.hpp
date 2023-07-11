@@ -7,20 +7,11 @@
 #include <vector>
 
 #include "geo.hpp"
+#include "domain.hpp"
 
 namespace transport_catalogue {
 
-struct Bus;
-struct Stop;
-struct BusInfo;
-struct StopInfo;
-
-enum InfoType {
-    VALID,
-    EMPTY,
-    NOT_FOUND,
-};
-
+using namespace domain;
 
 class TransportCatalogue {
 public:
@@ -28,7 +19,7 @@ public:
 
     void AddBus(const std::string_view name, const std::vector<std::string_view>& stop_names);
 
-    void AddStop(const std::string_view name, const Coordinates& coordinates);
+    void AddStop(const std::string_view name, const geo::Coordinates& coordinates);
 
     void AddDistance(const std::string_view stop_from, const std::string_view stop_to, const int distance);
 
@@ -71,49 +62,6 @@ private:
 
     std::unordered_map<std::pair<Stop*, Stop*>, int, StopPtrPairHasher> stop_distances_;
     
-};
-
-class BusCompare {
-public:
-    bool operator() (const Bus* lb, const Bus* rb) const;
-};
-
-struct Bus {
-    Bus(std::string name, 
-        std::vector<Stop*> route)
-        : name(name)
-        , route(route) {}
-
-    std::string name;
-    std::vector<Stop*> route;
-};
-
-struct Stop {
-    Stop(std::string name, 
-         Coordinates coordinates, 
-         std::set<Bus*, BusCompare> buses)
-         : name(name)
-         , coordinates(coordinates)
-         , buses(buses) {}
-
-    std::string name;
-    Coordinates coordinates;
-    std::set<Bus*, BusCompare> buses;
-};
-
-struct StopInfo {
-    InfoType type;
-    std::string name;
-    std::vector<std::string_view> bus_names;
-};
-
-struct BusInfo {
-    InfoType type;
-    std::string name;
-    size_t stops_on_route;
-    size_t unique_stops;
-    double route_length;
-    double curvature;
 };
 
 namespace tests {

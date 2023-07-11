@@ -13,7 +13,7 @@ namespace transport_catalogue {
 
 // Adds a stop to the transport catalogue. This operation involves population 
 // of stops_ deque as well as population of names_to_stops_ index
-void TransportCatalogue::AddStop(const std::string_view name, const Coordinates& coordinates) {
+void TransportCatalogue::AddStop(const std::string_view name, const geo::Coordinates& coordinates) {
     stops_.emplace_back(std::string(name), coordinates, std::set<Bus*, BusCompare>());
     names_to_stops_[stops_.back().name] = &stops_.back();
 }
@@ -126,9 +126,6 @@ double TransportCatalogue::ComputeCurvedRouteDistance(const Bus& bus) const {
     return route_length;
 }
 
-bool BusCompare::operator() (const Bus* lb, const Bus* rb) const {
-    return lb->name < rb->name;
-}
 
 namespace tests {
 
@@ -136,7 +133,7 @@ using namespace std::literals;
 
 void TestAddFindMethods() {
     struct TestBusInfo { std::string_view name; std::vector<std::string_view> stop_names; };
-    struct TestStopInfo { std::string_view name; Coordinates coordinates; };
+    struct TestStopInfo { std::string_view name; geo::Coordinates coordinates; };
     
     TransportCatalogue tc;
 
@@ -203,9 +200,9 @@ void TestAddFindMethods() {
     assert(test_names_2);
     assert(test_names_3);
 
-    bool test_stops_1 = stop1_ref.name == "Marushkino"s && stop1_ref.coordinates == Coordinates{ 55.595884, 37.209755 };
-    bool test_stops_2 = stop2_ref.name == "Tolstopaltsevo"s && stop2_ref.coordinates == Coordinates{ 55.611087, 37.208290 };
-    bool test_stops_3 = stop3_ref.name == "Biryusinka Miryusinka"s && stop3_ref.coordinates == Coordinates{ 55.581065, 37.648390 };
+    bool test_stops_1 = stop1_ref.name == "Marushkino"s && stop1_ref.coordinates == geo::Coordinates{ 55.595884, 37.209755 };
+    bool test_stops_2 = stop2_ref.name == "Tolstopaltsevo"s && stop2_ref.coordinates == geo::Coordinates{ 55.611087, 37.208290 };
+    bool test_stops_3 = stop3_ref.name == "Biryusinka Miryusinka"s && stop3_ref.coordinates == geo::Coordinates{ 55.581065, 37.648390 };
 
     assert(test_stops_1);
     assert(test_stops_2);
@@ -214,7 +211,7 @@ void TestAddFindMethods() {
 
 void TestGetBusInfo() {
     struct TestBusInfo { std::string_view name; std::vector<std::string_view> stop_names; };
-    struct TestStopInfo { std::string_view name; Coordinates coordinates; };
+    struct TestStopInfo { std::string_view name; geo::Coordinates coordinates; };
     
     TransportCatalogue tc;
 
@@ -256,7 +253,7 @@ void TestGetBusInfo() {
 
 void TestGetStopInfo() {
     struct TestBusInfo { std::string_view name; std::vector<std::string_view> stop_names; };
-    struct TestStopInfo { std::string_view name; Coordinates coordinates; };
+    struct TestStopInfo { std::string_view name; geo::Coordinates coordinates; };
     
     TransportCatalogue tc;
 
@@ -292,7 +289,7 @@ void TestGetStopInfo() {
 
 void TestDistances() {
     struct TestBusInfo { std::string_view name; std::vector<std::string_view> stop_names; };
-    struct TestStopInfo { std::string_view name; Coordinates coordinates; std::unordered_map<std::string_view, int> distances; };
+    struct TestStopInfo { std::string_view name; geo::Coordinates coordinates; std::unordered_map<std::string_view, int> distances; };
         
     TransportCatalogue tc;
 

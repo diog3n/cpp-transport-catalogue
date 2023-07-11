@@ -17,7 +17,7 @@ struct BusQuery {
 
 struct StopQuery {
     std::string_view stop_name;
-    Coordinates coordinates;
+    geo::Coordinates coordinates;
     std::unordered_map<std::string_view, int> distances;
 };
 

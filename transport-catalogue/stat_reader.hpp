@@ -1,7 +1,8 @@
 #pragma once
 
-#include "transport_catalogue.hpp"
 #include <ostream>
+
+#include "transport_catalogue.hpp"
 
 namespace stat_reader {
 
