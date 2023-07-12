@@ -6,29 +6,31 @@
 
 #include "transport_catalogue.hpp"
 
-namespace request_handler {
+namespace query_handler {
 
-class RequestHandler {
-public:
-    RequestHandler();
-
-    RequestHandler(const transport_catalogue::TransportCatalogue& tc);
-
-    RequestHandler(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr);
-
-    void ExecuteInputQueries();
-
-    void ExecuteOutputQueries();
-
-    void AddStopInputQuery();
+struct OutputContext {
+    explicit OutputContext(std::ostream& out): out(out) {}
+    virtual ~OutputContext() = default;
     
-    void AddBusInputQuery();
+    std::ostream& out;
+};
 
-    void AddStopOutputQuery();
+class QueryHandler {
+public:
 
-    void AddBusOutputQuery();
+    QueryHandler();
 
-private:
+    QueryHandler(const transport_catalogue::TransportCatalogue& tc);
+
+    QueryHandler(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr);
+
+    virtual void ExecuteInputQueries();
+
+    virtual void ExecuteOutputQueries(OutputContext& context) const = 0 ;
+
+    virtual ~QueryHandler() = default;
+
+protected:
 
     std::shared_ptr<transport_catalogue::TransportCatalogue> catalogue_ptr_;
 
@@ -40,6 +42,12 @@ private:
 
     std::vector<domain::BusOutputQuery> bus_output_queries_;
 };
+
+} // namespace query_handler
+
+namespace request_handler {
+
+
 
 } // namespace request_handler
 

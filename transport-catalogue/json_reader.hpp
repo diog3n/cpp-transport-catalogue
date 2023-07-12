@@ -8,28 +8,32 @@
 
 namespace json_reader {
 
-class JSONReader {
+namespace util {
+
+json::Node AssembleBusNode(domain::BusInfo& bus_info, int id);
+
+json::Node AssembleStopNode(domain::StopInfo& stop_info, int id);
+
+} // namespace json_reader::utils
+
+class JSONReader final : private query_handler::QueryHandler {
 public:
-    using RequestHandlerPtr = std::shared_ptr<request_handler::RequestHandler>;
-
-    JSONReader(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr);
-
-    JSONReader(std::unique_ptr<request_handler::RequestHandler>&& request_handler_ptr);
 
     JSONReader(const transport_catalogue::TransportCatalogue& tc);
 
-    JSONReader(const request_handler::RequestHandler& request_handler);
-
+    JSONReader(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr);
 
     void LoadJSON(const std::string& document);
 
     void LoadJSON(std::istream& in);
 
+    void PrintTo(std::ostream& out) const;
+
 private:
 
-    void ParseQueries();
+    void ExecuteOutputQueries(query_handler::OutputContext& context) const override; 
 
-    RequestHandlerPtr request_handler_ptr_;
+    void ParseQueries();
 
     json::Document json_;
 

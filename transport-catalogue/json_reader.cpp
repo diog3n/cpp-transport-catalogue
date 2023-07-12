@@ -1,22 +1,61 @@
 #include <algorithm>
+#include <ostream>
 #include <sstream>
 #include <stdexcept>
 #include <unordered_map>
 
+#include "domain.hpp"
+#include "json.hpp"
 #include "json_reader.hpp"
+#include "request_handler.hpp"
 #include "transport_catalogue.hpp"
 
 namespace json_reader {
 
 using namespace std::literals;
 
-JSONReader(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr)
+namespace util {
 
-JSONReader(std::unique_ptr<request_handler::RequestHandler>&& request_handler_ptr);
+json::Node AssembleBusNode(domain::BusInfo& bus_info, int id) {
+    if (bus_info.type == domain::InfoType::VALID || bus_info.type == domain::EMPTY) {
+        return json::Dict{ { "request_id", id },
+                           { "curvature", bus_info.curvature},
+                           { "route_length", bus_info.route_length },
+                           { "stop_count", static_cast<int>(bus_info.stops_on_route) },
+                           { "unique_stop_count", static_cast<int>(bus_info.unique_stops) } };
+    }
+    
+    return json::Dict{ { "request_id", id }, { "error_message", "not found" } };
+}
 
-JSONReader(const transport_catalogue::TransportCatalogue& tc);
+json::Node AssembleStopNode(domain::StopInfo& stop_info, int id) {
+    if (stop_info.type == domain::InfoType::VALID) {
+        json::Array bus_array; 
+        bus_array.reserve(stop_info.bus_names.size());
 
-JSONReader(const request_handler::RequestHandler& request_handler);
+        for (const std::string_view view : stop_info.bus_names) {
+            bus_array.push_back(std::string(view));
+        }
+
+        return json::Dict{ { "buses", bus_array },
+                           { "request_id", id } };
+    } else if (stop_info.type == domain::InfoType::EMPTY) {
+        return json::Dict{ { "request_id", id },
+                           { "error_message", "no buses" } };
+    } else {
+        return json::Dict{ { "request_id", id }, { "error_message", "not found" } };
+    }
+}
+
+} // namespace json_reader::util
+
+JSONReader::JSONReader(const transport_catalogue::TransportCatalogue& tc)
+    : query_handler::QueryHandler(tc)
+    , json_(json::Document{nullptr}) {}
+
+JSONReader::JSONReader(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr)
+    : query_handler::QueryHandler(std::move(tc_ptr))
+    , json_(json::Document{nullptr}) {}
 
 void JSONReader::ParseQueries() {
     const json::Dict& root_map = json_.GetRoot().AsMap();
@@ -58,12 +97,14 @@ void JSONReader::LoadJSON(const std::string& document) {
     json_ = json::Load(in);
 
     ParseQueries();
+    ExecuteInputQueries();
 }
 
 void JSONReader::LoadJSON(std::istream& in) {
     json_ = json::Load(in);
 
     ParseQueries();
+    ExecuteInputQueries();
 }
 
 domain::StopOutputQuery JSONReader::AssembleStopOutputQuery(const json::Node& query_node) const {
@@ -111,6 +152,43 @@ domain::StopInputQuery JSONReader::AssembleStopInputQuery(const json::Node& quer
     return { stop_name, std::move(coordinates), std::move(distances) };
 }
 
+void JSONReader::ExecuteOutputQueries(query_handler::OutputContext& context) const {
+    auto bus_iter = bus_output_queries_.begin();
+    auto stop_iter = stop_output_queries_.begin();
+    json::Array output_array;
+
+    while (true) {
+        if ((bus_iter != bus_output_queries_.end() 
+             && stop_iter == stop_output_queries_.end()) 
+             || bus_iter->id < stop_iter->id) {
+            domain::BusInfo bus_info = catalogue_ptr_->GetBusInfo(bus_iter->bus_name);
+
+            output_array.push_back(util::AssembleBusNode(bus_info, bus_iter->id));
+            bus_iter++;
+            continue;
+        } else if ((bus_iter == bus_output_queries_.end() 
+                    && stop_iter != stop_output_queries_.end()) 
+                    || bus_iter->id > stop_iter->id) {
+            domain::StopInfo stop_info = catalogue_ptr_->GetStopInfo(stop_iter->stop_name);
+
+            output_array.push_back(util::AssembleStopNode(stop_info, stop_iter->id));
+            stop_iter++;
+            continue;
+        } else {
+            throw std::logic_error("Same ID for different queries");
+        }
+        break;
+    }
+
+    json::Document output_doc{output_array};
+    json::Print(output_doc, context.out);
+}
+
+void JSONReader::PrintTo(std::ostream& out) const {
+    query_handler::OutputContext context(out);
+    ExecuteOutputQueries(context);
+}
+
 namespace tests {
 
 void TestAssembleQuery() {
@@ -150,8 +228,6 @@ void TestAssembleQuery() {
     };
 
     jreader.LoadJSON(input);
-
-
 }
 
 } // namespace json_reader::tests
