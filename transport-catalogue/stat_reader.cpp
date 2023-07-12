@@ -65,28 +65,28 @@ void StatReader::PrintStopInfo(std::ostream& out, const StopInfo& stop_info, boo
 }
 
 // Executes bus output queries
-void StatReader::ExecuteStopQuery(std::ostream& out, const StopQuery& stop_query) const {
+void StatReader::ExecuteStopOutputQuery(std::ostream& out, const StopOutputQuery& stop_query) const {
     PrintStopInfo(out, catalogue_.GetStopInfo(stop_query.stop_name));
 }
 
 // Executes bus output queries
-void StatReader::ExecuteBusQuery(std::ostream& out, const BusQuery& bus_query) const {
+void StatReader::ExecuteBusOutputQuery(std::ostream& out, const BusOutputQuery& bus_query) const {
     PrintBusInfo(out, catalogue_.GetBusInfo(bus_query.bus_name));
 }
 
 // Parses bus output query. At this point query without a type is
 // just a bus name. So it just trims it from leading and
 // trailing spaces. EXAMPLE: 257
-BusQuery StatReader::ParseBusQuery(std::string_view raw_line) {
+BusOutputQuery StatReader::ParseBusOutputQuery(std::string_view raw_line) {
     std::string_view bus_name = input_reader::util::view::Trim(raw_line, ' ');
-    return { bus_name };
+    return { current_request_id_++, bus_name };
 }
 
 // Parses output stop query. At this point, queries only contain
 // query type and stop name, so this function only trimms the name 
 // of trailing and leading spaces. INPUT EXAMPLE: Marushkino
-StopQuery StatReader::ParseStopQuery(std::string_view raw_line) {
-    return { input_reader::util::view::Trim(raw_line, ' ') }; 
+StopOutputQuery StatReader::ParseStopOutputQuery(std::string_view raw_line) {
+    return { current_request_id_++, input_reader::util::view::Trim(raw_line, ' ') }; 
 }
 
 // Execites output queries. Unlike input queries, these are not supposed
@@ -98,9 +98,9 @@ void StatReader::ExecuteQuery(std::ostream& out, const std::string& raw_line) {
     std::string_view rest = input_reader::util::view::Substr(line_view, line_view.find_first_of(' ') + 1, line_view.size());
 
     if (type == "Stop"sv) {
-        ExecuteStopQuery(out, ParseStopQuery(rest));
+        ExecuteStopOutputQuery(out, ParseStopOutputQuery(rest));
     } else if (type == "Bus"sv) {
-        ExecuteBusQuery(out, ParseBusQuery(rest));
+        ExecuteBusOutputQuery(out, ParseBusOutputQuery(rest));
     } else {
         throw std::invalid_argument("Invalid query type: "s + std::string(type));
     }
@@ -136,7 +136,7 @@ void TestBusStatReader() {
     std::ostringstream out;
 
     struct TestBusInfo { std::string_view name; std::vector<std::string_view> stop_names; };
-    struct TestStopInfo { std::string_view name; Coordinates coordinates; std::unordered_map<std::string_view, int> distances; };    
+    struct TestStopInfo { std::string_view name; geo::Coordinates coordinates; std::unordered_map<std::string_view, int> distances; };    
     
     TransportCatalogue tc;
 
@@ -258,7 +258,7 @@ void TestStopStatReader() {
     using std::cerr;
 
     struct TestBusInfo { std::string_view name; std::vector<std::string_view> stop_names; };
-    struct TestStopInfo { std::string_view name; Coordinates coordinates; };
+    struct TestStopInfo { std::string_view name; geo::Coordinates coordinates; };
     
     TransportCatalogue tc;
 
@@ -317,7 +317,7 @@ void TestStopStatReader() {
 
 void TestParseQuery() {
     struct TestBusInfo { std::string_view name; std::vector<std::string_view> stop_names; };
-    struct TestStopInfo { std::string_view name; Coordinates coordinates; };
+    struct TestStopInfo { std::string_view name; geo::Coordinates coordinates; };
     
     TransportCatalogue tc;
 
@@ -359,7 +359,7 @@ void TestParseQuery() {
 
     sr.ReadInput(in);
 
-    std::cout << "TestParseBusQuery (TEST OUTPUT):" << std::endl;
+    std::cout << "TestParseBusOutputQuery (TEST OUTPUT):" << std::endl;
 
     sr.DisplayOutput(std::cout);
 }

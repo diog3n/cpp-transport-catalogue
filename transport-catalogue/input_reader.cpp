@@ -99,9 +99,9 @@ void InputReader::AddQuery(const std::string& raw_line) {
     std::string_view rest = util::view::Substr(line_view, line_view.find_first_of(' ') + 1, line_view.size());
 
     if (type == "Stop"sv) {
-        stop_input_queries_.push_back(ParseStopQuery(rest));
+        stop_input_queries_.push_back(Parsedomain::StopInputQuery(rest));
     } else if (type == "Bus"sv) {
-        bus_input_queries_.push_back(ParseBusQuery(rest));
+        bus_input_queries_.push_back(Parsedomain::BusInputQuery(rest));
     } else {
         throw std::invalid_argument("Invalid query type: "s + std::string(type));
     }
@@ -121,11 +121,11 @@ void InputReader::ReadInput(std::istream& in) {
     ExecuteQueries();   
 }
 
-std::vector<BusQuery>& InputReader::GetBusQueries() {
+std::vector<domain::BusInputQuery>& InputReader::GetBusQueries() {
     return bus_input_queries_;
 }
 
-std::vector<StopQuery>& InputReader::GetStopQueries() {
+std::vector<domain::StopInputQuery>& InputReader::GetStopQueries() {
     return stop_input_queries_;
 }
 
@@ -138,15 +138,15 @@ const transport_catalogue::TransportCatalogue& InputReader::GetCatalogue() const
 // Executes input queries in a specific order: stop queries are executed
 // first, then the bus queries get executed after to avoid conflicts
 void InputReader::ExecuteQueries() {
-    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const StopQuery& stop_query) {
+    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
         catalogue_.AddStop(std::string(stop_query.stop_name), stop_query.coordinates);
     });
-    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const StopQuery& stop_query) {
+    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
         for (const auto& [dest_name, distance] : stop_query.distances) {
             catalogue_.AddDistance(stop_query.stop_name, dest_name, distance);
         }
     });
-    std::for_each(bus_input_queries_.begin(), bus_input_queries_.end(), [this](const BusQuery bus_query) {
+    std::for_each(bus_input_queries_.begin(), bus_input_queries_.end(), [this](const domain::BusInputQuery bus_query) {
         catalogue_.AddBus(std::string(bus_query.bus_name), bus_query.stop_names);
     });
 }
@@ -156,7 +156,7 @@ void InputReader::ExecuteQueries() {
 // Parses a bus query. Input MUST contain route name and route,
 // delimited by a ':' character. Surrounding spaces are ignored.
 // EXAMPLE: 750: Tolstopaltsevo - Marushkino - Rasskazovka
-BusQuery InputReader::ParseBusQuery(std::string_view raw_line) {
+domain::BusInputQuery InputReader::ParseBusInputQuery(std::string_view raw_line) {
     using namespace util;
 
     std::string_view bus_name(view::Substr(raw_line, raw_line.find_first_not_of(' '), raw_line.find_first_of(':')));
@@ -172,7 +172,7 @@ BusQuery InputReader::ParseBusQuery(std::string_view raw_line) {
 // where X is a positive integer, Y is a name of a STOP that already exists in a database. 
 // Leading and trailing spaces are ignored.
 // EXAMPLE: Rasskazovka: 55.632761, 37.333324, 3200m to Tchepultsevo, 104m to Universam
-StopQuery InputReader::ParseStopQuery(std::string_view raw_line) {
+domain::StopInputQuery InputReader::ParseStopInputQuery(std::string_view raw_line) {
     using namespace util;
 
     raw_line = view::Trim(raw_line, ' ');
@@ -247,11 +247,11 @@ void TestAddQuery() {
     assert(test5);
 
     bool test6 = stop_queries.at(0).stop_name == "Tolstopaltsevo"sv 
-                 && stop_queries.at(0).coordinates == Coordinates{ 55.611087, 37.208290 };
+                 && stop_queries.at(0).coordinates == geo::Coordinates{ 55.611087, 37.208290 };
     assert(test6);
 
     bool test7 = stop_queries.at(1).stop_name == "Biryusinka Miryusinka"sv
-                 && stop_queries.at(1).coordinates == Coordinates{ 55.581065, 37.648390 };
+                 && stop_queries.at(1).coordinates == geo::Coordinates{ 55.581065, 37.648390 };
     assert(test7);
 }
 
@@ -274,7 +274,7 @@ void TestGetSeparateLines() {
     assert(v1[3] == "line 4"s);
 }
 
-void TestParseStopQuery() {
+void TestParseStopInputQuery() {
     std::string input1 = "Stop Marushkino: 55.595884, 37.209755"s;
     std::string input2 = "Stop Tolstopaltsevo: 55.611087, 37.208290, 3200m to Marushkino, 120m to Universam Gavansky"s;
     std::string input3 = "Stop Biryusinka Miryusinka: 55.581065, 37.648390, 13m to Universam Gavansky"s;
@@ -294,23 +294,23 @@ void TestParseStopQuery() {
     assert(test_size);
 
     bool test1 = stop_queries[0].stop_name == "Marushkino"s 
-                 && stop_queries[0].coordinates == Coordinates{55.595884, 37.209755}
+                 && stop_queries[0].coordinates == geo::Coordinates{55.595884, 37.209755}
                  && stop_queries[0].distances == std::unordered_map<std::string_view, int>();
     assert(test1);
 
     bool test2 = stop_queries[1].stop_name == "Tolstopaltsevo"s
-                 && stop_queries[1].coordinates == Coordinates{55.611087, 37.208290}
+                 && stop_queries[1].coordinates == geo::Coordinates{55.611087, 37.208290}
                  && stop_queries[1].distances == std::unordered_map<std::string_view, int>{ { "Marushkino"sv, 3200 }, { "Universam Gavansky"sv, 120 } };
     assert(test2);
 
     bool test3 = stop_queries[2].stop_name == "Biryusinka Miryusinka"s
-                 && stop_queries[2].coordinates == Coordinates{55.581065, 37.648390}
+                 && stop_queries[2].coordinates == geo::Coordinates{55.581065, 37.648390}
                  && stop_queries[2].distances == std::unordered_map<std::string_view, int>{ { "Universam Gavansky"sv, 13 } };
     assert(test3);
 
 }
 
-void TestParseBusQuery() {
+void TestParseBusInputQuery() {
     std::string input1 = "Bus 256: Biryulyovo Zapadnoye > Biryusinka > Universam > Biryulyovo Tovarnaya > Biryulyovo Passazhirskaya > Biryulyovo Zapadnoye"s;
     std::string input2 = "Bus 750: Tolstopaltsevo - Marushkino - Rasskazovka"s;
 

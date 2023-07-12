@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <deque>
 #include <memory>
 #include <vector>
@@ -7,41 +8,48 @@
 
 namespace request_handler {
 
-struct BusQuery {
-    std::string_view bus_name;
-    std::vector<std::string_view> stop_names;
-};
-
-struct StopQuery {
-    std::string_view stop_name;
-    geo::Coordinates coordinates;
-    std::unordered_map<std::string_view, int> distances;
-};
-
 class RequestHandler {
 public:
-    RequestHandler(std::unique_ptr<transport_catalogue::TransportCatalogue>&& catalogue);
+    RequestHandler();
+
+    RequestHandler(const transport_catalogue::TransportCatalogue& tc);
+
+    RequestHandler(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr);
+
+    void ExecuteInputQueries();
+
+    void ExecuteOutputQueries();
+
+    void AddStopInputQuery();
+    
+    void AddBusInputQuery();
+
+    void AddStopOutputQuery();
+
+    void AddBusOutputQuery();
 
 private:
-    std::shared_ptr<transport_catalogue::TransportCatalogue> catalogue_;
-    
-    std::deque<std::string> raw_queries_;
 
-    std::vector<BusQuery> bus_input_queries_;
+    std::shared_ptr<transport_catalogue::TransportCatalogue> catalogue_ptr_;
 
-    std::vector<StopQuery> stop_input_queries_;
+    std::vector<domain::BusInputQuery> bus_input_queries_;
+
+    std::vector<domain::StopInputQuery> stop_input_queries_;
+
+    std::vector<domain::StopOutputQuery> stop_output_queries_;
+
+    std::vector<domain::BusOutputQuery> bus_output_queries_;
 };
 
-namespace tests {
-
-} // namespace request_handler::tests
-
 } // namespace request_handler
+
+
 
 // Класс RequestHandler играет роль Фасада, упрощающего взаимодействие JSON reader-а
 // с другими подсистемами приложения.
 // См. паттерн проектирования Фасад: https://ru.wikipedia.org/wiki/Фасад_(шаблон_проектирования)
 /*
+
 class RequestHandler {
 public:
     // MapRenderer понадобится в следующей части итогового проекта

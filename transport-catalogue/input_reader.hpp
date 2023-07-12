@@ -7,19 +7,11 @@
 #include "geo.hpp"
 #include "stat_reader.hpp"
 #include "transport_catalogue.hpp"
+#include "domain.hpp"
+
+// TODO: make it use RequestHandler
 
 namespace input_reader {
-
-struct BusQuery {
-    std::string_view bus_name;
-    std::vector<std::string_view> stop_names;
-};
-
-struct StopQuery {
-    std::string_view stop_name;
-    geo::Coordinates coordinates;
-    std::unordered_map<std::string_view, int> distances;
-};
 
 class InputReader {
 
@@ -38,9 +30,9 @@ public:
 
     void ExecuteQueries();
 
-    std::vector<BusQuery>& GetBusQueries();
+    std::vector<domain::BusInputQuery>& GetBusQueries();
 
-    std::vector<StopQuery>& GetStopQueries();
+    std::vector<domain::StopInputQuery>& GetStopQueries();
 
     const transport_catalogue::TransportCatalogue& GetCatalogue() const;
 
@@ -50,13 +42,13 @@ private:
     
     std::deque<std::string> raw_queries_;
 
-    std::vector<BusQuery> bus_input_queries_;
+    std::vector<domain::BusInputQuery> bus_input_queries_;
 
-    std::vector<StopQuery> stop_input_queries_;
+    std::vector<domain::StopInputQuery> stop_input_queries_;
     
-    static BusQuery ParseBusQuery(std::string_view raw_line);
+    static domain::BusInputQuery ParseBusInputQuery(std::string_view raw_line);
 
-    static StopQuery ParseStopQuery(std::string_view raw_line);
+    static domain::StopInputQuery ParseStopInputQuery(std::string_view raw_line);
     
     static std::vector<std::string_view> GetStopSequence(std::string_view line);
     
@@ -69,8 +61,8 @@ private:
 
 namespace tests {
 
-void TestParseStopQuery();
-void TestParseBusQuery();
+void TestParseStopInputQuery();
+void TestParseBusInputQuery();
 void TestAddQuery();
 void TestGetSeparateLines();
 

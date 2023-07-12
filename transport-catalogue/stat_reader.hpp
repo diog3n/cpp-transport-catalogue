@@ -3,18 +3,13 @@
 #include <ostream>
 
 #include "transport_catalogue.hpp"
+#include "domain.hpp"
+
+// TODO: make it use RequestHandler
 
 namespace stat_reader {
 
 using namespace transport_catalogue;
-
-struct BusQuery {
-    std::string_view bus_name;
-};
-
-struct StopQuery {
-    std::string_view stop_name;
-};
 
 class StatReader {
 public:
@@ -33,23 +28,23 @@ private:
 
     std::deque<std::string> raw_queries_;
 
-    std::vector<BusQuery> bus_output_queries_; 
+    std::vector<domain::BusOutputQuery> bus_output_queries_; 
 
-    std::vector<StopQuery> stop_output_queries_;
+    std::vector<domain::StopOutputQuery> stop_output_queries_;
 
     const TransportCatalogue& catalogue_;
     
     void ExecuteQuery(std::ostream& out, const std::string& raw_line);
 
-    void ExecuteStopQuery(std::ostream& out, const StopQuery& stop_query) const;
+    void ExecuteStopOutputQuery(std::ostream& out, const domain::StopOutputQuery& stop_query) const;
 
-    void ExecuteBusQuery(std::ostream& out, const BusQuery& bus_query) const;
+    void ExecuteBusOutputQuery(std::ostream& out, const domain::BusOutputQuery& bus_query) const;
 
-    static BusQuery ParseBusQuery(std::string_view raw_line);
+    domain::BusOutputQuery ParseBusOutputQuery(std::string_view raw_line);
 
-    static StopQuery ParseStopQuery(std::string_view raw_line);
+    domain::StopOutputQuery ParseStopOutputQuery(std::string_view raw_line);
 
-    
+    int current_request_id_;
 };
 
 namespace tests {

@@ -1,6 +1,7 @@
 #pragma once
 #include <set>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "geo.hpp"
@@ -61,5 +62,25 @@ struct BusInfo {
     double curvature;
 };
 
+struct BusInputQuery {
+    std::string_view bus_name;
+    std::vector<std::string_view> stop_names;
+};
+
+struct StopInputQuery {
+    std::string_view stop_name;
+    geo::Coordinates coordinates;
+    std::unordered_map<std::string_view, int> distances;
+};
+
+struct BusOutputQuery {
+    int id;
+    std::string_view bus_name;
+};
+
+struct StopOutputQuery {
+    int id;
+    std::string_view stop_name;
+};
 
 } // namespace domain
