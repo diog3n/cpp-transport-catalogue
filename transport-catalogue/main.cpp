@@ -4,6 +4,7 @@
 #include "stat_reader.hpp"
 #include "input_reader.hpp" 
 #include "transport_catalogue.hpp"
+#include "json_reader.hpp"
 
 using namespace std;
 
@@ -11,10 +12,10 @@ void RunTests() {
     {
         using namespace input_reader::tests;
 
-        TestParseBusQuery();
+        TestParseBusInputQuery();
         cerr << "TestParseBusQuery OK!"s << endl;
 
-        TestParseStopQuery();
+        TestParseStopInputQuery();
         cerr << "TestParseStopQuery OK!"s << endl;
         
         TestAddQuery();
@@ -45,6 +46,13 @@ void RunTests() {
         
         TestStopStatReader();
         cerr << "TestStopStatReader OK!"s << std::endl;
+    }
+
+    {
+        using namespace json_reader::tests;
+
+        TestAssembleQuery();
+        cerr << "TestAssembleQuery OK!"s << endl;
     }
 
     cerr << "All tests OK!"s << std::endl;

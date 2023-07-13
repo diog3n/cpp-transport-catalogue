@@ -5,15 +5,15 @@
 #include <vector>
 
 #include "geo.hpp"
-#include "stat_reader.hpp"
 #include "transport_catalogue.hpp"
 #include "domain.hpp"
+#include "request_handler.hpp"
 
 // TODO: make it use RequestHandler
 
 namespace input_reader {
 
-class InputReader {
+class InputReader final : private handlers::InputHandler {
 
 public:
     InputReader() = default;
@@ -28,11 +28,11 @@ public:
 
     void AddQuery(const std::string& raw_line);
 
-    void ExecuteQueries();
+    void ExecuteInputQueries() override;
 
-    std::vector<domain::BusInputQuery>& GetBusQueries();
+    std::deque<domain::BusInputQuery>& GetBusQueries();
 
-    std::vector<domain::StopInputQuery>& GetStopQueries();
+    std::deque<domain::StopInputQuery>& GetStopQueries();
 
     const transport_catalogue::TransportCatalogue& GetCatalogue() const;
 
@@ -42,10 +42,6 @@ private:
     
     std::deque<std::string> raw_queries_;
 
-    std::vector<domain::BusInputQuery> bus_input_queries_;
-
-    std::vector<domain::StopInputQuery> stop_input_queries_;
-    
     static domain::BusInputQuery ParseBusInputQuery(std::string_view raw_line);
 
     static domain::StopInputQuery ParseStopInputQuery(std::string_view raw_line);
@@ -56,7 +52,6 @@ private:
     
     static std::vector<std::string_view> SplitIntoStopNames(std::string_view view, const char delim);
     
-    void TestExample();
 };
 
 namespace tests {

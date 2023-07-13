@@ -50,11 +50,11 @@ json::Node AssembleStopNode(domain::StopInfo& stop_info, int id) {
 } // namespace json_reader::util
 
 JSONReader::JSONReader(const transport_catalogue::TransportCatalogue& tc)
-    : query_handler::QueryHandler(tc)
+    : handlers::QueryHandler(tc)
     , json_(json::Document{nullptr}) {}
 
 JSONReader::JSONReader(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr)
-    : query_handler::QueryHandler(std::move(tc_ptr))
+    : handlers::QueryHandler(std::move(tc_ptr))
     , json_(json::Document{nullptr}) {}
 
 void JSONReader::ParseQueries() {
@@ -84,8 +84,10 @@ void JSONReader::ParseQueries() {
 
         if (type == "Stop"sv) {
             stop_output_queries_.push_back(AssembleStopOutputQuery(node));
+            query_ptrs_.push_back(&stop_output_queries_.back());
         } else if (type == "Bus"sv) {
             bus_output_queries_.push_back(AssembleBusOutputQuery(node));
+            query_ptrs_.push_back(&bus_output_queries_.back());
         } else {
             throw std::invalid_argument("Unknown query type: " + std::string(type));
         }
@@ -127,11 +129,18 @@ domain::BusInputQuery JSONReader::AssembleBusInputQuery(const json::Node& query_
     const json::Dict& request_map = query_node.AsMap();
     const std::string_view bus_name = request_map.at("name").AsString();
     const json::Array& stops_array = request_map.at("stops").AsArray();
+    const bool is_roundtrip = request_map.at("is_roundtrip").AsBool();
 
     std::vector<std::string_view> stops;
 
-    for (const json::Node& node : stops_array) {
-        stops.push_back(node.AsString());
+    for (auto iter = stops_array.begin(); 
+         iter != stops_array.end(); iter++) {
+        stops.push_back(iter->AsString());
+    }
+
+    if (!is_roundtrip) for (auto riter = stops_array.rbegin() + 1; 
+                            riter != stops_array.rend(); riter++) {
+        stops.push_back(riter->AsString());
     }
 
     return { bus_name, std::move(stops) };
@@ -152,24 +161,22 @@ domain::StopInputQuery JSONReader::AssembleStopInputQuery(const json::Node& quer
     return { stop_name, std::move(coordinates), std::move(distances) };
 }
 
-void JSONReader::ExecuteOutputQueries(query_handler::OutputContext& context) const {
+void JSONReader::ExecuteOutputQueries(handlers::OutputContext& context) const {
     auto bus_iter = bus_output_queries_.begin();
     auto stop_iter = stop_output_queries_.begin();
     json::Array output_array;
 
-    while (true) {
-        if ((bus_iter != bus_output_queries_.end() 
-             && stop_iter == stop_output_queries_.end()) 
-             || bus_iter->id < stop_iter->id) {
-            domain::BusInfo bus_info = catalogue_ptr_->GetBusInfo(bus_iter->bus_name);
+    // Assembles them all in the order, in which they were called. 
+    // It is slow and is yet to be improved
+    while (bus_iter != bus_output_queries_.end() && stop_iter != stop_output_queries_.end()) {
+        if (bus_iter->id < stop_iter->id) {
+            domain::BusInfo bus_info = catalogue_ptr_->GetBusInfo(bus_iter->name);
 
             output_array.push_back(util::AssembleBusNode(bus_info, bus_iter->id));
             bus_iter++;
             continue;
-        } else if ((bus_iter == bus_output_queries_.end() 
-                    && stop_iter != stop_output_queries_.end()) 
-                    || bus_iter->id > stop_iter->id) {
-            domain::StopInfo stop_info = catalogue_ptr_->GetStopInfo(stop_iter->stop_name);
+        } else if (bus_iter->id > stop_iter->id) {
+            domain::StopInfo stop_info = catalogue_ptr_->GetStopInfo(stop_iter->name);
 
             output_array.push_back(util::AssembleStopNode(stop_info, stop_iter->id));
             stop_iter++;
@@ -177,7 +184,22 @@ void JSONReader::ExecuteOutputQueries(query_handler::OutputContext& context) con
         } else {
             throw std::logic_error("Same ID for different queries");
         }
-        break;
+    }
+    
+    // If there are any bus_info's left, then add them to the document
+    while (bus_iter != bus_output_queries_.end()) {
+        domain::BusInfo bus_info = catalogue_ptr_->GetBusInfo(bus_iter->name);
+
+        output_array.push_back(util::AssembleBusNode(bus_info, bus_iter->id));
+        bus_iter++;
+    }
+
+    // If there are any stop info's left, then add them to the document as well
+    while (stop_iter != stop_output_queries_.end()) {
+        domain::StopInfo stop_info = catalogue_ptr_->GetStopInfo(stop_iter->name);
+
+        output_array.push_back(util::AssembleStopNode(stop_info, stop_iter->id));
+        stop_iter++;
     }
 
     json::Document output_doc{output_array};
@@ -185,7 +207,7 @@ void JSONReader::ExecuteOutputQueries(query_handler::OutputContext& context) con
 }
 
 void JSONReader::PrintTo(std::ostream& out) const {
-    query_handler::OutputContext context(out);
+    handlers::OutputContext context(out);
     ExecuteOutputQueries(context);
 }
 
@@ -198,38 +220,62 @@ void TestAssembleQuery() {
 
     std::istringstream input{
         "{"
-            "\"base_requests\": ["
-                "{"
-                "  \"type\": \"Bus\","
-                "  \"name\": \"114\","
-                "  \"stops\": [\"Морской вокзал\", \"Ривьерский мост\"],"
-                "  \"is_roundtrip\": false"
-                "},"
-                "{"
-                "  \"type\": \"Stop\","
-                "  \"name\": \"Ривьерский мост\","
-                "  \"latitude\": 43.587795,"
-                "  \"longitude\": 39.716901,"
-                "  \"road_distances\": {\"Морской вокзал\": 850}"
-                "},"
-                "{"
-                "  \"type\": \"Stop\","
-                "  \"name\": \"Морской вокзал\","
-                "  \"latitude\": 43.581969,"
-                "  \"longitude\": 39.719848,"
-                "  \"road_distances\": {\"Ривьерский мост\": 850}"
-                "}"
-            "],"
-          "\"stat_requests\": ["
-          "  { \"id\": 1, \"type\": \"Stop\", \"name\": \"Ривьерский мост\" },"
-          "  { \"id\": 2, \"type\": \"Bus\", \"name\": \"114\" }"
-          "]"
+        "   \"base_requests\": ["
+        "       {"
+        "          \"type\": \"Bus\","
+        "          \"name\": \"114\","
+        "          \"stops\": [\"Морской вокзал\", \"Ривьерский мост\"],"
+        "          \"is_roundtrip\": false"
+        "       },"
+        "       {"
+        "          \"type\": \"Stop\","
+        "          \"name\": \"Ривьерский мост\","
+        "          \"latitude\": 43.587795,"
+        "          \"longitude\": 39.716901,"
+        "          \"road_distances\": {\"Морской вокзал\": 850}"
+        "        },"
+        "        {"
+        "          \"type\": \"Stop\","
+        "          \"name\": \"Морской вокзал\","
+        "          \"latitude\": 43.581969,"
+        "          \"longitude\": 39.719848,"
+        "          \"road_distances\": {\"Ривьерский мост\": 850}"
+        "        }"
+        "    ],"
+        "    \"stat_requests\": ["
+        "        { \"id\": 1, \"type\": \"Stop\", \"name\": \"Ривьерский мост\" },"
+        "        { \"id\": 2, \"type\": \"Bus\", \"name\": \"114\" }"
+        "    ]"
         "}" 
     };
 
     jreader.LoadJSON(input);
+
+    std::ostringstream out;
+
+    jreader.PrintTo(out);
+
+    std::cout << "TEST OUTPUT: " << out.str() << std::endl;
 }
 
 } // namespace json_reader::tests
 
 } // namespace json_reader
+
+/*
+[
+    {
+        "buses": [
+            "114"
+        ],
+        "request_id": 1
+    },
+    {
+        "curvature": 1.23199,
+        "request_id": 2,
+        "route_length": 1700,
+        "stop_count": 3,
+        "unique_stop_count": 2
+    }
+] 
+*/

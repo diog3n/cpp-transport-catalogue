@@ -6,16 +6,40 @@
 
 #include "transport_catalogue.hpp"
 
-namespace query_handler {
+namespace handlers {
 
 struct OutputContext {
+    
     explicit OutputContext(std::ostream& out): out(out) {}
+    
     virtual ~OutputContext() = default;
     
     std::ostream& out;
 };
 
-class QueryHandler {
+class InputHandler {
+public:
+
+    virtual void ExecuteInputQueries() = 0;
+
+    std::deque<domain::BusInputQuery> bus_input_queries_;
+
+    std::deque<domain::StopInputQuery> stop_input_queries_;
+
+};
+
+class OutputHandler {
+public:
+
+    virtual void ExecuteOutputQueries(OutputContext& context) const = 0;
+
+    std::deque<domain::StopOutputQuery> stop_output_queries_;
+
+    std::deque<domain::BusOutputQuery> bus_output_queries_;
+
+};
+
+class QueryHandler : public InputHandler, public OutputHandler {
 public:
 
     QueryHandler();
@@ -26,7 +50,7 @@ public:
 
     virtual void ExecuteInputQueries();
 
-    virtual void ExecuteOutputQueries(OutputContext& context) const = 0 ;
+    virtual void ExecuteOutputQueries(OutputContext& context) const = 0;
 
     virtual ~QueryHandler() = default;
 
@@ -34,16 +58,9 @@ protected:
 
     std::shared_ptr<transport_catalogue::TransportCatalogue> catalogue_ptr_;
 
-    std::vector<domain::BusInputQuery> bus_input_queries_;
-
-    std::vector<domain::StopInputQuery> stop_input_queries_;
-
-    std::vector<domain::StopOutputQuery> stop_output_queries_;
-
-    std::vector<domain::BusOutputQuery> bus_output_queries_;
 };
 
-} // namespace query_handler
+} // namespace handlers
 
 namespace request_handler {
 

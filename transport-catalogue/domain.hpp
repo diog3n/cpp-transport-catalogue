@@ -24,6 +24,10 @@ enum InfoType {
     NOT_FOUND,
 };
 
+enum QueryType {
+    STOP, BUS
+};
+
 struct Bus {
     Bus(std::string name, 
         std::vector<Stop*> route)
@@ -47,40 +51,49 @@ struct Stop {
     std::set<Bus*, BusCompare> buses;
 };
 
-struct StopInfo {
+struct Info {
     InfoType type;
     std::string name;
+};
+
+struct StopInfo : public Info {
     std::vector<std::string_view> bus_names;
 };
 
-struct BusInfo {
-    InfoType type;
-    std::string name;
+struct BusInfo : public Info {
     size_t stops_on_route;
     size_t unique_stops;
     double route_length;
     double curvature;
 };
 
-struct BusInputQuery {
-    std::string_view bus_name;
+struct InputQuery {
+    std::string_view name;
+};
+
+struct OutputQuery {
+    int id;
+    QueryType type;
+    std::string_view name;
+};
+
+struct BusInputQuery : public InputQuery {
     std::vector<std::string_view> stop_names;
 };
 
-struct StopInputQuery {
-    std::string_view stop_name;
+struct StopInputQuery : public InputQuery {
     geo::Coordinates coordinates;
     std::unordered_map<std::string_view, int> distances;
 };
 
-struct BusOutputQuery {
-    int id;
-    std::string_view bus_name;
+struct BusOutputQuery : public OutputQuery { 
+    BusOutputQuery(int id, std::string_view name)
+        : OutputQuery{id, QueryType::BUS, name} {}
 };
 
-struct StopOutputQuery {
-    int id;
-    std::string_view stop_name;
+struct StopOutputQuery : public OutputQuery { 
+    StopOutputQuery(int id, std::string_view name)
+        : OutputQuery{id, QueryType::STOP, name} {} 
 };
 
 } // namespace domain

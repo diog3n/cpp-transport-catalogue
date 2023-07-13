@@ -6,6 +6,10 @@
 #include "transport_catalogue.hpp"
 #include "request_handler.hpp"
 
+// TODO: try using an array of pointers to OutputQuery base struct to use 
+//       to store both Bus and Stop output queries and speed the process of
+//       executing them up.
+
 namespace json_reader {
 
 namespace util {
@@ -16,7 +20,7 @@ json::Node AssembleStopNode(domain::StopInfo& stop_info, int id);
 
 } // namespace json_reader::utils
 
-class JSONReader final : private query_handler::QueryHandler {
+class JSONReader final : private handlers::QueryHandler {
 public:
 
     JSONReader(const transport_catalogue::TransportCatalogue& tc);
@@ -31,11 +35,13 @@ public:
 
 private:
 
-    void ExecuteOutputQueries(query_handler::OutputContext& context) const override; 
+    void ExecuteOutputQueries(handlers::OutputContext& context) const override; 
 
     void ParseQueries();
 
     json::Document json_;
+
+    std::deque<const domain::OutputQuery*> query_ptrs_;
 
     domain::StopOutputQuery AssembleStopOutputQuery(const json::Node& query_node) const;
 
