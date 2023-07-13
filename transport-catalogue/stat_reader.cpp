@@ -66,12 +66,12 @@ void StatReader::PrintStopInfo(std::ostream& out, const StopInfo& stop_info, boo
 
 // Executes bus output queries
 void StatReader::ExecuteStopOutputQuery(std::ostream& out, const StopOutputQuery& stop_query) const {
-    PrintStopInfo(out, catalogue_.GetStopInfo(stop_query.stop_name));
+    PrintStopInfo(out, catalogue_.GetStopInfo(stop_query.name));
 }
 
 // Executes bus output queries
 void StatReader::ExecuteBusOutputQuery(std::ostream& out, const BusOutputQuery& bus_query) const {
-    PrintBusInfo(out, catalogue_.GetBusInfo(bus_query.bus_name));
+    PrintBusInfo(out, catalogue_.GetBusInfo(bus_query.name));
 }
 
 // Parses bus output query. At this point query without a type is

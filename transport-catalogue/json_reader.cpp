@@ -162,45 +162,19 @@ domain::StopInputQuery JSONReader::AssembleStopInputQuery(const json::Node& quer
 }
 
 void JSONReader::ExecuteOutputQueries(handlers::OutputContext& context) const {
-    auto bus_iter = bus_output_queries_.begin();
-    auto stop_iter = stop_output_queries_.begin();
     json::Array output_array;
 
-    // Assembles them all in the order, in which they were called. 
-    // It is slow and is yet to be improved
-    while (bus_iter != bus_output_queries_.end() && stop_iter != stop_output_queries_.end()) {
-        if (bus_iter->id < stop_iter->id) {
-            domain::BusInfo bus_info = catalogue_ptr_->GetBusInfo(bus_iter->name);
-
-            output_array.push_back(util::AssembleBusNode(bus_info, bus_iter->id));
-            bus_iter++;
-            continue;
-        } else if (bus_iter->id > stop_iter->id) {
-            domain::StopInfo stop_info = catalogue_ptr_->GetStopInfo(stop_iter->name);
-
-            output_array.push_back(util::AssembleStopNode(stop_info, stop_iter->id));
-            stop_iter++;
-            continue;
-        } else {
-            throw std::logic_error("Same ID for different queries");
+    std::for_each(query_ptrs_.begin(), query_ptrs_.end(), [this, &output_array](const domain::OutputQuery* query_ptr) {
+        if (query_ptr->type == domain::QueryType::STOP) {
+            domain::StopInfo stop_info = catalogue_ptr_->GetStopInfo(query_ptr->name);
+            output_array.push_back(util::AssembleStopNode(stop_info, query_ptr->id));
+            return;
+        } else if (query_ptr->type == domain::QueryType::BUS) {
+            domain::BusInfo bus_info = catalogue_ptr_->GetBusInfo(query_ptr->name);
+            output_array.push_back(util::AssembleBusNode(bus_info, query_ptr->id));
+            return;
         }
-    }
-    
-    // If there are any bus_info's left, then add them to the document
-    while (bus_iter != bus_output_queries_.end()) {
-        domain::BusInfo bus_info = catalogue_ptr_->GetBusInfo(bus_iter->name);
-
-        output_array.push_back(util::AssembleBusNode(bus_info, bus_iter->id));
-        bus_iter++;
-    }
-
-    // If there are any stop info's left, then add them to the document as well
-    while (stop_iter != stop_output_queries_.end()) {
-        domain::StopInfo stop_info = catalogue_ptr_->GetStopInfo(stop_iter->name);
-
-        output_array.push_back(util::AssembleStopNode(stop_info, stop_iter->id));
-        stop_iter++;
-    }
+    });
 
     json::Document output_doc{output_array};
     json::Print(output_doc, context.out);

@@ -5,8 +5,6 @@
 #include "transport_catalogue.hpp"
 #include "domain.hpp"
 
-// TODO: make it use RequestHandler
-
 namespace stat_reader {
 
 using namespace transport_catalogue;

@@ -6,10 +6,6 @@
 #include "transport_catalogue.hpp"
 #include "request_handler.hpp"
 
-// TODO: try using an array of pointers to OutputQuery base struct to use 
-//       to store both Bus and Stop output queries and speed the process of
-//       executing them up.
-
 namespace json_reader {
 
 namespace util {
