@@ -74,4 +74,18 @@ void TestDistances();
 
 } // namespace transport_catalogue::tests
 
+namespace util {
+
+namespace view {
+
+std::string_view Substr(std::string_view view, size_t start_pos, size_t end_pos);
+
+std::string_view Trim(std::string_view view, char to_remove = ' ');
+
+std::vector<std::string_view> SplitBy(std::string_view view, const char delim = ' ');
+
+} // namespace transport_catalogue::util::view
+
+} // namespace transport_catalogue::util
+
 } // namespace transport_catalogue 

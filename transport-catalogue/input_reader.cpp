@@ -18,49 +18,7 @@ const int COORDS_PRECISION = 6;
 
 using namespace std::literals;
 
-namespace util {
-
-namespace view {
-
-// Returns a substring [start_pos, end_pos) of a given string_view 
-std::string_view Substr(std::string_view view, size_t start_pos, size_t end_pos) {
-    assert(end_pos > start_pos);
-    size_t length = end_pos - start_pos;
-    return view.substr(start_pos, length);
-}
-
-// Moves the start of given view to the first non-to_remove character
-// and moves the end of given view to the last non-to_remove character
-std::string_view Trim(std::string_view view, char to_remove = ' ') {
-    while (!view.empty() && view.front() == to_remove) view.remove_prefix(1);
-    while (!view.empty() && view.back() == to_remove) view.remove_suffix(1);
-    return view;
-}
-
-// Splits a string_view into a vector of string_views, delimited by a delim char
-std::vector<std::string_view> SplitBy(std::string_view view, const char delim = ' ') {
-    std::vector<std::string_view> result;
-
-    size_t next_delim = view.find_first_of(delim);
-
-    while (next_delim != std::string_view::npos) {
-        std::string_view token = Substr(view, 0, next_delim);
-        token = Trim(token, ' ');
-        result.emplace_back(token);
-        view = Substr(view, next_delim + 1, view.size());
-        next_delim = view.find_first_of(delim);
-    }
-
-    std::string_view token = Substr(view, 0, view.size());
-    result.emplace_back(Trim(token, ' '));
-
-    return result;
-}
-
-} // namespace input_reader::util::view
-
-
-} // namespace input_reader::util
+using namespace transport_catalogue;
 
 // Splits input stream into a vector of input lines
 std::vector<std::string> InputReader::GetSeparateLines(std::istream& input) {

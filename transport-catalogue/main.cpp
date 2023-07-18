@@ -1,26 +1,12 @@
 #include <filesystem>
 #include <iostream>
 
-#include "stat_reader.hpp"
-#include "input_reader.hpp" 
 #include "transport_catalogue.hpp"
 #include "json_reader.hpp"
 
 using namespace std;
 
 void RunTests() {
-    {
-        using namespace input_reader::tests;
-
-        TestParseBusInputQuery();
-        cerr << "TestParseBusQuery OK!"s << endl;
-
-        TestParseStopInputQuery();
-        cerr << "TestParseStopQuery OK!"s << endl;
-        
-        TestAddQuery();
-        cerr << "TestAddQuery OK!"s << endl;
-    }
 
     {
         using namespace transport_catalogue::tests;
@@ -39,16 +25,6 @@ void RunTests() {
     }
 
     {
-        using namespace stat_reader::tests;
-
-        TestBusStatReader();
-        cerr << "TestStatReader OK!"s << std::endl;
-        
-        TestStopStatReader();
-        cerr << "TestStopStatReader OK!"s << std::endl;
-    }
-
-    {
         using namespace json_reader::tests;
 
         TestAssembleQuery();
@@ -61,12 +37,13 @@ void RunTests() {
 int main() {
     RunTests();
 
-    input_reader::InputReader ir;
-    stat_reader::StatReader sr(ir.GetCatalogue());
+    transport_catalogue::TransportCatalogue tc;
 
-    ir.ReadInput(cin);
-    sr.ReadInput(cin);
-    sr.DisplayOutput(cout);
+    json_reader::JSONReader reader(tc);
+
+    reader.LoadJSON(json_reader::JSONReader::ReadJSON(std::cin));
+
+    reader.PrintTo(std::cout);
 
     return 0;
 }

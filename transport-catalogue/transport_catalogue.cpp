@@ -2,14 +2,57 @@
 #include <cassert>
 #include <iterator>
 #include <numeric>
+#include <ostream>
 #include <string_view>
 #include <set>
 
 #include "geo.hpp"
-#include "input_reader.hpp"
 #include "transport_catalogue.hpp"
 
 namespace transport_catalogue {
+
+namespace util {
+
+namespace view {
+
+// Returns a substring [start_pos, end_pos) of a given string_view 
+std::string_view Substr(std::string_view view, size_t start_pos, size_t end_pos) {
+    assert(end_pos > start_pos);
+    size_t length = end_pos - start_pos;
+    return view.substr(start_pos, length);
+}
+
+// Moves the start of given view to the first non-to_remove character
+// and moves the end of given view to the last non-to_remove character
+std::string_view Trim(std::string_view view, char to_remove) {
+    while (!view.empty() && view.front() == to_remove) view.remove_prefix(1);
+    while (!view.empty() && view.back() == to_remove) view.remove_suffix(1);
+    return view;
+}
+
+// Splits a string_view into a vector of string_views, delimited by a delim char
+std::vector<std::string_view> SplitBy(std::string_view view, const char delim) {
+    std::vector<std::string_view> result;
+
+    size_t next_delim = view.find_first_of(delim);
+
+    while (next_delim != std::string_view::npos) {
+        std::string_view token = Substr(view, 0, next_delim);
+        token = Trim(token, ' ');
+        result.emplace_back(token);
+        view = Substr(view, next_delim + 1, view.size());
+        next_delim = view.find_first_of(delim);
+    }
+
+    std::string_view token = Substr(view, 0, view.size());
+    result.emplace_back(Trim(token, ' '));
+
+    return result;
+}
+
+} // namespace transport_catalogue::util::view
+
+} // namespace transport_catalogue::util
 
 // Adds a stop to the transport catalogue. This operation involves population 
 // of stops_ deque as well as population of names_to_stops_ index
@@ -62,6 +105,7 @@ BusInfo TransportCatalogue::GetBusInfo(const std::string_view name) const {
     const InfoType type = bus.route.empty() ? InfoType::EMPTY : InfoType::VALID;
     const double route_distance_geo = ComputeRouteDistance(bus);
     const double route_distance_cur = ComputeCurvedRouteDistance(bus);
+
     return { type, bus.name, bus.route.size(), 
              CountUniqueStops(bus), 
              route_distance_cur,
@@ -76,9 +120,11 @@ StopInfo TransportCatalogue::GetStopInfo(const std::string_view name) const {
     const InfoType type = stop.buses.empty() ? InfoType::EMPTY : InfoType::VALID;
 
     StopInfo stop_info = { type, std::string(name), std::vector<std::string_view>() };
+    
     std::transform(stop.buses.begin(), stop.buses.end(), std::back_inserter(stop_info.bus_names), [](const Bus* bus_ptr) {
         return std::string_view(bus_ptr->name);
     });
+
     return stop_info;
 }
 
@@ -99,6 +145,11 @@ size_t TransportCatalogue::CountUniqueStops(const Bus& bus) {
     return unique_stops.size();
 }
 
+// Computes route's curvature
+double TransportCatalogue::ComputeCurvature(const double curved_distance, const double geo_distance) {
+    return curved_distance/geo_distance;
+}
+
 // Computes a route distance for a given bus
 double TransportCatalogue::ComputeRouteDistance(const Bus& bus) {
     const std::vector<Stop*>& route = bus.route;
@@ -111,11 +162,7 @@ double TransportCatalogue::ComputeRouteDistance(const Bus& bus) {
     return result;
 }
 
-// Computes route's curvature
-double TransportCatalogue::ComputeCurvature(const double curved_distance, const double geo_distance) {
-    return curved_distance/geo_distance;
-}
-
+// Computes bus route's length based on given distances
 double TransportCatalogue::ComputeCurvedRouteDistance(const Bus& bus) const {
     double route_length = 0.0;
 

@@ -7,8 +7,6 @@
 #include <string_view>
 
 #include "stat_reader.hpp"
-#include "input_reader.hpp"
-#include "transport_catalogue.hpp"
 
 namespace stat_reader {
 
@@ -78,7 +76,7 @@ void StatReader::ExecuteBusOutputQuery(std::ostream& out, const BusOutputQuery& 
 // just a bus name. So it just trims it from leading and
 // trailing spaces. EXAMPLE: 257
 BusOutputQuery StatReader::ParseBusOutputQuery(std::string_view raw_line) {
-    std::string_view bus_name = input_reader::util::view::Trim(raw_line, ' ');
+    std::string_view bus_name = transport_catalogue::util::view::Trim(raw_line, ' ');
     return { current_request_id_++, bus_name };
 }
 
@@ -86,7 +84,7 @@ BusOutputQuery StatReader::ParseBusOutputQuery(std::string_view raw_line) {
 // query type and stop name, so this function only trimms the name 
 // of trailing and leading spaces. INPUT EXAMPLE: Marushkino
 StopOutputQuery StatReader::ParseStopOutputQuery(std::string_view raw_line) {
-    return { current_request_id_++, input_reader::util::view::Trim(raw_line, ' ') }; 
+    return { current_request_id_++, transport_catalogue::util::view::Trim(raw_line, ' ') }; 
 }
 
 // Execites output queries. Unlike input queries, these are not supposed
@@ -94,8 +92,8 @@ StopOutputQuery StatReader::ParseStopOutputQuery(std::string_view raw_line) {
 // same order as they were stated
 void StatReader::ExecuteQuery(std::ostream& out, const std::string& raw_line) {
     std::string_view line_view = raw_line;
-    std::string_view type = input_reader::util::view::Substr(line_view, 0, line_view.find_first_of(' '));
-    std::string_view rest = input_reader::util::view::Substr(line_view, line_view.find_first_of(' ') + 1, line_view.size());
+    std::string_view type = transport_catalogue::util::view::Substr(line_view, 0, line_view.find_first_of(' '));
+    std::string_view rest = transport_catalogue::util::view::Substr(line_view, line_view.find_first_of(' ') + 1, line_view.size());
 
     if (type == "Stop"sv) {
         ExecuteStopOutputQuery(out, ParseStopOutputQuery(rest));

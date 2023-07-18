@@ -27,6 +27,8 @@ public:
 
     void LoadJSON(std::istream& in);
 
+    static std::string ReadJSON(std::istream& in);
+
     void PrintTo(std::ostream& out) const;
 
 private:
@@ -52,6 +54,10 @@ private:
 namespace tests {
 
 void TestAssembleQuery();
+
+void TestErrorQueries();
+
+void TestEmptyQueries();
 
 } // namespace json_reader::tests
 

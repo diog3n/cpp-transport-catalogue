@@ -63,18 +63,4 @@ void TestGetSeparateLines();
 
 } // namespace input_reader::tests
 
-namespace util {
-
-namespace view {
-
-std::string_view Substr(std::string_view view, size_t start_pos, size_t end_pos);
-
-std::string_view Trim(std::string_view view, char to_remove);
-
-std::vector<std::string_view> SplitBy(std::string_view view, char delim);
-
-} // namespace input_reader::util::view
-
-} // namespace input_reader::util
-
 } // namespace input_reader
