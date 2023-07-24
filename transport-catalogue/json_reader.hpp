@@ -31,6 +31,8 @@ public:
 
     void PrintTo(std::ostream& out) const;
 
+    const json::Document& GetDoc() const;
+
 private:
 
     void ExecuteOutputQueries(handlers::OutputContext& context) const override; 

@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cassert>
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
@@ -236,6 +237,10 @@ std::string JSONReader::ReadJSON(std::istream& in) {
     return result;
 }
 
+const json::Document& JSONReader::GetDoc() const {
+    return json_;
+}
+
 namespace tests {
 
 void TestAssembleQuery() {
@@ -297,73 +302,15 @@ void TestAssembleQuery() {
 
     jreader.PrintTo(out);
 
-    std::cout << "TestAssembleQuery (TEST OUTPUT): "s << out.str() << std::endl;
+    std::istringstream input2(out.str());
 
+    std::istringstream input3("[ { \"buses\": [ \"114\" ], \"request_id\": 1 }, { \"curvature\": 1.23199, \"request_id\": 2, \"route_length\": 1700, \"stop_count\": 3, \"unique_stop_count\": 2 }, { \"error_message\": \"not found\", \"request_id\": 3 }, { \"error_message\": \"not found\", \"request_id\": 4 }, { \"buses\": [ \"41\" ], \"request_id\": 5 }, { \"curvature\": 0.00185499, \"request_id\": 6, \"route_length\": 2000, \"stop_count\": 3, \"unique_stop_count\": 2 } ]");
+
+    bool test_load = json::Load(input2) == json::Load(input3);
+
+    assert(test_load);
 }
 
 } // namespace json_reader::tests
 
 } // namespace json_reader
-
-/*
-std::istringstream input(
-    "Bus 750: Tolstopaltsevo - Marushkino - Rasskazovka\n"s
-    "Stop Tolstopaltsevo: 55.611087, 37.208290\n"s
-    "Stop Biryusinka Miryusinka: 55.581065, 37.648390\n"s
-    "Bus 256: Biryulyovo Zapadnoye > Biryusinka > Universam > Biryulyovo Tovarnaya > Biryulyovo Passazhirskaya > Biryulyovo Zapadnoye\n"s
-    "Bus 47: Universam Gavansky - Metro Primorskaya - Nalichnaya\n"s
-);
-
-{
-    "type": "Stop",
-    "name": "Tolstopaltsevo",
-    "latitude": ,
-    "longitude": ,
-    "road_distances": {
-        
-    }
-}
-
-{
-    "type": "Stop",
-    "name": "",
-    "latitude": ,
-    "longitude": ,
-    "road_distances": {
-        
-    }
-}
-
-{
-    "type": "Bus",
-    "name": "750",
-    "stops": ["Tolstopaltsevo", "Marushkino", "Rasskazovka"],
-    "is_roundtrip": false
-}
-
-{
-    "type": "Bus",
-    "name": "",
-    "stops": [],
-    "is_roundtrip":
-}
-
-{
-    "type": "Stop",
-    "name": "",
-    "latitude": ,
-    "longitude": ,
-    "road_distances": {
-        
-    }
-}
-
-{
-    "type": "Bus",
-    "name": "",
-    "stops": [],
-    "is_roundtrip":
-}
-
-
-*/
