@@ -211,33 +211,6 @@ void JSONReader::PrintTo(std::ostream& out) const {
     ExecuteOutputQueries(context);
 }
 
-/*std::string JSONReader::ReadJSON(std::istream& in) {
-    char c;
-    char brace;
-    char rbrace;
-    int brace_count = 1;
-    std::string result;
-
-    in >> c;
-    result += c;
-
-    if (c == '{') brace = '{', rbrace = '}';
-    else if (c == '[') brace = '[', rbrace = ']';
-    else throw json::ParsingError("Not a JSON");
-
-    while (brace_count != 0) {
-        in >> c;
-        if (c == brace) brace_count++;
-        else if (c == rbrace) brace_count--;
-
-        result += c;
-
-        if (brace_count < 0) throw json::ParsingError("Invalid JSON");
-    }
-
-    return result;
-}*/
-
 std::string JSONReader::ReadJSON(std::istream& in) {
     std::vector<std::string> lines;
     std::string line;
