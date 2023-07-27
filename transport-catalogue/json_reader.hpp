@@ -5,6 +5,7 @@
 #include "domain.hpp"
 #include "transport_catalogue.hpp"
 #include "request_handler.hpp"
+#include "map_renderer.hpp"
 
 namespace json_reader {
 
@@ -33,11 +34,15 @@ public:
 
     const json::Document& GetDoc() const;
 
+    const renderer::RenderSettings GetRenderSettings() const; 
+
 private:
 
     void ExecuteOutputQueries(handlers::OutputContext& context) const override; 
 
-    void ParseQueries();
+    void ParseDocument();
+
+    renderer::RenderSettings render_settings_;
 
     json::Document json_;
 
@@ -51,15 +56,15 @@ private:
 
     domain::StopInputQuery AssembleStopInputQuery(const json::Node& query_node) const;
 
+    renderer::RenderSettings AssembleRenderSettings(const json::Node& render_settings) const;
+
+    svg::Color ExtractColor(const json::Node& node) const;
+
 };
 
 namespace tests {
 
-void TestAssembleQuery();
-
-void TestErrorQueries();
-
-void TestEmptyQueries();
+void TestJSON();
 
 } // namespace json_reader::tests
 

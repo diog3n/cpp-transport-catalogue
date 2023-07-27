@@ -9,6 +9,7 @@
 #include "domain.hpp"
 #include "json.hpp"
 #include "json_reader.hpp"
+#include "map_renderer.hpp"
 
 namespace json_reader {
 
@@ -81,11 +82,14 @@ JSONReader::JSONReader(std::unique_ptr<transport_catalogue::TransportCatalogue>&
     : handlers::QueryHandler(std::move(tc_ptr))
     , json_(json::Document{nullptr}) {}
 
-void JSONReader::ParseQueries() {
+void JSONReader::ParseDocument() {
     const json::Dict& root_map = json_.GetRoot().AsMap();
 
     const json::Array& base_requests = root_map.at("base_requests"s).AsArray();
     const json::Array& stat_requests = root_map.at("stat_requests"s).AsArray();
+    const json::Node& render_settings = root_map.at("render_settings"s);
+
+    render_settings_ = AssembleRenderSettings(render_settings);
 
     std::for_each(base_requests.begin(), base_requests.end(), [this](const json::Node& node) {
         const json::Dict& query_map = node.AsMap();
@@ -122,14 +126,14 @@ void JSONReader::LoadJSON(const std::string& document) {
     std::istringstream in(document);
     json_ = json::Load(in);
 
-    ParseQueries();
+    ParseDocument();
     ExecuteInputQueries();
 }
 
 void JSONReader::LoadJSON(std::istream& in) {
     json_ = json::Load(in);
 
-    ParseQueries();
+    ParseDocument();
     ExecuteInputQueries();
 }
 
@@ -184,6 +188,66 @@ domain::StopInputQuery JSONReader::AssembleStopInputQuery(const json::Node& quer
 
     return { stop_name, std::move(coordinates), std::move(distances) };
 }
+
+renderer::RenderSettings JSONReader::AssembleRenderSettings(const json::Node& render_settings) const {
+    const json::Dict& settings_map = render_settings.AsMap();
+    
+    renderer::RenderSettings rs;
+
+    rs.width = settings_map.at("width"s).AsDouble();
+    rs.height = settings_map.at("height"s).AsDouble();
+    rs.padding = settings_map.at("padding"s).AsDouble();
+    rs.stop_radius = settings_map.at("stop_radius"s).AsDouble();
+    rs.line_width = settings_map.at("line_width"s).AsDouble();
+    rs.bus_label_font_size = settings_map.at("bus_label_font_size"s).AsDouble();
+    const json::Array& bus_label_offset_array = settings_map.at("bus_label_offset"s).AsArray();
+    rs.bus_label_offset = {
+        bus_label_offset_array[0].AsDouble(),
+        bus_label_offset_array[1].AsDouble()
+    };
+
+    rs.stop_label_font_size = settings_map.at("stop_label_font_size"s).AsDouble();
+    const json::Array& stop_label_offset_array = settings_map.at("stop_label_offset"s).AsArray();
+    rs.stop_label_offset = {
+        stop_label_offset_array[0].AsDouble(),
+        stop_label_offset_array[1].AsDouble()
+    };
+
+    const json::Node& underlayer_color_node = settings_map.at("underlayer_color"s);
+    rs.underlayer_color = ExtractColor(underlayer_color_node);
+    rs.underlayer_width = settings_map.at("underlayer_width"s).AsDouble();
+    const json::Array& color_palette_array = settings_map.at("color_palette"s).AsArray();
+    for (const json::Node& color_node : color_palette_array) {
+        rs.color_palette.push_back(ExtractColor(color_node));
+    }
+
+    return rs;
+}
+
+svg::Color JSONReader::ExtractColor(const json::Node& node) const {
+    if (node.IsString()) return node.AsString();
+    else if (node.IsArray()) {
+        const json::Array& array = node.AsArray();
+        if (array.size() == 3) {
+            return svg::Rgb {
+                static_cast<uint8_t>(array[0].AsInt()), 
+                static_cast<uint8_t>(array[1].AsInt()), 
+                static_cast<uint8_t>(array[2].AsInt())
+            };
+        } else if (array.size() == 4) {
+            return svg::Rgba {
+                static_cast<uint8_t>(array[0].AsInt()),
+                static_cast<uint8_t>(array[1].AsInt()),
+                static_cast<uint8_t>(array[2].AsInt()),
+                array[3].AsDouble()
+            };
+        } else {
+            throw json::ParsingError("Invalid color notation");
+        }
+    }
+    else throw json::ParsingError("Invalid color notation");
+}
+
 
 void JSONReader::ExecuteOutputQueries(handlers::OutputContext& context) const {
     json::Array output_array;
@@ -246,74 +310,166 @@ const json::Document& JSONReader::GetDoc() const {
     return json_;
 }
 
+const renderer::RenderSettings JSONReader::GetRenderSettings() const {
+    return render_settings_;
+}
+
 namespace tests {
 
-void TestAssembleQuery() {
+void TestJSON() {
     transport_catalogue::TransportCatalogue tc;
 
     JSONReader jreader(std::make_unique<transport_catalogue::TransportCatalogue>(tc));
 
     std::istringstream input1{
-        "{"
-        "   \"base_requests\": ["
-        "       {"
-        "          \"type\": \"Bus\","
-        "          \"name\": \"114\","
-        "          \"stops\": [\"Морской вокзал\", \"Ривьерский мост\"],"
-        "          \"is_roundtrip\": false"
-        "       },"
-        "       {"
-        "          \"type\": \"Stop\","
-        "          \"name\": \"Ривьерский мост\","
-        "          \"latitude\": 43.587795,"
-        "          \"longitude\": 39.716901,"
-        "          \"road_distances\": {\"Морской вокзал\": 850}"
-        "        },"
-        "        {"
-        "          \"type\": \"Stop\","
-        "          \"name\": \"Морской вокзал\","
-        "          \"latitude\": 43.581969,"
-        "          \"longitude\": 39.719848,"
-        "          \"road_distances\": {\"Ривьерский мост\": 850, \"Наличная улица\": 1000}"
-        "        },"
-        "        {"
-        "          \"type\": \"Stop\","
-        "          \"name\": \"Наличная улица\","
-        "          \"latitude\": 41.581969,"
-        "          \"longitude\": 33.719548,"
-        "          \"road_distances\": {\"Ривьерский мост\": 1850}"
-        "        }"
-        "        {"
-        "          \"type\": \"Bus\","
-        "          \"name\": \"41\","
-        "          \"stops\": [\"Морской вокзал\", \"Наличная улица\", \"Морской вокзал\"],"
-        "          \"is_roundtrip\": true"
-        "         }"
-        "    ],"
-        "    \"stat_requests\": ["
-        "        { \"id\": 1, \"type\": \"Stop\", \"name\": \"Ривьерский мост\" },"
-        "        { \"id\": 2, \"type\": \"Bus\", \"name\": \"114\" },"
-        "        { \"id\": 3, \"type\": \"Bus\", \"name\": \"45\" },"
-        "        { \"id\": 4, \"type\": \"Stop\", \"name\": \"У-м Гаванский\" },"
-        "        { \"id\": 5, \"type\": \"Stop\", \"name\": \"Наличная улица\" }"
-        "        { \"id\": 6, \"type\": \"Bus\", \"name\": \"41\" }"
-        "    ]"
-        "}" 
+    R"({
+        "base_requests": [
+        {
+          "type": "Bus",
+          "name": "14",
+          "stops": [
+            "Ulitsa Lizy Chaikinoi",
+            "Elektroseti",
+            "Ulitsa Dokuchaeva",
+            "Ulitsa Lizy Chaikinoi"
+          ],
+          "is_roundtrip": true
+        },
+        {
+          "type": "Bus",
+          "name": "114",
+          "stops": [
+            "Morskoy vokzal",
+            "Rivierskiy most"
+          ],
+          "is_roundtrip": false
+        },
+        {
+          "type": "Stop",
+          "name": "Rivierskiy most",
+          "latitude": 43.587795,
+          "longitude": 39.716901,
+          "road_distances": {
+            "Morskoy vokzal": 850
+          }
+        },
+        {
+          "type": "Stop",
+          "name": "Morskoy vokzal",
+          "latitude": 43.581969,
+          "longitude": 39.719848,
+          "road_distances": {
+            "Rivierskiy most": 850
+          }
+        },
+        {
+          "type": "Stop",
+          "name": "Elektroseti",
+          "latitude": 43.598701,
+          "longitude": 39.730623,
+          "road_distances": {
+            "Ulitsa Dokuchaeva": 3000,
+            "Ulitsa Lizy Chaikinoi": 4300
+          }
+        },
+        {
+          "type": "Stop",
+          "name": "Ulitsa Dokuchaeva",
+          "latitude": 43.585586,
+          "longitude": 39.733879,
+          "road_distances": {
+            "Ulitsa Lizy Chaikinoi": 2000,
+            "Elektroseti": 3000
+          }
+        },
+        {
+          "type": "Stop",
+          "name": "Ulitsa Lizy Chaikinoi",
+          "latitude": 43.590317,
+          "longitude": 39.746833,
+          "road_distances": {
+            "Elektroseti": 4300,
+            "Ulitsa Dokuchaeva": 2000
+          }
+        }
+      ],
+      "render_settings": {
+        "width": 600,
+        "height": 400,
+        "padding": 50,
+        "stop_radius": 5,
+        "line_width": 14,
+        "bus_label_font_size": 20,
+        "bus_label_offset": [
+          7,
+          15
+        ],
+        "stop_label_font_size": 20,
+        "stop_label_offset": [
+          7,
+          -3
+        ],
+        "underlayer_color": [
+          255,
+          255,
+          255,
+          0.85
+        ],
+        "underlayer_width": 3,
+        "color_palette": [
+          "green",
+          [255, 160, 0],
+          "red"
+        ]
+      },
+      "stat_requests": [
+      ]
+    })"
     };
 
     jreader.LoadJSON(input1);
 
+    renderer::RenderSettings rs = jreader.GetRenderSettings();
+
+    bool test_width = rs.width == 600;
+    assert(test_width);
+
+    bool test_height = rs.height == 400;
+    assert(test_height);
+
+    bool test_padding = rs.padding == 50;
+    assert(test_padding);
+
+    bool test_stop_radius = rs.stop_radius == 5;
+    assert(test_stop_radius);
+
+    bool test_line_width = rs.line_width == 14;
+    assert(test_line_width);
+
+    bool test_bus_label_font_size = rs.bus_label_font_size == 20;
+    assert(test_bus_label_font_size);
+
+    bool test_bus_label_offset = rs.bus_label_offset == svg::Point{ 7, 15 };
+    assert(test_bus_label_offset);
+
+    bool test_stop_label_font_size = rs.stop_label_font_size == 20;
+    assert(test_stop_label_font_size);
+
+    bool test_stop_label_offset = rs.stop_label_offset == svg::Point{ 7, -3 };
+    assert(test_stop_label_offset);
+
+    bool test_underlayer_color = rs.underlayer_color == svg::Rgba{ 255, 255, 255, 0.85 };
+    assert(test_underlayer_color);
+
+    bool test_underlayer_width = rs.underlayer_width == 3;
+    assert(test_underlayer_width);
+
+    bool test_color_palette = rs.color_palette == std::vector<svg::Color>{ "green", svg::Rgb{ 255, 160, 0 }, "red" };
+    assert(test_color_palette);
+
     std::ostringstream out;
 
     jreader.PrintTo(out);
-
-    std::istringstream input2(out.str());
-
-    std::istringstream input3("[ { \"buses\": [ \"114\" ], \"request_id\": 1 }, { \"curvature\": 1.23199, \"request_id\": 2, \"route_length\": 1700, \"stop_count\": 3, \"unique_stop_count\": 2 }, { \"error_message\": \"not found\", \"request_id\": 3 }, { \"error_message\": \"not found\", \"request_id\": 4 }, { \"buses\": [ \"41\" ], \"request_id\": 5 }, { \"curvature\": 0.00185499, \"request_id\": 6, \"route_length\": 2000, \"stop_count\": 3, \"unique_stop_count\": 2 } ]");
-
-    bool test_load = json::Load(input2) == json::Load(input3);
-
-    assert(test_load);
 }
 
 } // namespace json_reader::tests

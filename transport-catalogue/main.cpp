@@ -27,8 +27,8 @@ void RunTests() {
     {
         using namespace json_reader::tests;
 
-        TestAssembleQuery();
-        cerr << "TestAssembleQuery OK!"s << endl;
+        TestJSON();
+        cerr << "TestJSON OK!"s << endl;
     }
 
     cerr << "All tests OK!"s << std::endl;

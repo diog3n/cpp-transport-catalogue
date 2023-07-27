@@ -1,4 +1,5 @@
 #include "request_handler.hpp"
+#include "transport_catalogue.hpp"
 
 namespace handlers {
 
@@ -30,5 +31,18 @@ void QueryHandler::ExecuteInputQueries() {
 }
 
 namespace request_handler {
+
+RequestHandler::RequestHandler(
+    const transport_catalogue::TransportCatalogue& db, 
+    const renderer::MapRenderer& renderer)
+        : db_(db), renderer_(renderer) {} 
+
+domain::BusInfo RequestHandler::GetBusInfo(const std::string_view& bus_name) const {
+    return db_.GetBusInfo(bus_name);
+}
+
+const std::vector<std::string_view> RequestHandler::GetBusNamesByStop(const std::string_view& stop_name) const {
+    return db_.GetStopInfo(stop_name).bus_names;
+}
 
 } // namespace request_handler

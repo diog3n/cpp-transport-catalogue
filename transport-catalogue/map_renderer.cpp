@@ -1,7 +1,15 @@
 #include "map_renderer.hpp"
 
-/*
- * В этом файле вы можете разместить код, отвечающий за визуализацию карты маршрутов в формате SVG.
- * Визуализация маршрутов вам понадобится во второй части итогового проекта.
- * Пока можете оставить файл пустым.
- */
+namespace renderer {
+
+namespace util {
+
+bool IsZero(double value) {
+    return std::abs(value) < EPSILON;
+}
+
+} // namespace renderer::util
+
+
+
+} // namespace renderer

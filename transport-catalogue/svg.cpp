@@ -1,6 +1,7 @@
 #include <cassert>
 #include <iostream>
 #include <sstream>
+#include <variant>
 
 #include "svg.hpp"
 
@@ -43,6 +44,37 @@ std::string GetColorString(const Color& color) {
 
 } // namespace svg::utils
 
+bool operator==(const Point& lhs, const Point& rhs) {
+    return (lhs.x == rhs.x) && (lhs.y == rhs.y);
+}
+
+bool operator!=(const Point& lhs, const Point& rhs) {
+    return !(lhs == rhs);
+}
+
+bool operator==(const Color& lhs, const Color& rhs) {
+    if (std::holds_alternative<std::string>(lhs) && std::holds_alternative<std::string>(rhs)) {
+        return std::get<std::string>(lhs) == std::get<std::string>(rhs);
+    }
+    if (std::holds_alternative<Rgb>(lhs) && std::holds_alternative<Rgb>(rhs)) {
+        Rgb left = std::get<Rgb>(lhs);
+        Rgb right = std::get<Rgb>(rhs);
+
+        return left.red   == right.red
+            && left.green == right.green
+            && left.blue  == right.blue;
+    }
+    if (std::holds_alternative<Rgba>(lhs) && std::holds_alternative<Rgba>(rhs)) {
+        Rgba left = std::get<Rgba>(lhs);
+        Rgba right = std::get<Rgba>(rhs);
+
+        return left.red     == right.red
+            && left.green   == right.green
+            && left.blue    == right.blue
+            && left.opacity == right.opacity;
+    }
+    return false;
+}
 
 void Object::Render(const RenderContext& context) const {
     context.RenderIndent();

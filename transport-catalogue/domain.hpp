@@ -18,6 +18,9 @@ public:
     bool operator() (const Bus* lb, const Bus* rb) const;
 };
 
+using BusPtr = Bus*;
+using StopPtr = Stop*;
+
 enum InfoType {
     VALID,
     EMPTY,

@@ -37,9 +37,11 @@ struct Rgba {
     double opacity = 1.0;
 };
 
-using Color = std::variant<Rgb, Rgba, std::string, std::monostate>;
 
+using Color = std::variant<Rgb, Rgba, std::string, std::monostate>;
 const Color NoneColor{"none"};
+
+bool operator==(const Color& lhs, const Color& rhs);
 
 struct Point {
     Point() = default;
@@ -50,6 +52,9 @@ struct Point {
     double x = 0;
     double y = 0;
 };
+
+bool operator==(const Point& lhs, const Point& rhs);
+bool operator!=(const Point& lhs, const Point& rhs);
 
 enum class StrokeLineCap {
     BUTT,
