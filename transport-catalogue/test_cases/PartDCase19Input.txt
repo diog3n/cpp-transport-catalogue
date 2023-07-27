@@ -1,0 +1,104 @@
+{
+    "base_requests": [
+        {
+            "is_roundtrip": true,
+            "name": "vW1R0hGBlnaSNo6M58N3",
+            "stops": [
+                "F X06Xkvth 9 wCRvAUZ",
+                "0f3",
+                "F X06Xkvth 9 wCRvAUZ"
+            ],
+            "type": "Bus"
+        },
+        {
+            "latitude": 38.4231,
+            "longitude": 34.7312,
+            "name": "0f3",
+            "road_distances": {
+                "F X06Xkvth 9 wCRvAUZ": 914534
+            },
+            "type": "Stop"
+        },
+        {
+            "is_roundtrip": true,
+            "name": "kXbq1NGXQFmAfiYYL",
+            "stops": [
+                "0f3",
+                "F X06Xkvth 9 wCRvAUZ",
+                "0f3"
+            ],
+            "type": "Bus"
+        },
+        {
+            "latitude": 38.4135,
+            "longitude": 34.7784,
+            "name": "F X06Xkvth 9 wCRvAUZ",
+            "road_distances": {
+                "0f3": 674452
+            },
+            "type": "Stop"
+        },
+        {
+            "is_roundtrip": true,
+            "name": "8 Fzx3Q",
+            "stops": [
+                "0f3",
+                "F X06Xkvth 9 wCRvAUZ",
+                "0f3"
+            ],
+            "type": "Bus"
+        }
+    ],
+    "stat_requests": [
+        {
+            "id": 650417789,
+            "name": "G3CI8GVWJuzWKu",
+            "type": "Stop"
+        },
+        {
+            "id": 548097109,
+            "name": "0f3",
+            "type": "Stop"
+        },
+        {
+            "id": 1777155638,
+            "name": "vW1R0hGBlnaSNo6M58N3",
+            "type": "Bus"
+        },
+        {
+            "id": 1777155638,
+            "name": "vW1R0hGBlnaSNo6M58N3",
+            "type": "Bus"
+        },
+        {
+            "id": 218703420,
+            "name": "F X06Xkvth 9 wCRvAUZ",
+            "type": "Stop"
+        },
+        {
+            "id": 548097109,
+            "name": "0f3",
+            "type": "Stop"
+        },
+        {
+            "id": 710086336,
+            "name": "D12sVwF2FOANXi",
+            "type": "Bus"
+        },
+        {
+            "id": 1777155638,
+            "name": "vW1R0hGBlnaSNo6M58N3",
+            "type": "Bus"
+        },
+        {
+            "id": 1118480873,
+            "name": "RDBiZwD",
+            "type": "Bus"
+        },
+        {
+            "id": 256666274,
+            "name": "8 Fzx3Q",
+            "type": "Bus"
+        }
+    ]
+}

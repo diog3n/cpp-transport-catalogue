@@ -5,7 +5,7 @@
             "name": "qwb",
             "latitude": 41.0,
             "longitude": 39.2,
-            "road_distances": {"fsb": 1800, "ata": 1500}
+            "road_distances": {"fsb i b": 1800, "ata": 1500}
         },
 
         {
@@ -13,7 +13,7 @@
             "name": "ata",
             "latitude": 41.2,
             "longitude": 39.1,
-            "road_distances": {"fsb": 1707, "anb": 1255}
+            "road_distances": {"fsb i b": 1707, "anb": 1255}
         },
 
         {
@@ -21,12 +21,12 @@
             "name": "anb",
             "latitude": 41.3,
             "longitude": 39.4,
-            "road_distances": {"fsb": 1125}
+            "road_distances": {"fsb i b": 1125}
         },
 
         {
             "type": "Stop",
-            "name": "fsb",
+            "name": "fsb i b",
             "latitude": 41.1,
             "longitude": 39.0,
             "road_distances": {"kvt": 1015}
@@ -50,36 +50,36 @@
 
         {
             "type": "Bus",
-            "name": "1",
-            "stops": ["qwb", "ata", "anb", "fsb"],
+            "name": "1qw w",
+            "stops": ["qwb", "ata", "anb", "fsb i b"],
             "is_roundtrip": false
         },
 
         {
             "type": "Bus",
-            "name": "2",
-            "stops": ["ata", "anb", "fsb", "ata"],
+            "name": "2ew w",
+            "stops": ["ata", "anb", "fsb i b", "ata"],
             "is_roundtrip": true
         },
 
         {
             "type": "Bus",
-            "name": "3",
-            "stops": ["qwb", "fsb", "kvt", "mrt"],
+            "name": "3ssa ",
+            "stops": ["qwb", "fsb i b", "kvt", "mrt"],
             "is_roundtrip": false
         },
 
         {
             "type": "Bus",
-            "name": "4",
-            "stops": ["ata", "fsb", "kvt", "mrt", "kvt", "fsb", "anb", "ata"],
+            "name": "4ss",
+            "stops": ["ata", "fsb i b", "kvt", "mrt", "kvt", "fsb i b", "anb", "ata"],
             "is_roundtrip": true
         },
 
         {
             "type": "Bus",
-            "name": "5",
-            "stops": ["fsb", "ata", "qwb", "fsb", "anb", "fsb"],
+            "name": "5a",
+            "stops": ["fsb i b", "ata", "qwb", "fsb i b", "anb", "fsb i b"],
             "is_roundtrip": true
         }
     ],
@@ -89,7 +89,7 @@
         { "id": 2,  "type": "Stop", "name": "ata" },
         { "id": 11, "type": "Bus",  "name": "5" },
         { "id": 3,  "type": "Stop", "name": "anb" },
-        { "id": 4,  "type": "Stop", "name": "fsb" },
+        { "id": 4,  "type": "Stop", "name": "fsb i b" },
         { "id": 7,  "type": "Bus",  "name": "1" },
         { "id": 5,  "type": "Stop", "name": "kvt" },
         { "id": 8,  "type": "Bus",  "name": "2" },

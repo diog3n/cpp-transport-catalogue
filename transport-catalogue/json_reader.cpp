@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cassert>
+#include <exception>
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
@@ -210,7 +211,7 @@ void JSONReader::PrintTo(std::ostream& out) const {
     ExecuteOutputQueries(context);
 }
 
-std::string JSONReader::ReadJSON(std::istream& in) {
+/*std::string JSONReader::ReadJSON(std::istream& in) {
     char c;
     char brace;
     char rbrace;
@@ -234,6 +235,37 @@ std::string JSONReader::ReadJSON(std::istream& in) {
         if (brace_count < 0) throw json::ParsingError("Invalid JSON");
     }
 
+    return result;
+}*/
+
+std::string JSONReader::ReadJSON(std::istream& in) {
+    std::vector<std::string> lines;
+    std::string line;
+
+    std::string result;
+
+    char brace;
+    char rbrace;
+    int brace_count = 0;
+
+    while (getline(in, line)) lines.push_back(line);
+
+    if (lines.front().front() == '{') brace = '{', rbrace = '}';
+    else if (lines.front().front() == '[') brace = '[', rbrace = ']';
+    else throw json::ParsingError("Not a JSON");
+
+    for (const std::string& line : lines) {
+        for (const char c : line) {
+            if (c == brace) brace_count++;
+            else if (c == rbrace) brace_count--;
+
+            result += c;
+
+            if (brace_count < 0) throw json::ParsingError("Invalid JSON");
+        }
+    }
+
+    if (brace_count != 0) throw json::ParsingError("Invalid JSON");
     return result;
 }
 
