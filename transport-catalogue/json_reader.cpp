@@ -74,12 +74,8 @@ void PrintLnStopInfo(std::ostream& out, domain::StopInfo stop_info) {
 
 } // namespace json_reader::util
 
-JSONReader::JSONReader(const transport_catalogue::TransportCatalogue& tc)
+JSONReader::JSONReader(transport_catalogue::TransportCatalogue& tc)
     : handlers::QueryHandler(tc)
-    , json_(json::Document{nullptr}) {}
-
-JSONReader::JSONReader(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr)
-    : handlers::QueryHandler(std::move(tc_ptr))
     , json_(json::Document{nullptr}) {}
 
 void JSONReader::ParseDocument() {
@@ -256,12 +252,12 @@ void JSONReader::ExecuteOutputQueries(handlers::OutputContext& context) const {
     std::for_each(query_ptrs_.begin(), query_ptrs_.end(), 
     [this, &output_array](const domain::OutputQuery* query_ptr) {
         if (query_ptr->type == domain::QueryType::STOP) {
-            domain::StopInfo stop_info = catalogue_ptr_->GetStopInfo(query_ptr->name);
+            domain::StopInfo stop_info = catalogue_.GetStopInfo(query_ptr->name);
             util::PrintLnStopInfo(std::cerr, stop_info);
             output_array.push_back(util::AssembleStopNode(stop_info, query_ptr->id));
 
         } else if (query_ptr->type == domain::QueryType::BUS) {
-            domain::BusInfo bus_info = catalogue_ptr_->GetBusInfo(query_ptr->name);
+            domain::BusInfo bus_info = catalogue_.GetBusInfo(query_ptr->name);
             util::PrintLnBusInfo(std::cerr, bus_info);
             output_array.push_back(util::AssembleBusNode(bus_info, query_ptr->id));
         }
@@ -320,7 +316,7 @@ namespace tests {
 void TestJSON() {
     transport_catalogue::TransportCatalogue tc;
 
-    JSONReader jreader(std::make_unique<transport_catalogue::TransportCatalogue>(tc));
+    JSONReader jreader(tc);
 
     std::istringstream input1{
     R"({
@@ -471,7 +467,7 @@ void TestJSON() {
 
     std::ostringstream out;
 
-    jreader.PrintTo(std::cout);
+    jreader.PrintTo(std::cerr);
 
     std::cerr << "TEST OUTPUT(BUS SIZE): " << tc.GetBusNames().size() << std::endl;
     std::cerr << "TEST OUTPUT(STOP SIZE): " << tc.GetStopNames().size() << std::endl;
@@ -495,7 +491,7 @@ void TestJSON() {
 void TestAssembleQuery() {
     transport_catalogue::TransportCatalogue tc;
 
-    JSONReader jreader(std::make_unique<transport_catalogue::TransportCatalogue>(tc));
+    JSONReader jreader(tc);
 
     std::istringstream input1 {
         R"({

@@ -117,7 +117,7 @@ public:
 
 private:
 
-    svg::Polyline GetRouteLine(const std::vector<svg::Point>& points) const;
+    svg::Polyline GetRouteLine(const std::vector<svg::Point>& points);
 
     svg::Document doc_;
 

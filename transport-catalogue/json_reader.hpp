@@ -20,9 +20,7 @@ json::Node AssembleStopNode(domain::StopInfo& stop_info, int id);
 class JSONReader final : private handlers::QueryHandler {
 public:
 
-    JSONReader(const transport_catalogue::TransportCatalogue& tc);
-
-    JSONReader(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr);
+    JSONReader(transport_catalogue::TransportCatalogue& tc);
 
     void LoadJSON(const std::string& document);
 

@@ -183,7 +183,7 @@ std::vector<std::string_view> TransportCatalogue::GetStopNames() const {
 }
 
 std::vector<std::string_view> TransportCatalogue::GetBusNames() const {
-    std::vector<std::string_view> names(stops_.size());
+    std::vector<std::string_view> names(buses_.size());
     std::transform(names_to_buses_.begin(), names_to_buses_.end(), names.begin(), 
         [](const std::pair<std::string_view, BusPtr> node) {
             return node.first;

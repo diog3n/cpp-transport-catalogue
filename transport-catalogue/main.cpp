@@ -1,6 +1,8 @@
 #include <filesystem>
 #include <iostream>
 
+#include "map_renderer.hpp"
+#include "request_handler.hpp"
 #include "transport_catalogue.hpp"
 #include "json_reader.hpp"
 
@@ -46,7 +48,15 @@ int main() {
 
     reader.LoadJSON(json_reader::JSONReader::ReadJSON(std::cin));
 
-    reader.PrintTo(std::cout);
+    renderer::MapRenderer renderer(reader.GetRenderSettings());
+
+    request_handler::RequestHandler rh(tc, renderer);
+
+    svg::Document document = rh.RenderMap();
+
+    document.Render(cout);
+
+    //reader.PrintTo(std::cout);
 
     return 0;
 }

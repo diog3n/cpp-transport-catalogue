@@ -45,11 +45,9 @@ public:
 class QueryHandler : public InputHandler, public OutputHandler {
 public:
 
-    QueryHandler();
+    QueryHandler() = delete;
 
-    QueryHandler(const transport_catalogue::TransportCatalogue& tc);
-
-    QueryHandler(std::unique_ptr<transport_catalogue::TransportCatalogue>&& tc_ptr);
+    QueryHandler(transport_catalogue::TransportCatalogue& tc);
 
     virtual void ExecuteInputQueries();
 
@@ -59,7 +57,7 @@ public:
 
 protected:
 
-    std::shared_ptr<transport_catalogue::TransportCatalogue> catalogue_ptr_;
+    transport_catalogue::TransportCatalogue& catalogue_;
 
 };
 

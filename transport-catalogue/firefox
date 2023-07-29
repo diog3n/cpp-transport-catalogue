@@ -1,0 +1,5 @@
+[ { "buses": [ "14" ], "request_id": 1 } ]<?xml version="1.0" encoding="UTF-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+<polyline points="99.2283,329.5 50,232.18 99.2283,329.5" fill="none" stroke="green" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="550,190.051 279.22,50 333.61,269.08 550,190.051" fill="none" stroke="green" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

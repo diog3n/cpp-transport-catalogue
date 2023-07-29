@@ -20,9 +20,11 @@ void MapRenderer::DrawRoute(const std::vector<svg::Point>& points) {
     doc_.Add(std::move(GetRouteLine(points)));
 }
 
-svg::Polyline MapRenderer::GetRouteLine(const std::vector<svg::Point>& points) const {
+svg::Polyline MapRenderer::GetRouteLine(const std::vector<svg::Point>& points) {
     svg::Polyline route;
     svg::Color stroke_color = render_settings.color_palette.at(color_counter_ % render_settings.color_palette.size());
+
+    color_counter_++;
 
     route.SetStrokeColor(stroke_color);
     route.SetFillColor(svg::NoneColor);

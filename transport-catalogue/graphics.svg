@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+<polyline points="170,230 110,110 290,50 50,170 290,50 110,110 170,230" fill="none" stroke="green" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="110,110 290,50 50,170 110,110" fill="none" stroke="rgb(255,160,0)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="170,230 50,170 110,350 170,230 110,350 50,170 170,230" fill="none" stroke="red" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="110,110 50,170 110,350 170,230 110,350 50,170 290,50 110,110" fill="none" stroke="green" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="50,170 110,110 170,230 50,170 290,50 50,170" fill="none" stroke="rgb(255,160,0)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
