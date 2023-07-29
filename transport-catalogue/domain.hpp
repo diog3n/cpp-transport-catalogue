@@ -60,6 +60,7 @@ struct Info {
 };
 
 struct StopInfo : public Info {
+    geo::Coordinates coordinates;
     std::vector<std::string_view> bus_names;
 };
 

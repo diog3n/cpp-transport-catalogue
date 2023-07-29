@@ -83,6 +83,7 @@
             "is_roundtrip": true
         }
     ],
+
     "stat_requests": [
         { "id": 9,  "type": "Bus",  "name": "3" },
         { "id": 1,  "type": "Stop", "name": "qwb" },

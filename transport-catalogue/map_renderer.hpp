@@ -2,9 +2,12 @@
 #include <algorithm>
 #include <cstdlib>
 #include <iostream>
+#include <memory>
 #include <optional>
+#include <unordered_map>
 #include <vector>
 
+#include "domain.hpp"
 #include "geo.hpp"
 #include "svg.hpp"
 
@@ -100,9 +103,32 @@ struct RenderSettings {
 };
 
 class MapRenderer {
+public:
 
+    const RenderSettings render_settings;
 
+    MapRenderer() = delete;
+
+    MapRenderer(RenderSettings render_settings); 
+
+    void DrawRoute(const std::vector<svg::Point>& points);
+
+    svg::Document GetDoc() const;
+
+private:
+
+    svg::Polyline GetRouteLine(const std::vector<svg::Point>& points) const;
+
+    svg::Document doc_;
+
+    int color_counter_ = 0;
 
 };
+
+namespace tests {
+
+void TestSVG();
+
+} // namespace renderer::tests
 
 } // namespace renderer

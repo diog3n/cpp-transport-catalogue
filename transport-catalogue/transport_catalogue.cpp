@@ -119,7 +119,7 @@ StopInfo TransportCatalogue::GetStopInfo(const std::string_view name) const {
     const Stop& stop = *names_to_stops_.at(name);
     const InfoType type = stop.buses.empty() ? InfoType::EMPTY : InfoType::VALID;
 
-    StopInfo stop_info = { type, std::string(name), std::vector<std::string_view>() };
+    StopInfo stop_info = { type, std::string(name), stop.coordinates, std::vector<std::string_view>() };
     
     std::transform(stop.buses.begin(), stop.buses.end(), std::back_inserter(stop_info.bus_names), [](const Bus* bus_ptr) {
         return std::string_view(bus_ptr->name);
@@ -173,6 +173,23 @@ double TransportCatalogue::ComputeCurvedRouteDistance(const Bus& bus) const {
     return route_length;
 }
 
+std::vector<std::string_view> TransportCatalogue::GetStopNames() const {
+    std::vector<std::string_view> names(stops_.size());
+    std::transform(names_to_stops_.begin(), names_to_stops_.end(), names.begin(), 
+        [](const std::pair<std::string_view, StopPtr> node) {
+            return node.first;
+        });
+    return names;
+}
+
+std::vector<std::string_view> TransportCatalogue::GetBusNames() const {
+    std::vector<std::string_view> names(stops_.size());
+    std::transform(names_to_buses_.begin(), names_to_buses_.end(), names.begin(), 
+        [](const std::pair<std::string_view, BusPtr> node) {
+            return node.first;
+        });
+    return names;
+}
 
 namespace tests {
 

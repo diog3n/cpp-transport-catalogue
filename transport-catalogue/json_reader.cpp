@@ -110,6 +110,7 @@ void JSONReader::ParseDocument() {
 
         const std::string_view type = query_map.at("type"s).AsString();
 
+
         if (type == "Stop"sv) {
             stop_output_queries_.push_back(AssembleStopOutputQuery(node));
             query_ptrs_.push_back(&stop_output_queries_.back());
@@ -125,7 +126,7 @@ void JSONReader::ParseDocument() {
 void JSONReader::LoadJSON(const std::string& document) {    
     std::istringstream in(document);
     json_ = json::Load(in);
-
+    
     ParseDocument();
     ExecuteInputQueries();
 }
@@ -423,6 +424,7 @@ void TestJSON() {
         ]
       },
       "stat_requests": [
+         {"id": 1, "type": "Stop", "name": "Ulitsa Lizy Chaikinoi"}
       ]
     })"
     };
@@ -469,7 +471,122 @@ void TestJSON() {
 
     std::ostringstream out;
 
+    jreader.PrintTo(std::cout);
+
+    std::cerr << "TEST OUTPUT(BUS SIZE): " << tc.GetBusNames().size() << std::endl;
+    std::cerr << "TEST OUTPUT(STOP SIZE): " << tc.GetStopNames().size() << std::endl;
+
+    bool test_bus_count = tc.GetBusNames().size() == 2;
+    assert(test_bus_count);
+
+    bool test_stop_count = tc.GetStopNames().size() == 5;
+    assert(test_stop_count);
+
+
+    renderer::MapRenderer renderer(rs);
+
+    request_handler::RequestHandler rh(tc, renderer);
+
+    svg::Document doc = rh.RenderMap();
+
+    doc.Render(std::cerr);
+}
+
+void TestAssembleQuery() {
+    transport_catalogue::TransportCatalogue tc;
+
+    JSONReader jreader(std::make_unique<transport_catalogue::TransportCatalogue>(tc));
+
+    std::istringstream input1 {
+        R"({
+        "base_requests": [
+            {
+                "type": "Bus",
+                "name": "114",
+                "stops": ["Морской вокзал", "Ривьерский мост"],
+                "is_roundtrip": false
+            },
+            {
+                "type": "Stop",
+                "name": "Ривьерский мост",
+                "latitude": 43.587795,
+                "longitude": 39.716901,
+                "road_distances": {"Морской вокзал": 850}
+            },
+            {
+                "type": "Stop",
+                "name": "Морской вокзал",
+                "latitude": 43.581969,
+                "longitude": 39.719848,
+                "road_distances": {"Ривьерский мост": 850, "Наличная улица": 1000}
+            },
+            {
+                "type": "Stop",
+                "name": "Наличная улица",
+                "latitude": 41.581969,
+                "longitude": 33.719548,
+                "road_distances": {"Ривьерский мост": 1850}
+            }
+            {
+                "type": "Bus",
+                "name": "41",
+                "stops": ["Морской вокзал", "Наличная улица", "Морской вокзал"],
+                "is_roundtrip": true
+            }
+        ],
+        "render_settings": {
+            "width": 600,
+            "height": 400,
+            "padding": 50,
+            "stop_radius": 5,
+            "line_width": 14,
+            "bus_label_font_size": 20,
+            "bus_label_offset": [
+                7,
+                15
+            ],
+            "stop_label_font_size": 20,
+            "stop_label_offset": [
+                7,
+                -3
+            ],
+            "underlayer_color": [
+                255,
+                255,
+                255,
+                0.85
+            ],
+            "underlayer_width": 3,
+            "color_palette": [
+                "green",
+                [255, 160, 0],
+                "red"
+            ]
+        },
+        "stat_requests": [
+            { "id": 1, "type": "Stop", "name": "Ривьерский мост" },
+            { "id": 2, "type": "Bus", "name": "114" },
+            { "id": 3, "type": "Bus", "name": "45" },
+            { "id": 4, "type": "Stop", "name": "У-м Гаванский" },
+            { "id": 5, "type": "Stop", "name": "Наличная улица" }
+            { "id": 6, "type": "Bus", "name": "41" }    
+        ]
+        } )"
+    };
+
+    jreader.LoadJSON(input1);
+
+    std::ostringstream out;
+
     jreader.PrintTo(out);
+
+    std::istringstream input2(out.str());
+
+    std::istringstream input3("[ { \"buses\": [ \"114\" ], \"request_id\": 1 }, { \"curvature\": 1.23199, \"request_id\": 2, \"route_length\": 1700, \"stop_count\": 3, \"unique_stop_count\": 2 }, { \"error_message\": \"not found\", \"request_id\": 3 }, { \"error_message\": \"not found\", \"request_id\": 4 }, { \"buses\": [ \"41\" ], \"request_id\": 5 }, { \"curvature\": 0.00185499, \"request_id\": 6, \"route_length\": 2000, \"stop_count\": 3, \"unique_stop_count\": 2 } ]");
+
+    bool test_load = json::Load(input2) == json::Load(input3);
+
+    assert(test_load);
 }
 
 } // namespace json_reader::tests

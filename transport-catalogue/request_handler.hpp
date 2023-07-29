@@ -70,10 +70,11 @@ namespace request_handler {
 class RequestHandler {
 public:
     // Uses map_renderer
-    RequestHandler(const transport_catalogue::TransportCatalogue& db, const renderer::MapRenderer& renderer);
+    RequestHandler(const transport_catalogue::TransportCatalogue& db, 
+                   renderer::MapRenderer& renderer);
 
     // Returns bus info (from Bus query)
-    domain::BusInfo GetBusInfo(const std::string_view& bus_name) const;
+    domain::BusInfo GetBusInfo(const std::string_view bus_name) const;
 
     // Returns buses whose routes use given stop
     const std::vector<std::string_view> GetBusNamesByStop(const std::string_view& stop_name) const;
@@ -82,8 +83,25 @@ public:
     svg::Document RenderMap() const;
 
 private:
-    const transport_catalogue::TransportCatalogue& db_;
-    const renderer::MapRenderer& renderer_;
+    const transport_catalogue::TransportCatalogue& catalogue_;
+    renderer::MapRenderer& renderer_;
+
+    std::vector<std::string_view> GetBusNames() const;
+
+    std::vector<std::string_view> GetStopNames() const;
+
+    renderer::util::SphereProjector GetSphereProjector() const;
+
+    std::vector<svg::Point> GetStopPoints(const renderer::util::SphereProjector& projector, const std::string_view bus_name) const;
+
+    svg::Point GetStopPoint(const renderer::util::SphereProjector& projector, const std::string_view stop_name) const; 
+
 };
+
+namespace tests {
+
+void TestRender();
+
+} // namespace request_handler::tests
 
 } // namespace request_handler

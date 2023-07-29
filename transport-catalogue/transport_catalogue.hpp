@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <deque>
 #include <unordered_map>
@@ -33,6 +34,10 @@ public:
 
     StopInfo GetStopInfo(const std::string_view name) const;
 
+    std::vector<std::string_view> GetStopNames() const;
+
+    std::vector<std::string_view> GetBusNames() const;
+
 private:
 
     struct StopPtrPairHasher {
@@ -54,13 +59,13 @@ private:
 
     std::deque<Stop> stops_;
 
-    std::unordered_map<std::string_view, Stop*> names_to_stops_;
+    std::map<std::string_view, StopPtr> names_to_stops_;
 
     std::deque<Bus> buses_;
     
-    std::unordered_map<std::string_view, Bus*> names_to_buses_; 
+    std::map<std::string_view, BusPtr> names_to_buses_; 
 
-    std::unordered_map<std::pair<Stop*, Stop*>, int, StopPtrPairHasher> stop_distances_;
+    std::unordered_map<std::pair<StopPtr, StopPtr>, int, StopPtrPairHasher> stop_distances_;
     
 };
 

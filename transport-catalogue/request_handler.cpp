@@ -1,4 +1,6 @@
 #include "request_handler.hpp"
+#include "json_reader.hpp"
+#include "map_renderer.hpp"
 #include "transport_catalogue.hpp"
 
 namespace handlers {
@@ -34,15 +36,82 @@ namespace request_handler {
 
 RequestHandler::RequestHandler(
     const transport_catalogue::TransportCatalogue& db, 
-    const renderer::MapRenderer& renderer)
-        : db_(db), renderer_(renderer) {} 
+    renderer::MapRenderer& renderer)
+        : catalogue_(db), renderer_(renderer) {} 
 
-domain::BusInfo RequestHandler::GetBusInfo(const std::string_view& bus_name) const {
-    return db_.GetBusInfo(bus_name);
+domain::BusInfo RequestHandler::GetBusInfo(const std::string_view bus_name) const {
+    return catalogue_.GetBusInfo(bus_name);
 }
 
 const std::vector<std::string_view> RequestHandler::GetBusNamesByStop(const std::string_view& stop_name) const {
-    return db_.GetStopInfo(stop_name).bus_names;
+    return catalogue_.GetStopInfo(stop_name).bus_names;
 }
+
+std::vector<std::string_view> RequestHandler::GetBusNames() const {
+    return catalogue_.GetBusNames();
+}
+
+std::vector<std::string_view> RequestHandler::GetStopNames() const {
+    return catalogue_.GetStopNames();
+}
+
+svg::Document RequestHandler::RenderMap() const {
+    renderer::util::SphereProjector projector = GetSphereProjector();
+
+    std::vector<std::string_view> bus_names = GetBusNames();
+
+    std::for_each(bus_names.begin(), bus_names.end(), 
+        [this, &projector](std::string_view bus_name) {
+            std::vector<svg::Point> points = GetStopPoints(projector, bus_name);
+            renderer_.DrawRoute(points);
+        });
+
+    return renderer_.GetDoc();
+}
+
+// Collects stop points for a given bus
+std::vector<svg::Point> RequestHandler::GetStopPoints(const renderer::util::SphereProjector& projector, const std::string_view bus_name) const {
+    const domain::Bus& bus = catalogue_.FindBus(bus_name);
+
+    std::vector<svg::Point> points(bus.route.size());
+
+    std::transform(bus.route.begin(), bus.route.end(), points.begin(),
+        [this, &projector](const domain::StopPtr stop_ptr) {
+            return GetStopPoint(projector, stop_ptr->name);
+        });
+
+    return points;
+}
+
+// Projects stop geo coordinates onto a plane
+svg::Point RequestHandler::GetStopPoint(const renderer::util::SphereProjector& projector, const std::string_view stop_name) const {
+    const domain::Stop& stop = catalogue_.FindStop(stop_name);
+    return projector(stop.coordinates);
+}
+
+
+// Collects coordinates of all stops and returns an initialized sphere projector
+renderer::util::SphereProjector RequestHandler::GetSphereProjector() const {
+    std::vector<std::string_view> stop_names = GetStopNames();
+    std::vector<geo::Coordinates> coordinates(stop_names.size());
+    std::transform(stop_names.begin(), stop_names.end(), coordinates.begin(), 
+        [this](std::string_view stop_name) {
+            return catalogue_.FindStop(stop_name).coordinates;
+        });
+
+    return renderer::util::SphereProjector(
+                           coordinates.begin(), 
+                           coordinates.end(), 
+                           renderer_.render_settings.width, 
+                           renderer_.render_settings.height, 
+                           renderer_.render_settings.padding);
+}
+
+namespace tests {
+
+void TestRender() {
+}
+
+} // namespace request_handler::tests
 
 } // namespace request_handler

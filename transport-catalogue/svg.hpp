@@ -39,6 +39,7 @@ struct Rgba {
 
 
 using Color = std::variant<Rgb, Rgba, std::string, std::monostate>;
+
 const Color NoneColor{"none"};
 
 bool operator==(const Color& lhs, const Color& rhs);
@@ -211,7 +212,6 @@ public:
     ObjectContainer() = default;
 
     template <typename ObjectDerivative>
-    
     void Add(const ObjectDerivative& obj);
 
     virtual void AddPtr(std::unique_ptr<Object>&& obj) = 0;

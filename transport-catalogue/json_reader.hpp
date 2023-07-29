@@ -66,6 +66,8 @@ namespace tests {
 
 void TestJSON();
 
+void TestAssembleQuery();
+
 } // namespace json_reader::tests
 
 } // namespace json_reader

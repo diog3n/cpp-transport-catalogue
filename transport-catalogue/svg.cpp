@@ -194,14 +194,16 @@ void Document::AddPtr(std::unique_ptr<Object>&& obj) {
 void Document::Render(std::ostream& out) const {
     RenderContext context(out);
     
-    std::cout << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"sv << std::endl;
-    std::cout << "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">"sv << std::endl;
+    std::cerr << "OBJECT PTRS SIZE: " << object_ptrs_.size() << std::endl;
+
+    out << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"sv << std::endl;
+    out << "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">"sv << std::endl;
 
     for (std::shared_ptr<Object> obj_ptr : object_ptrs_) {
         obj_ptr->Render(context);
     }
 
-    std::cout << "</svg>"sv;
+    out << "</svg>"sv;
 }
 
 std::ostream& operator<<(std::ostream& out, const StrokeLineCap& linecap) {
