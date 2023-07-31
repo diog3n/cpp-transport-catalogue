@@ -63,10 +63,11 @@ void TransportCatalogue::AddStop(const std::string_view name, const geo::Coordin
 
 // Adds a stop to the transport catalogue. This operation involves population 
 // of buses_ deque as well as population of names_to_buses_ index
-void TransportCatalogue::AddBus(const std::string_view name, const std::vector<std::string_view>& stop_names) {
+void TransportCatalogue::AddBus(const std::string_view name, const std::vector<std::string_view>& stop_names, bool is_round) {
     buses_.emplace_back(std::string(name), std::vector<Stop*>());
     
     Bus& bus = buses_.back();
+    buses_.back().is_roundtrip = is_round;
 
     for (const std::string_view stop_name : stop_names) {
         bus.route.push_back(names_to_stops_.at(stop_name));
@@ -114,7 +115,7 @@ BusInfo TransportCatalogue::GetBusInfo(const std::string_view name) const {
 
 // Returns info on a given stop in a specific format
 StopInfo TransportCatalogue::GetStopInfo(const std::string_view name) const {
-    if (names_to_stops_.count(name) == 0) return { InfoType::NOT_FOUND, std::string(name), {} };
+    if (names_to_stops_.count(name) == 0) return { InfoType::NOT_FOUND, std::string(name), { 0, 0 } ,{} };
 
     const Stop& stop = *names_to_stops_.at(name);
     const InfoType type = stop.buses.empty() ? InfoType::EMPTY : InfoType::VALID;

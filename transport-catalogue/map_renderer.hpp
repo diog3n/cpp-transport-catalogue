@@ -111,17 +111,40 @@ public:
 
     MapRenderer(RenderSettings render_settings); 
 
-    void DrawRoute(const std::vector<svg::Point>& points);
+    void DrawRoute(const std::string_view bus_name, const std::vector<svg::Point>& points);
+
+    void DrawRouteName(const std::string_view bus_name, const svg::Point& begin, const svg::Point& end);
+
+    void DrawRoundRouteName(const std::string_view bus_name, const svg::Point& begin);
+
+    void DrawStop(const svg::Point& pos);
+
+    void DrawStopName(const std::string_view stop_name, const svg::Point& pos);
 
     svg::Document GetDoc() const;
 
 private:
 
-    svg::Polyline GetRouteLine(const std::vector<svg::Point>& points);
+    enum UnderlayerTextType {
+        STOP, BUS
+    };
+
+    std::unordered_map<std::string_view, const svg::Color*> bus_names_to_colors_; 
 
     svg::Document doc_;
 
     int color_counter_ = 0;
+    
+    svg::Circle GetStopCircle(const svg::Point pos) const;
+
+    svg::Text GetStopNameText(const std::string_view stop_name, const svg::Point& pos) const;
+
+    svg::Text GetRouteNameText(const std::string_view bus_names, const svg::Point& pos) const;
+
+    svg::Text GetUnderlayerText(const std::string_view text, const svg::Point& pos, UnderlayerTextType type) const;
+
+    svg::Polyline GetRouteLine(const svg::Color& line_color, const std::vector<svg::Point>& points) const;
+
 
 };
 

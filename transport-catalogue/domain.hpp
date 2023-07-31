@@ -33,12 +33,15 @@ enum QueryType {
 
 struct Bus {
     Bus(std::string name, 
-        std::vector<Stop*> route)
+        std::vector<Stop*> route,
+        bool is_round = false)
         : name(name)
-        , route(route) {}
+        , route(route)
+        , is_roundtrip(is_round) {}
 
     std::string name;
     std::vector<Stop*> route;
+    bool is_roundtrip;
 };
 
 struct Stop {
@@ -83,6 +86,7 @@ struct OutputQuery {
 
 struct BusInputQuery : public InputQuery {
     std::vector<std::string_view> stop_names;
+    bool is_roundtrip = false;
 };
 
 struct StopInputQuery : public InputQuery {

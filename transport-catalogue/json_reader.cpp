@@ -97,7 +97,7 @@ void JSONReader::ParseDocument() {
         } else if (type == "Bus"sv) {
             bus_input_queries_.push_back(AssembleBusInputQuery(node));
         } else {
-            throw std::invalid_argument("Unknown query type: "s + std::string(type));
+            //throw std::invalid_argument("Unknown query type: "s + std::string(type));
         }
     });
 
@@ -114,7 +114,7 @@ void JSONReader::ParseDocument() {
             bus_output_queries_.push_back(AssembleBusOutputQuery(node));
             query_ptrs_.push_back(&bus_output_queries_.back());
         } else {
-            throw std::invalid_argument("Unknown query type: "s + std::string(type));
+            //throw std::invalid_argument("Unknown query type: "s + std::string(type));
         }
     });
 }
@@ -168,7 +168,7 @@ domain::BusInputQuery JSONReader::AssembleBusInputQuery(const json::Node& query_
         stops.push_back(riter->AsString());
     }
 
-    return { bus_name, std::move(stops) };
+    return { bus_name, std::move(stops), is_roundtrip };
 }
 
 domain::StopInputQuery JSONReader::AssembleStopInputQuery(const json::Node& query_node) const {

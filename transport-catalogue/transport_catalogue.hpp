@@ -18,7 +18,7 @@ class TransportCatalogue {
 public:
     TransportCatalogue() {};
 
-    void AddBus(const std::string_view name, const std::vector<std::string_view>& stop_names);
+    void AddBus(const std::string_view name, const std::vector<std::string_view>& stop_names, bool is_round = false);
 
     void AddStop(const std::string_view name, const geo::Coordinates& coordinates);
 
