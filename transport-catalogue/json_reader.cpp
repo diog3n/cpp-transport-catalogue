@@ -4,7 +4,6 @@
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
-#include <unordered_map>
 
 #include "domain.hpp"
 #include "json.hpp"
@@ -97,36 +96,32 @@ void JSONReader::LoadJSON(std::istream& in) {
     ExecuteInputQueries();
 }
 
-json::Node JSONReader::AssembleErrorNode(const int id, const domain::InfoType& type) const {
+json::Node JSONReader::AssembleErrorNode(const int id) const {
     json::Dict result;
     result["request_id"s] = id;
 
-    result["error_message"s] = type == domain::InfoType::NOT_FOUND 
-                               ? "not found"s 
-                               : nullptr;
+    result["error_message"s] = "not found"s;
     return result;
 }
 
-json::Node JSONReader::AssembleBusNode(domain::BusInfo& bus_info, int id) const {
-    if (bus_info.type == domain::InfoType::VALID || bus_info.type == domain::EMPTY) {
+json::Node JSONReader::AssembleBusNode(domain::BusInfoOpt& bus_info_opt, int id) const {
+    if (bus_info_opt) {
         return json::Dict{ { "request_id"s, id },
-                           { "curvature"s, bus_info.curvature},
-                           { "route_length"s, bus_info.route_length },
-                           { "stop_count"s, static_cast<int>(bus_info.stops_on_route) },
-                           { "unique_stop_count"s, static_cast<int>(bus_info.unique_stops) } };
+                           { "curvature"s, bus_info_opt->curvature},
+                           { "route_length"s, bus_info_opt->route_length },
+                           { "stop_count"s, static_cast<int>(bus_info_opt->stops_on_route) },
+                           { "unique_stop_count"s, static_cast<int>(bus_info_opt->unique_stops) } };
     }
     
-    return AssembleErrorNode(id, bus_info.type);
+    return AssembleErrorNode(id);
 }
 
-json::Node JSONReader::AssembleStopNode(domain::StopInfo& stop_info, int id) const {
-    if (stop_info.type == domain::InfoType::VALID 
-        || stop_info.type == domain::InfoType::EMPTY) {
-        
+json::Node JSONReader::AssembleStopNode(domain::StopInfoOpt& stop_info_opt, int id) const {
+    if (stop_info_opt) {
         json::Array bus_array; 
-        bus_array.reserve(stop_info.bus_names.size());
+        bus_array.reserve(stop_info_opt->bus_names.size());
 
-        for (const std::string_view view : stop_info.bus_names) {
+        for (const std::string_view view : stop_info_opt->bus_names) {
             bus_array.push_back(std::string(view));
         }
 
@@ -134,7 +129,7 @@ json::Node JSONReader::AssembleStopNode(domain::StopInfo& stop_info, int id) con
                            { "request_id"s, id } };
     }
     
-    return AssembleErrorNode(id, stop_info.type);
+    return AssembleErrorNode(id);
 }
 
 json::Node JSONReader::AssembleMapNode(int id) const {
@@ -278,13 +273,12 @@ void JSONReader::ExecuteOutputQueries(handlers::OutputContext& context) const {
     [this, &output_array](const domain::OutputQuery* query_ptr) {
         if (query_ptr->type == domain::QueryType::STOP) {
             const domain::StopOutputQuery* stop_query_ptr = static_cast<const domain::StopOutputQuery*>(query_ptr);
-            domain::StopInfo stop_info = catalogue_.GetStopInfo(stop_query_ptr->stop_name);
-            output_array.push_back(AssembleStopNode(stop_info, query_ptr->id));
-
+            domain::StopInfoOpt stop_info_opt = catalogue_.GetStopInfo(stop_query_ptr->stop_name);
+            output_array.push_back(AssembleStopNode(stop_info_opt, query_ptr->id));
         } else if (query_ptr->type == domain::QueryType::BUS) {
             const domain::BusOutputQuery* bus_query_ptr = static_cast<const domain::BusOutputQuery*>(query_ptr);            
-            domain::BusInfo bus_info = catalogue_.GetBusInfo(bus_query_ptr->bus_name);
-            output_array.push_back(AssembleBusNode(bus_info, query_ptr->id));
+            domain::BusInfoOpt bus_info_opt = catalogue_.GetBusInfo(bus_query_ptr->bus_name);
+            output_array.push_back(AssembleBusNode(bus_info_opt, query_ptr->id));
         } else if (query_ptr->type == domain::QueryType::MAP) {
             const domain::MapOutputQuery* map_query_ptr = static_cast<const domain::MapOutputQuery*>(query_ptr);
             output_array.push_back(AssembleMapNode(map_query_ptr->id));

@@ -1,8 +1,5 @@
 #pragma once
-
 #include <iostream>
-#include <unordered_map>
-#include <vector>
 
 #include "geo.hpp"
 #include "transport_catalogue.hpp"

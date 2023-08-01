@@ -1,4 +1,5 @@
 #pragma once
+#include <optional>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -21,11 +22,8 @@ public:
 using BusPtr = Bus*;
 using StopPtr = Stop*;
 
-enum InfoType {
-    VALID,
-    EMPTY,
-    NOT_FOUND,
-};
+using BusInfoOpt = std::optional<BusInfo>;
+using StopInfoOpt = std::optional<StopInfo>;
 
 enum QueryType {
     STOP, BUS, MAP
@@ -58,7 +56,6 @@ struct Stop {
 };
 
 struct Info {
-    InfoType type;
     std::string name;
 };
 

@@ -1,12 +1,9 @@
-#include <cstring>
 #include <iterator>
 #include <sstream>
 #include <cassert>
 #include <stdexcept>
 #include <string_view>
 #include <algorithm>
-#include <unordered_map>
-#include <vector>
 
 #include "geo.hpp"
 #include "input_reader.hpp"

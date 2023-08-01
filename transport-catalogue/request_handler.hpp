@@ -3,8 +3,6 @@
 #include <deque>
 #include <memory>
 #include <optional>
-#include <unordered_set>
-#include <vector>
 
 #include "transport_catalogue.hpp"
 #include "map_renderer.hpp"
@@ -70,12 +68,6 @@ public:
     // Uses map_renderer
     RequestHandler(const transport_catalogue::TransportCatalogue& db, 
                    renderer::MapRenderer& renderer);
-
-    // Returns bus info (from Bus query)
-    domain::BusInfo GetBusInfo(const std::string_view bus_name) const;
-
-    // Returns buses whose routes use given stop
-    const std::vector<std::string_view> GetBusNamesByStop(const std::string_view& stop_name) const;
 
     // Returns a document with a drawn map in it
     svg::Document RenderMap() const;

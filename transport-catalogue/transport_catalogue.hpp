@@ -1,11 +1,7 @@
 #pragma once
 
 #include <map>
-#include <string>
 #include <deque>
-#include <unordered_map>
-#include <set>
-#include <vector>
 
 #include "geo.hpp"
 #include "domain.hpp"
@@ -30,9 +26,9 @@ public:
 
     int GetDistance(const std::string_view stop_from, const std::string_view stop_to) const;
 
-    BusInfo GetBusInfo(const std::string_view name) const;
+    BusInfoOpt GetBusInfo(const std::string_view name) const;
 
-    StopInfo GetStopInfo(const std::string_view name) const;
+    StopInfoOpt GetStopInfo(const std::string_view name) const;
 
     std::vector<std::string_view> GetStopNames() const;
 

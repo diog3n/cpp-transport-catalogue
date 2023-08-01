@@ -64,11 +64,11 @@ private:
 
     svg::Color ExtractColor(const json::Node& node) const;
     
-    json::Node AssembleErrorNode(const int id, const domain::InfoType& type) const;
+    json::Node AssembleErrorNode(const int id) const;
 
-    json::Node AssembleBusNode(domain::BusInfo& bus_info, int id) const;
+    json::Node AssembleBusNode(domain::BusInfoOpt& bus_info_opt, int id) const;
 
-    json::Node AssembleStopNode(domain::StopInfo& stop_info, int id) const;
+    json::Node AssembleStopNode(domain::StopInfoOpt& stop_info_opt, int id) const;
 
     json::Node AssembleMapNode(int id) const;
 

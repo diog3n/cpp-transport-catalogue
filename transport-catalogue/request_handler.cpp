@@ -1,9 +1,9 @@
+#include <algorithm>
+
 #include "request_handler.hpp"
 #include "json_reader.hpp"
 #include "map_renderer.hpp"
 #include "transport_catalogue.hpp"
-#include <algorithm>
-#include <unordered_map>
 
 namespace handlers {
 
@@ -34,14 +34,6 @@ RequestHandler::RequestHandler(
     const transport_catalogue::TransportCatalogue& db, 
     renderer::MapRenderer& renderer)
         : catalogue_(db), renderer_(renderer) {} 
-
-domain::BusInfo RequestHandler::GetBusInfo(const std::string_view bus_name) const {
-    return catalogue_.GetBusInfo(bus_name);
-}
-
-const std::vector<std::string_view> RequestHandler::GetBusNamesByStop(const std::string_view& stop_name) const {
-    return catalogue_.GetStopInfo(stop_name).bus_names;
-}
 
 std::vector<std::string_view> RequestHandler::GetBusNames() const {
     return catalogue_.GetBusNames();

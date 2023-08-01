@@ -3,9 +3,6 @@
 #include <cstdlib>
 #include <iostream>
 #include <memory>
-#include <optional>
-#include <unordered_map>
-#include <vector>
 
 #include "domain.hpp"
 #include "geo.hpp"

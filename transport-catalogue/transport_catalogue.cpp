@@ -4,7 +4,6 @@
 #include <numeric>
 #include <ostream>
 #include <string_view>
-#include <set>
 
 #include "geo.hpp"
 #include "transport_catalogue.hpp"
@@ -99,28 +98,26 @@ const Stop& TransportCatalogue::FindStop(const std::string_view name) const {
 }
 
 // Returns info on a given bus in a specific format
-BusInfo TransportCatalogue::GetBusInfo(const std::string_view name) const {
-    if (names_to_buses_.count(name) == 0) return { InfoType::NOT_FOUND, std::string(name), 0, 0, 0.0, 0.0 };
+BusInfoOpt TransportCatalogue::GetBusInfo(const std::string_view name) const {
+    if (names_to_buses_.count(name) == 0) return std::nullopt;
 
     const Bus& bus = *names_to_buses_.at(name);
-    const InfoType type = bus.route.empty() ? InfoType::EMPTY : InfoType::VALID;
     const double route_distance_geo = ComputeRouteDistance(bus);
     const double route_distance_cur = ComputeCurvedRouteDistance(bus);
 
-    return { type, bus.name, bus.route.size(), 
+    return BusInfo{ bus.name, bus.route.size(), 
              CountUniqueStops(bus), 
              route_distance_cur,
              ComputeCurvature(route_distance_cur, route_distance_geo) };
 }
 
 // Returns info on a given stop in a specific format
-StopInfo TransportCatalogue::GetStopInfo(const std::string_view name) const {
-    if (names_to_stops_.count(name) == 0) return { InfoType::NOT_FOUND, std::string(name), { 0, 0 } ,{} };
+StopInfoOpt TransportCatalogue::GetStopInfo(const std::string_view name) const {
+    if (names_to_stops_.count(name) == 0) return std::nullopt;
 
     const Stop& stop = *names_to_stops_.at(name);
-    const InfoType type = stop.buses.empty() ? InfoType::EMPTY : InfoType::VALID;
 
-    StopInfo stop_info = { type, std::string(name), stop.coordinates, std::vector<std::string_view>() };
+    StopInfo stop_info = { std::string(name), stop.coordinates, std::vector<std::string_view>() };
     
     std::transform(stop.buses.begin(), stop.buses.end(), std::back_inserter(stop_info.bus_names), [](const Bus* bus_ptr) {
         return std::string_view(bus_ptr->name);
@@ -294,25 +291,22 @@ void TestGetBusInfo() {
     tc.AddDistance("Marushkino"sv, "Tolstopaltsevo"sv, 140);
     tc.AddDistance("Tolstopaltsevo"sv, "Marushkino"sv, 280);
 
-    BusInfo bus1_info = tc.GetBusInfo("256"s);
-    BusInfo bus2_info = tc.GetBusInfo("240"s);
+    BusInfoOpt bus1_info = tc.GetBusInfo("256"s);
+    BusInfoOpt bus2_info = tc.GetBusInfo("240"s);
 
-    bool bus1_test1 = bus1_info.type == InfoType::VALID;
+    bool bus1_test1 = bus1_info.has_value();
     assert(bus1_test1);
-    bool bus1_test2 = bus1_info.name == "256"s;
+    bool bus1_test2 = bus1_info->name == "256"s;
     assert(bus1_test2);
-    bool bus1_test3 = bus1_info.stops_on_route == 3;
+    bool bus1_test3 = bus1_info->stops_on_route == 3;
     assert(bus1_test3);
-    bool bus1_test4 = bus1_info.unique_stops == 2;
+    bool bus1_test4 = bus1_info->unique_stops == 2;
     assert(bus1_test4);
-    bool bus1_test5 = bus1_info.route_length == 420;
+    bool bus1_test5 = bus1_info->route_length == 420;
     assert(bus1_test5);
 
-    bool bus2_test1 = bus2_info.type == InfoType::NOT_FOUND;
+    bool bus2_test1 = !bus2_info.has_value();
     assert(bus2_test1);
-    bool bus2_test2 = bus2_info.name == "240"s;
-    assert(bus2_test2);
-
 }
 
 void TestGetStopInfo() {
@@ -335,18 +329,18 @@ void TestGetStopInfo() {
     tc.AddBus(bus1.name, bus1.stop_names);
     tc.AddBus(bus2.name, bus2.stop_names);
 
-    StopInfo stop_info1 = tc.GetStopInfo("Marushkino"s);
-    StopInfo stop_info2 = tc.GetStopInfo("Tolstopaltsevo"s);
-    StopInfo stop_info3 = tc.GetStopInfo("Samara"s);
-    StopInfo stop_info4 = tc.GetStopInfo("Rasskazovka"s);
+    StopInfoOpt stop_info1 = tc.GetStopInfo("Marushkino"s);
+    StopInfoOpt stop_info2 = tc.GetStopInfo("Tolstopaltsevo"s);
+    StopInfoOpt stop_info3 = tc.GetStopInfo("Samara"s);
+    StopInfoOpt stop_info4 = tc.GetStopInfo("Rasskazovka"s);
 
-    bool test_stop_info1 = stop_info1.type == InfoType::VALID && stop_info1.bus_names == std::vector{"256"sv};
+    bool test_stop_info1 = stop_info1 && stop_info1->bus_names == std::vector{"256"sv};
     assert(test_stop_info1);
-    bool test_stop_info2 = stop_info2.type == InfoType::VALID && (stop_info2.bus_names == std::vector{ "256"sv, "11"sv } || stop_info2.bus_names == std::vector{ "11"sv, "256"sv });
+    bool test_stop_info2 = stop_info2 && stop_info2->bus_names == std::vector{ "11"sv, "256"sv };
     assert(test_stop_info2);
-    bool test_stop_info3 = stop_info3.type == InfoType::EMPTY && stop_info3.bus_names.empty();
+    bool test_stop_info3 = stop_info3 && stop_info3->bus_names.empty();
     assert(test_stop_info3);
-    bool test_stop_info4 = stop_info4.type == InfoType::NOT_FOUND;
+    bool test_stop_info4 = !stop_info4;
     assert(test_stop_info4);
 
 }

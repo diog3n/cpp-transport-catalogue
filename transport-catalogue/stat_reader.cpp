@@ -23,40 +23,44 @@ bool DoubleEq(double lhs, double rhs) {
 using namespace std::literals;
 
 // Outputs bus info in a specified format
-void StatReader::PrintBusInfo(std::ostream& out, const BusInfo& bus_info, bool newline) {
+void StatReader::PrintBusInfo(std::ostream& out, const std::string_view bus_name, bool newline) const {
     std::string endline = newline ? "\n" : "";  
 
-    if (bus_info.type == InfoType::NOT_FOUND) {
-        out << "Bus "s << bus_info.name << ": not found"s << endline << std::flush;
+    BusInfoOpt bus_info_opt = catalogue_.GetBusInfo(bus_name);
+
+    if (!bus_info_opt) {
+        out << "Bus "s << bus_info_opt->name << ": not found"s << endline << std::flush;
         return;
-    } else if (bus_info.type == InfoType::EMPTY) {
-        out << "Bus "s << bus_info.name << ": no stops"s << endline << std::flush;
+    } else if (bus_info_opt->stops_on_route == 0) {
+        out << "Bus "s << bus_info_opt->name << ": no stops"s << endline << std::flush;
         return;
     }
 
-    out << "Bus "s << bus_info.name << ": "s
-        << bus_info.stops_on_route << " stops on route, "s
-        << bus_info.unique_stops << " unique stops, "s
-        << bus_info.route_length << " route length, "s 
-        << bus_info.curvature << " curvature" << endline << std::flush;
+    out << "Bus "s << bus_info_opt->name << ": "s
+        << bus_info_opt->stops_on_route << " stops on route, "s
+        << bus_info_opt->unique_stops << " unique stops, "s
+        << bus_info_opt->route_length << " route length, "s 
+        << bus_info_opt->curvature << " curvature" << endline << std::flush;
 }
 
 // Output stop info in a specified format
-void StatReader::PrintStopInfo(std::ostream& out, const StopInfo& stop_info, bool newline) {
+void StatReader::PrintStopInfo(std::ostream& out, const std::string_view stop_name, bool newline) const {
     std::string endline = newline ? "\n" : "";  
     
-    if (stop_info.type == InfoType::NOT_FOUND) {
-        out << "Stop "s << stop_info.name 
+    StopInfoOpt stop_info_opt = catalogue_.GetStopInfo(stop_name);
+
+    if (!stop_info_opt) {
+        out << "Stop "s << stop_info_opt->name 
             << ": not found"s << endline << std::flush;
         return;
-    } else if (stop_info.type == InfoType::EMPTY) {
-        out << "Stop "s << stop_info.name 
+    } else if (stop_info_opt->bus_names.empty()) {
+        out << "Stop "s << stop_info_opt->name 
             << ": no buses"s << endline << std::flush;
         return;
     }
 
-    out << "Stop "s << stop_info.name << ": buses"s;
-    for (const std::string_view& bus_name : stop_info.bus_names) {
+    out << "Stop "s << stop_info_opt->name << ": buses"s;
+    for (const std::string_view& bus_name : stop_info_opt->bus_names) {
         out << " "s << bus_name; 
     }
     out << endline << std::flush;
@@ -64,12 +68,12 @@ void StatReader::PrintStopInfo(std::ostream& out, const StopInfo& stop_info, boo
 
 // Executes bus output queries
 void StatReader::ExecuteStopOutputQuery(std::ostream& out, const StopOutputQuery& stop_query) const {
-    PrintStopInfo(out, catalogue_.GetStopInfo(stop_query.stop_name));
+    PrintStopInfo(out, stop_query.stop_name);
 }
 
 // Executes bus output queries
 void StatReader::ExecuteBusOutputQuery(std::ostream& out, const BusOutputQuery& bus_query) const {
-    PrintBusInfo(out, catalogue_.GetBusInfo(bus_query.bus_name));
+    PrintBusInfo(out, bus_query.bus_name);
 }
 
 // Parses bus output query. At this point query without a type is
@@ -235,9 +239,9 @@ void TestBusStatReader() {
 
     StatReader sr(tc);
     
-    sr.PrintBusInfo(out, tc.GetBusInfo("256"sv));
+    sr.PrintBusInfo(out, "256"sv);
 
-    cerr << "TestBusStatReader (TEST OUTPUT): "; sr.PrintBusInfo(cerr, tc.GetBusInfo("256"sv));
+    cerr << "TestBusStatReader (TEST OUTPUT): "; sr.PrintBusInfo(cerr, "256"sv);
     bool test1 = out.str() == "Bus 256: 6 stops on route, 5 unique stops, 5950 route length, 1.36124 curvature\n";
 
     // Bus 256: 6 stops on route, 5 unique stops, 5950 route length 1.36124 curvature
@@ -245,9 +249,9 @@ void TestBusStatReader() {
     assert(test1);
 
     out.str("");
-    sr.PrintBusInfo(out, tc.GetBusInfo("750"sv));
+    sr.PrintBusInfo(out, "750"sv);
 
-    cerr << "TestBusStatReader (TEST OUTPUT): "; sr.PrintBusInfo(cerr, tc.GetBusInfo("750"sv));
+    cerr << "TestBusStatReader (TEST OUTPUT): "; sr.PrintBusInfo(cerr, "750"sv);
     bool test2 = out.str() == "Bus 750: 7 stops on route, 3 unique stops, 27400 route length, 1.30853 curvature\n";
     assert(test2);
 }
@@ -278,37 +282,37 @@ void TestStopStatReader() {
     tc.AddBus(bus2.name, bus2.stop_names); 
     tc.AddBus(bus3.name, bus3.stop_names); 
 
-    StopInfo stop_info1 = tc.GetStopInfo("Marushkino"s);
-    StopInfo stop_info2 = tc.GetStopInfo("Tolstopaltsevo"s);
-    StopInfo empty_info = tc.GetStopInfo("Rasskazovka"s);
-    StopInfo invalid_info = tc.GetStopInfo("Samara"s);
+    StopInfoOpt stop_info1 = tc.GetStopInfo("Marushkino"s);
+    StopInfoOpt stop_info2 = tc.GetStopInfo("Tolstopaltsevo"s);
+    StopInfoOpt empty_info = tc.GetStopInfo("Rasskazovka"s);
+    StopInfoOpt invalid_info = tc.GetStopInfo("Samara"s);
 
     std::ostringstream out;
 
     StatReader sr(tc);
 
-    cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, stop_info1);
-    sr.PrintStopInfo(out, stop_info1);
+    cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, stop1.name);
+    sr.PrintStopInfo(out, stop1.name);
     bool test1 = out.str() == "Stop Marushkino: buses 256 11\n"s
                  || out.str() == "Stop Marushkino: buses 11 256\n"s;
     assert(test1);
 
-    cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, stop_info2);
+    cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, stop2.name);
     out.str("");
-    sr.PrintStopInfo(out, stop_info2);
+    sr.PrintStopInfo(out, stop2.name);
     bool test2 = out.str() == "Stop Tolstopaltsevo: buses 47 11\n"s
                  || out.str() == "Stop Tolstopaltsevo: buses 11 47\n"s;
     assert(test2);
 
-    cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, empty_info);
+    cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, stop3.name);
     out.str("");
-    sr.PrintStopInfo(out, empty_info);
+    sr.PrintStopInfo(out, stop3.name);
     bool test3 = out.str() == "Stop Rasskazovka: no buses\n";
     assert(test3);
     
-    cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, invalid_info);
+    cerr << "TestStopStatReader (TEST OUTPUT): "s; sr.PrintStopInfo(cerr, stop4.name);
     out.str("");
-    sr.PrintStopInfo(out, invalid_info);
+    sr.PrintStopInfo(out, stop4.name);
     bool test4 = out.str() == "Stop Samara: not found\n";
     assert(test4);
 }

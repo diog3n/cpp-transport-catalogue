@@ -18,9 +18,9 @@ public:
 
     void DisplayOutput(std::ostream& out);
 
-    static void PrintBusInfo(std::ostream& out, const BusInfo& bus_info, bool newline = true);
+    void PrintBusInfo(std::ostream& out, const std::string_view bus_name, bool newline = true) const;
 
-    static void PrintStopInfo(std::ostream& out, const StopInfo& stop_info, bool newline = true);
+    void PrintStopInfo(std::ostream& out, const std::string_view stop_name, bool newline = true) const;
 
 private:
 
