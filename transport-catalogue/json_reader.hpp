@@ -19,7 +19,8 @@ void PrintLnStopInfo(std::ostream& out, domain::StopInfo stop_info);
 
 } // namespace json_reader::utils
 
-class JSONReader final : private handlers::QueryHandler {
+class JSONReader final : private handlers::InputHandler, 
+                         private handlers::OutputHandler {
 public:
 
     JSONReader(transport_catalogue::TransportCatalogue& tc);
@@ -45,11 +46,17 @@ private:
     // Executes output queries in the order they were given in
     void ExecuteOutputQueries(std::ostream& out) const override; 
 
+    // Executes input queries. Stops first, then buses
+    void ExecuteInputQueries() override;
+
     // Parses the document, collecting queries into respective containers
     void ParseDocument();
 
     // Map rendering settings taken from the give JSON
     renderer::RenderSettings render_settings_;
+
+    // A reference to the transport database
+    transport_catalogue::TransportCatalogue& catalogue_;
 
     // Loaded JSON document
     json::Document json_;

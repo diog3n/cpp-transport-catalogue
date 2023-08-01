@@ -19,6 +19,7 @@ public:
 
     std::deque<domain::StopInputQuery> stop_input_queries_;
 
+    virtual ~InputHandler() = default;
 };
 
 // Is a base abstract class for any class that handles user output
@@ -31,25 +32,7 @@ public:
 
     std::deque<domain::BusOutputQuery> bus_output_queries_;
 
-};
-
-// Is a base class for any class that handles both input and output 
-class QueryHandler : public InputHandler, public OutputHandler {
-public:
-
-    QueryHandler() = delete;
-
-    QueryHandler(transport_catalogue::TransportCatalogue& tc);
-
-    virtual void ExecuteInputQueries();
-
-    virtual void ExecuteOutputQueries(std::ostream& out) const = 0;
-
-    virtual ~QueryHandler() = default;
-
-protected:
-
-    transport_catalogue::TransportCatalogue& catalogue_;
+    virtual ~OutputHandler() = default;
 
 };
 

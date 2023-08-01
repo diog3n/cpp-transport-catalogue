@@ -5,30 +5,6 @@
 #include "map_renderer.hpp"
 #include "transport_catalogue.hpp"
 
-namespace handlers {
-
-QueryHandler::QueryHandler(transport_catalogue::TransportCatalogue& tc)
-    : catalogue_(tc) {}
-
-/* This function was moved here from InputReader class with 
- * minor changes. Usually this is the way input queries can be 
- * executed, so it is left here */ 
-void QueryHandler::ExecuteInputQueries() {
-    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
-        catalogue_.AddStop(std::string(stop_query.name), stop_query.coordinates);
-    });
-    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
-        for (const auto& [dest_name, distance] : stop_query.distances) {
-            catalogue_.AddDistance(stop_query.name, dest_name, distance);
-        }
-    });
-    std::for_each(bus_input_queries_.begin(), bus_input_queries_.end(), [this](const domain::BusInputQuery& bus_query) {
-        catalogue_.AddBus(std::string(bus_query.name), bus_query.stop_names, bus_query.is_roundtrip);
-    });
-}
-
-}
-
 namespace request_handler {
 
 RequestHandler::RequestHandler(

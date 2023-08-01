@@ -34,7 +34,7 @@ void PrintLnStopInfo(std::ostream& out, domain::StopInfo stop_info) {
 } // namespace json_reader::util
 
 JSONReader::JSONReader(transport_catalogue::TransportCatalogue& tc)
-    : handlers::QueryHandler(tc)
+    : catalogue_(tc)
     , json_(json::Document{nullptr}) {}
 
 void JSONReader::ParseDocument() {
@@ -265,6 +265,20 @@ svg::Color JSONReader::ExtractColor(const json::Node& node) const {
     else throw json::ParsingError("Invalid color notation");
 }
 
+void JSONReader::ExecuteInputQueries() {
+    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
+        catalogue_.AddStop(std::string(stop_query.name), stop_query.coordinates);
+    });
+    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
+        for (const auto& [dest_name, distance] : stop_query.distances) {
+            catalogue_.AddDistance(stop_query.name, dest_name, distance);
+        }
+    });
+    std::for_each(bus_input_queries_.begin(), bus_input_queries_.end(), [this](const domain::BusInputQuery& bus_query) {
+        catalogue_.AddBus(std::string(bus_query.name), bus_query.stop_names, bus_query.is_roundtrip);
+    });
+}
+
 void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
     json::Array output_array;
 
@@ -489,23 +503,11 @@ void TestJSON() {
 
     jreader.PrintTo(std::cerr);
 
-    std::cerr << "TEST OUTPUT(BUS SIZE): " << tc.GetBusNames().size() << std::endl;
-    std::cerr << "TEST OUTPUT(STOP SIZE): " << tc.GetStopNames().size() << std::endl;
-
     bool test_bus_count = tc.GetBusNames().size() == 2;
     assert(test_bus_count);
 
     bool test_stop_count = tc.GetStopNames().size() == 5;
     assert(test_stop_count);
-
-
-    renderer::MapRenderer renderer(rs);
-
-    request_handler::RequestHandler rh(tc, renderer);
-
-    svg::Document doc = rh.RenderMap();
-
-    doc.Render(std::cerr);
 }
 
 void TestAssembleQuery() {
