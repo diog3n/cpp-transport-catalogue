@@ -501,8 +501,6 @@ void TestJSON() {
 
     std::ostringstream out;
 
-    jreader.PrintTo(std::cerr);
-
     bool test_bus_count = tc.GetBusNames().size() == 2;
     assert(test_bus_count);
 
