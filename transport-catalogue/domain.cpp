@@ -1,5 +1,5 @@
 #include "domain.hpp"
 
-bool domain::BusCompare::operator() (const Bus* lb, const Bus* rb) const {
+bool domain::BusCompare::operator() (const BusPtr lb, const BusPtr rb) const {
     return lb->name < rb->name;
 }

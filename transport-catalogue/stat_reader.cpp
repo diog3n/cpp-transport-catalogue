@@ -22,7 +22,6 @@ bool DoubleEq(double lhs, double rhs) {
 
 using namespace std::literals;
 
-// Outputs bus info in a specified format
 void StatReader::PrintBusInfo(std::ostream& out, const std::string_view bus_name, bool newline) const {
     std::string endline = newline ? "\n" : "";  
 
@@ -43,7 +42,6 @@ void StatReader::PrintBusInfo(std::ostream& out, const std::string_view bus_name
         << bus_info_opt->curvature << " curvature" << endline << std::flush;
 }
 
-// Output stop info in a specified format
 void StatReader::PrintStopInfo(std::ostream& out, const std::string_view stop_name, bool newline) const {
     std::string endline = newline ? "\n" : "";  
     
@@ -66,35 +64,24 @@ void StatReader::PrintStopInfo(std::ostream& out, const std::string_view stop_na
     out << endline << std::flush;
 }
 
-// Executes bus output queries
 void StatReader::ExecuteStopOutputQuery(std::ostream& out, const StopOutputQuery& stop_query) const {
     PrintStopInfo(out, stop_query.stop_name);
 }
 
-// Executes bus output queries
 void StatReader::ExecuteBusOutputQuery(std::ostream& out, const BusOutputQuery& bus_query) const {
     PrintBusInfo(out, bus_query.bus_name);
 }
 
-// Parses bus output query. At this point query without a type is
-// just a bus name. So it just trims it from leading and
-// trailing spaces. EXAMPLE: 257
-BusOutputQuery StatReader::ParseBusOutputQuery(std::string_view raw_line) {
+BusOutputQuery StatReader::ParseBusOutputQuery(std::string_view raw_line) const {
     std::string_view bus_name = transport_catalogue::util::view::Trim(raw_line, ' ');
-    return { current_request_id_++, bus_name };
+    return { 0, bus_name };
 }
 
-// Parses output stop query. At this point, queries only contain
-// query type and stop name, so this function only trimms the name 
-// of trailing and leading spaces. INPUT EXAMPLE: Marushkino
-StopOutputQuery StatReader::ParseStopOutputQuery(std::string_view raw_line) {
-    return { current_request_id_++, transport_catalogue::util::view::Trim(raw_line, ' ') }; 
+StopOutputQuery StatReader::ParseStopOutputQuery(std::string_view raw_line) const {
+    return { 0, transport_catalogue::util::view::Trim(raw_line, ' ') }; 
 }
 
-// Execites output queries. Unlike input queries, these are not supposed
-// to be executed in a particular order. Instead, they are executed in the
-// same order as they were stated
-void StatReader::ExecuteQuery(std::ostream& out, const std::string& raw_line) {
+void StatReader::ExecuteQuery(std::ostream& out, const std::string& raw_line) const {
     std::string_view line_view = raw_line;
     std::string_view type = transport_catalogue::util::view::Substr(line_view, 0, line_view.find_first_of(' '));
     std::string_view rest = transport_catalogue::util::view::Substr(line_view, line_view.find_first_of(' ') + 1, line_view.size());
@@ -108,7 +95,6 @@ void StatReader::ExecuteQuery(std::ostream& out, const std::string& raw_line) {
     }
 }
 
-// Asks user for input
 void StatReader::ReadInput(std::istream& in) {
     int output_queries_count;
 
@@ -122,8 +108,7 @@ void StatReader::ReadInput(std::istream& in) {
     }
 }
 
-// Executes queries
-void StatReader::DisplayOutput(std::ostream& out) {
+void StatReader::ExecuteOutputQueries(std::ostream& out) const {
     std::for_each(raw_queries_.begin(), raw_queries_.end(), [this, &out](const std::string& query) {
         ExecuteQuery(out, query);
     });
@@ -363,7 +348,7 @@ void TestParseQuery() {
 
     std::cout << "TestParseBusOutputQuery (TEST OUTPUT):" << std::endl;
 
-    sr.DisplayOutput(std::cout);
+    sr.ExecuteOutputQueries(std::cout);
 }
 
 } // namespace stat_reader::tests

@@ -10,8 +10,9 @@ namespace handlers {
 QueryHandler::QueryHandler(transport_catalogue::TransportCatalogue& tc)
     : catalogue_(tc) {}
 
-// This function was moved here from InputReader class with minor changes.
-// Usually this is the way input queries can be executed, so it is left here 
+/* This function was moved here from InputReader class with 
+ * minor changes. Usually this is the way input queries can be 
+ * executed, so it is left here */ 
 void QueryHandler::ExecuteInputQueries() {
     std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
         catalogue_.AddStop(std::string(stop_query.name), stop_query.coordinates);

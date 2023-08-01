@@ -10,6 +10,8 @@ using namespace std;
 
 namespace {
 
+/* Since int is a subset of double, there is a definite need 
+   for a type, such as "number" to parse the document */
 using Number = std::variant<double, int>;
 
 Node LoadNode(istream& input);

@@ -265,8 +265,7 @@ svg::Color JSONReader::ExtractColor(const json::Node& node) const {
     else throw json::ParsingError("Invalid color notation");
 }
 
-
-void JSONReader::ExecuteOutputQueries(handlers::OutputContext& context) const {
+void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
     json::Array output_array;
 
     std::for_each(query_ptrs_.begin(), query_ptrs_.end(), 
@@ -286,12 +285,11 @@ void JSONReader::ExecuteOutputQueries(handlers::OutputContext& context) const {
     });
 
     json::Document output_doc{output_array};
-    json::Print(output_doc, context.out);
+    json::Print(output_doc, out);
 }
 
 void JSONReader::PrintTo(std::ostream& out) const {
-    handlers::OutputContext context(out);
-    ExecuteOutputQueries(context);
+    ExecuteOutputQueries(out);
 }
 
 std::string JSONReader::ReadJSON(std::istream& in) {

@@ -9,15 +9,7 @@
 
 namespace handlers {
 
-struct OutputContext {
-    
-    explicit OutputContext(std::ostream& out): out(out) {}
-    
-    virtual ~OutputContext() = default;
-    
-    std::ostream& out;
-};
-
+// Is a base abstract class for any class that handles user input
 class InputHandler {
 public:
 
@@ -29,10 +21,11 @@ public:
 
 };
 
+// Is a base abstract class for any class that handles user output
 class OutputHandler {
 public:
 
-    virtual void ExecuteOutputQueries(OutputContext& context) const = 0;
+    virtual void ExecuteOutputQueries(std::ostream& out) const = 0;
 
     std::deque<domain::StopOutputQuery> stop_output_queries_;
 
@@ -40,6 +33,7 @@ public:
 
 };
 
+// Is a base class for any class that handles both input and output 
 class QueryHandler : public InputHandler, public OutputHandler {
 public:
 
@@ -49,7 +43,7 @@ public:
 
     virtual void ExecuteInputQueries();
 
-    virtual void ExecuteOutputQueries(OutputContext& context) const = 0;
+    virtual void ExecuteOutputQueries(std::ostream& out) const = 0;
 
     virtual ~QueryHandler() = default;
 
@@ -76,14 +70,19 @@ private:
     const transport_catalogue::TransportCatalogue& catalogue_;
     renderer::MapRenderer& renderer_;
 
+    // Wrapper method. Returns names of all buses in catalogue
     std::vector<std::string_view> GetBusNames() const;
 
+    // Wrapper method. Returns names of all stops in catalogue
     std::vector<std::string_view> GetStopNames() const;
 
+    // Factory that sets up a sphere projector
     renderer::util::SphereProjector GetSphereProjector() const;
 
+    // Returns a vector of coordinates for stops in a bus route
     std::vector<svg::Point> GetStopPoints(const renderer::util::SphereProjector& projector, const std::string_view bus_name) const;
 
+    // Returns a svg::Point-projected coordinate of a given stop
     svg::Point GetStopPoint(const renderer::util::SphereProjector& projector, const std::string_view stop_name) const; 
 
 };

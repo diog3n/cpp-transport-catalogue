@@ -17,7 +17,6 @@ using namespace std::literals;
 
 using namespace transport_catalogue;
 
-// Splits input stream into a vector of input lines
 std::vector<std::string> InputReader::GetSeparateLines(std::istream& input) {
     std::string line;
     std::vector<std::string> lines;
@@ -25,7 +24,6 @@ std::vector<std::string> InputReader::GetSeparateLines(std::istream& input) {
     return lines;
 }
 
-// Converts a non-loop route into a vector of stop_names
 std::vector<std::string_view> InputReader::TransformToLoopSequence(std::string_view line) {
     std::vector<std::string_view> stop_names = util::view::SplitBy(line, '-');
     for (int i = stop_names.size() - 2; i >= 0; i--) {
@@ -34,19 +32,12 @@ std::vector<std::string_view> InputReader::TransformToLoopSequence(std::string_v
     return stop_names;
 }
 
-// Extracts a vector of stop_names from a given string.
-// String MUST contain stop names deided by delimiters only.
-// EXAMPLE: Biryulyovo Zapadnoye > Biryusinka > Universam > Biryulyovo Zapadnoye
-// OR: Biryulyovo Zapadnoye - Biryusinka - Universam
 std::vector<std::string_view> InputReader::GetStopSequence(std::string_view line) {
     bool is_loop = line.find_first_of('>') != std::string_view::npos;
     if (!is_loop) return TransformToLoopSequence(line);
     return util::view::SplitBy(line, '>');
 }
 
-// Adds queries to the internal containers of an input reader
-// Though queries could be given in any order, stop queries MUST
-// be executed first
 void InputReader::AddQuery(const std::string& raw_line) {
     raw_queries_.push_back(raw_line);
     std::string_view line_view = raw_queries_.back();
@@ -62,7 +53,6 @@ void InputReader::AddQuery(const std::string& raw_line) {
     }
 }
 
-// Asks user for input
 void InputReader::ReadInput(std::istream& in) {
     int input_queries_count;
 
@@ -84,14 +74,6 @@ std::deque<domain::StopInputQuery>& InputReader::GetStopQueries() {
     return stop_input_queries_;
 }
 
-// Returns a constant reference to the internal transport catalogue. The main use case of
-// this function would be an initialization of stat_readers in order to use the same database
-const transport_catalogue::TransportCatalogue& InputReader::GetCatalogue() const {
-    return catalogue_;
-}
-
-// Executes input queries in a specific order: stop queries are executed
-// first, then the bus queries get executed after to avoid conflicts
 void InputReader::ExecuteInputQueries() {
     std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
         catalogue_.AddStop(std::string(stop_query.name), stop_query.coordinates);
@@ -106,11 +88,6 @@ void InputReader::ExecuteInputQueries() {
     });
 }
 
-
-
-// Parses a bus query. Input MUST contain route name and route,
-// delimited by a ':' character. Surrounding spaces are ignored.
-// EXAMPLE: 750: Tolstopaltsevo - Marushkino - Rasskazovka
 domain::BusInputQuery InputReader::ParseBusInputQuery(std::string_view raw_line) {
     using namespace util;
 
@@ -121,12 +98,6 @@ domain::BusInputQuery InputReader::ParseBusInputQuery(std::string_view raw_line)
     return { bus_name, stop_names };
 }
 
-// Parses stop query. Input MUST contain stop name and coordinates
-// delimited by ':' character. Coordinates MUST be floating-point numbers
-// and MUST be delimited by ',' character, distances MUST follow the format "Xm to Y",
-// where X is a positive integer, Y is a name of a STOP that already exists in a database. 
-// Leading and trailing spaces are ignored.
-// EXAMPLE: Rasskazovka: 55.632761, 37.333324, 3200m to Tchepultsevo, 104m to Universam
 domain::StopInputQuery InputReader::ParseStopInputQuery(std::string_view raw_line) {
     using namespace util;
 

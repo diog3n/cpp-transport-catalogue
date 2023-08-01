@@ -4,22 +4,27 @@
 
 #include "transport_catalogue.hpp"
 #include "domain.hpp"
+#include "request_handler.hpp"
 
 namespace stat_reader {
 
 using namespace transport_catalogue;
 
-class StatReader {
+class StatReader: handlers::OutputHandler {
 public:
 
     explicit StatReader(const TransportCatalogue& tc): catalogue_(tc) {}
 
+    // Asks user for input
     void ReadInput(std::istream& in);
 
-    void DisplayOutput(std::ostream& out);
+    // Executes queries
+    void ExecuteOutputQueries(std::ostream& out) const override;
 
+    // Outputs bus info in a specified format
     void PrintBusInfo(std::ostream& out, const std::string_view bus_name, bool newline = true) const;
 
+    // Outputs stop info in a specified format
     void PrintStopInfo(std::ostream& out, const std::string_view stop_name, bool newline = true) const;
 
 private:
@@ -32,17 +37,27 @@ private:
 
     const TransportCatalogue& catalogue_;
     
-    void ExecuteQuery(std::ostream& out, const std::string& raw_line);
 
+    // Execites output queries. Unlike input queries, these are not supposed
+    // to be executed in a particular order. Instead, they are executed in the
+    // same order as they were stated
+    void ExecuteQuery(std::ostream& out, const std::string& raw_line) const;
+
+    // Executes stop output queries
     void ExecuteStopOutputQuery(std::ostream& out, const domain::StopOutputQuery& stop_query) const;
 
+    // Executes bus output queries
     void ExecuteBusOutputQuery(std::ostream& out, const domain::BusOutputQuery& bus_query) const;
 
-    domain::BusOutputQuery ParseBusOutputQuery(std::string_view raw_line);
+    // Parses bus output query. At this point query without a type is
+    // just a bus name. So it just trims it from leading and
+    // trailing spaces. EXAMPLE: 257
+    domain::BusOutputQuery ParseBusOutputQuery(std::string_view raw_line) const;
 
-    domain::StopOutputQuery ParseStopOutputQuery(std::string_view raw_line);
-
-    int current_request_id_;
+    // Parses output stop query. At this point, queries only contain
+    // query type and stop name, so this function only trimms the name 
+    // of trailing and leading spaces. INPUT EXAMPLE: Marushkino
+    domain::StopOutputQuery ParseStopOutputQuery(std::string_view raw_line) const;
 };
 
 namespace tests {

@@ -11,6 +11,7 @@
 
 namespace svg {
 
+// Color defined in red-green-blue format
 struct Rgb {
     Rgb() = default;
 
@@ -24,6 +25,7 @@ struct Rgb {
             blue = 0;
 };
 
+// Color definded in red-green-blue-alpha format
 struct Rgba {
     Rgba() = default;
 
@@ -37,9 +39,10 @@ struct Rgba {
     double opacity = 1.0;
 };
 
-
+// Color can be defined in different ways in SVG
 using Color = std::variant<Rgb, Rgba, std::string, std::monostate>;
 
+// Default no-color value 
 const Color NoneColor{"none"};
 
 bool operator==(const Color& lhs, const Color& rhs);
@@ -73,13 +76,8 @@ enum class StrokeLineJoin {
 
 namespace utils {
 
+// Replaces special characters with given escape sequences
 std::string ReplaceSpecialChars(const std::string& str);
-
-std::string GetLineCapString(const StrokeLineCap& linecap);
-
-std::string GetLineJoinString(const StrokeLineJoin& join);
-
-std::string GetColorString(const Color& color);
 
 } // namespace svg::utils
 
@@ -93,6 +91,7 @@ std::ostream& operator<<(std::ostream& out, const Rgb rgb);
 
 std::ostream& operator<<(std::ostream& out, const Rgba rbg);
 
+// Path properties common for many shapes
 template <typename Owner>
 class PathProps {
 public:
@@ -156,16 +155,18 @@ private:
     }
 
     std::optional<Color> fill_color_;
+
     std::optional<Color> stroke_color_;
+    
     std::optional<double> stroke_width_;
+    
     std::optional<StrokeLineCap> stroke_linecap_;
+    
     std::optional<StrokeLineJoin> stroke_linejoin_;
+
 };
 
-/*
- * Вспомогательная структура, хранящая контекст для вывода SVG-документа с отступами.
- * Хранит ссылку на поток вывода, текущее значение и шаг отступа при выводе элемента
- */
+/* Auxilary struct used for outputting svg with fancy indents */
 struct RenderContext {
     RenderContext(std::ostream& out)
         : out(out) {
@@ -188,15 +189,14 @@ struct RenderContext {
     }
 
     std::ostream& out;
+
     int indent_step = 0;
+    
     int indent = 0;
 };
 
-/*
- * Абстрактный базовый класс Object служит для унифицированного хранения
- * конкретных тегов SVG-документа
- * Реализует паттерн "Шаблонный метод" для вывода содержимого тега
- */
+/* Abstract class Object is used for storing different types of 
+ * SVG shapes in one container */
 class Object {
 public:
     void Render(const RenderContext& context) const;
@@ -207,6 +207,7 @@ private:
     virtual void RenderObject(const RenderContext& context) const = 0;
 };
 
+/* An abstract class for any container that houses SVG-objects */
 class ObjectContainer {
 public:
     ObjectContainer() = default;
@@ -222,6 +223,7 @@ protected:
     std::vector<std::shared_ptr<Object>> object_ptrs_;
 };
 
+/* An interface for any drawable svg object */
 class Drawable {
 public:
     virtual void Draw(ObjectContainer& container) const = 0;
@@ -234,7 +236,7 @@ void ObjectContainer::Add(const ObjectDerivative& obj) {
 }
 
 /*
- * Класс Circle моделирует элемент <circle> для отображения круга
+ * Class Circle is represents <circle> tag in svg graphics
  * https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle
  */
 class Circle final : public Object
@@ -255,65 +257,68 @@ private:
 };
 
 /*
- * Класс Polyline моделирует элемент <polyline> для отображения ломаных линий
+ * Class Polyline represents <polyline> tag in svg graphics
  * https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline
  */
 class Polyline final : public Object
                      , public PathProps<Polyline> {
 public:
-    // Добавляет очередную вершину к ломаной линии
+    // Adds a vertex to a polyline
     Polyline& AddPoint(Point point);
 
 private:
+    
     void RenderObject(const RenderContext& context) const override;
+    
+    // Converts a vector of points to a string
     void ConvertPathToPoints();
 
     std::string points_;
+
     std::vector<Point> path_;
 };
 
 /*
- * Класс Text моделирует элемент <text> для отображения текста
+ * Class Text represents <text> tag in svg graphics
  * https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
  */
 class Text final : public Object
                  , public PathProps<Text> {
 public:
-    // Задаёт координаты опорной точки (атрибуты x и y)
     Text& SetPosition(Point pos);
 
-    // Задаёт смещение относительно опорной точки (атрибуты dx, dy)
     Text& SetOffset(Point offset);
 
-    // Задаёт размеры шрифта (атрибут font-size)
     Text& SetFontSize(uint32_t size);
 
-    // Задаёт название шрифта (атрибут font-family)
     Text& SetFontFamily(std::string font_family);
 
-    // Задаёт толщину шрифта (атрибут font-weight)
     Text& SetFontWeight(std::string font_weight);
 
-    // Задаёт текстовое содержимое объекта (отображается внутри тега text)
     Text& SetData(std::string data);
 
 private:
     void RenderObject(const RenderContext& context) const override;
 
     Point pos_;
+
     Point offset_;
+
     uint32_t font_size_ = 1;
+
     std::optional<std::string> font_family_;
+
     std::optional<std::string> font_weight_;
+
     std::string data_;
 };
 
 class Document : public ObjectContainer {
 public:
-    // Добавляет в svg-документ объект-наследник svg::Object
+    // Adds an Object-derivative class to the document
     void AddPtr(std::unique_ptr<Object>&& obj);
 
-    // Выводит в ostream svg-представление документа
+    // Renders an svg-document to the output stream
     void Render(std::ostream& out) const;
 };
 

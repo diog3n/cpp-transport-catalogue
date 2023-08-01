@@ -11,18 +11,6 @@ using namespace std::literals;
 
 namespace utils {
 
-std::string GetLineCapString(const StrokeLineCap& linecap) {
-    std::ostringstream out;
-    out << linecap;
-    return out.str();
-}
-
-std::string GetLineJoinString(const StrokeLineJoin& join) {
-    std::ostringstream out;
-    out << join;
-    return out.str();
-}
-
 std::string ReplaceSpecialChars(const std::string& str) {
     std::string result;
     for (auto iter = str.begin(); iter != str.end(); iter++) {
@@ -34,12 +22,6 @@ std::string ReplaceSpecialChars(const std::string& str) {
         else result += *iter;
     }
     return result;
-}
-
-std::string GetColorString(const Color& color) {
-    std::ostringstream out;
-    out << color;
-    return out.str();
 }
 
 } // namespace svg::utils

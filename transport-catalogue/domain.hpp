@@ -14,16 +14,17 @@ struct Stop;
 struct BusInfo;
 struct StopInfo;
 
-class BusCompare {
-public:
-    bool operator() (const Bus* lb, const Bus* rb) const;
-};
-
 using BusPtr = Bus*;
 using StopPtr = Stop*;
 
 using BusInfoOpt = std::optional<BusInfo>;
 using StopInfoOpt = std::optional<StopInfo>;
+
+// Callable comparator for BusPtrs used in maps and sets
+class BusCompare {
+public:
+    bool operator() (const BusPtr lb, const BusPtr rb) const;
+};
 
 enum QueryType {
     STOP, BUS, MAP

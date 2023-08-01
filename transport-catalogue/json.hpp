@@ -10,11 +10,11 @@
 namespace json {
 
 class Node;
-// Сохраните объявления Dict и Array без изменения
+
 using Dict = std::map<std::string, Node>;
 using Array = std::vector<Node>;
 
-// Эта ошибка должна выбрасываться при ошибках парсинга JSON
+// An error that should be thrown when JSON is invalid
 class ParsingError : public std::runtime_error {
 public:
     using runtime_error::runtime_error;
@@ -48,37 +48,60 @@ public:
     Node() = default;                        
     
     Node(const int value);
+    
     Node(const bool value);
+    
     Node(const double value);
+    
     Node(const Array value);
+    
     Node(const std::string value);
+    
     Node(const Dict value);
     
     const Value& GetValue() const;
 
     bool IsInt() const;
-    bool IsDouble() const;      // Возвращает true, если в Node хранится int либо double.
-    bool IsPureDouble() const;  // Возвращает true, если в Node хранится double.
+
+    // Returns true if val_ contains either double or int
+    bool IsDouble() const;      
+
+    // Returns true only if val_ contains double 
+    bool IsPureDouble() const;
+
     bool IsBool() const;
+    
     bool IsString() const;
+    
     bool IsNull() const;
+    
     bool IsArray() const;
+    
     bool IsMap() const;
 
     int AsInt() const;
+    
     bool AsBool() const;
+    
     const std::string& AsString() const;
+    
     const Array& AsArray() const;
+    
     const Dict& AsMap() const;
-    double AsDouble() const;  // Возвращает значение типа double, если внутри хранится double 
-                              // либо int. В последнем случае возвращается приведённое в 
-                              // double значение.
+    
+    double AsDouble() const;
+    
     bool operator==(const Node& other) const;
+    
     bool operator!=(const Node& other) const; 
+
 private:
+    
     Value val_;
+
 };
 
+// Houses JSON nodes
 class Document {
 public:
     explicit Document(Node root);
@@ -86,16 +109,22 @@ public:
     const Node& GetRoot() const;
 
     bool operator==(const Document& other) const;
+
     bool operator!=(const Document& other) const;
 
 private:
+
     Node root_;
+
 };
 
+// Loads a document from the input stream
 Document Load(std::istream& input);
 
+// Prints the whole json document
 void Print(const Document& doc, std::ostream& output);
 
+// Prints a node of the json
 void PrintNode(std::ostream& out, const Node& node);
 
 }  // namespace json
