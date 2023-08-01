@@ -170,7 +170,6 @@ double TransportCatalogue::ComputeCurvedRouteDistance(const Bus& bus) const {
     for (auto from_iter = bus.route.begin(), to_iter = bus.route.begin() + 1; to_iter != bus.route.end(); to_iter++, from_iter++) {
         route_length += static_cast<double>(GetDistance((*from_iter)->name, (*to_iter)->name));
     }
-
     return route_length;
 }
 

@@ -100,7 +100,7 @@ Circle& Circle::SetRadius(double radius)  {
 void Circle::RenderObject(const RenderContext& context) const {
     auto& out = context.out;
     out << "<circle cx=\""sv << center_.x << "\" cy=\""sv << center_.y << "\" "sv;
-    out << "r=\""sv << radius_ << "\" "sv;
+    out << "r=\""sv << radius_ << "\""sv;
         
     RenderAttrs(out);
 
@@ -172,14 +172,16 @@ Text& Text::SetData(std::string data) {
 
 void Text::RenderObject(const RenderContext& context) const {
     auto& out = context.out;
-    out << "<text x=\""sv << pos_.x << "\" y=\""sv << pos_.y << "\" dx=\""sv
+    out << "<text"sv;
+
+    RenderAttrs(out);
+
+    out << " x=\""sv << pos_.x << "\" y=\""sv << pos_.y << "\" dx=\""sv
         << offset_.x << "\" dy=\""sv << offset_.y << "\" font-size=\""sv 
         << font_size_ << "\""sv;    
     
     if (font_family_) out << " font-family=\""sv << *font_family_ << "\""sv;
     if (font_weight_) out << " font-weight=\""sv << *font_weight_ << "\""sv;
-
-    RenderAttrs(out);
 
     out << ">" << data_ << "</text>";
 }

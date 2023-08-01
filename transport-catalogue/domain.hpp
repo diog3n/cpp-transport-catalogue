@@ -28,7 +28,7 @@ enum InfoType {
 };
 
 enum QueryType {
-    STOP, BUS
+    STOP, BUS, MAP
 };
 
 struct Bus {
@@ -81,7 +81,6 @@ struct InputQuery {
 struct OutputQuery {
     int id;
     QueryType type;
-    std::string_view name;
 };
 
 struct BusInputQuery : public InputQuery {
@@ -94,14 +93,21 @@ struct StopInputQuery : public InputQuery {
     std::unordered_map<std::string_view, int> distances;
 };
 
+struct MapOutputQuery : public OutputQuery {
+    MapOutputQuery(int id)
+        : OutputQuery{ id, QueryType::MAP } {}
+};
+
 struct BusOutputQuery : public OutputQuery { 
     BusOutputQuery(int id, std::string_view name)
-        : OutputQuery{id, QueryType::BUS, name} {}
+        : OutputQuery{ id, QueryType::BUS }, bus_name(name) {}
+    std::string_view bus_name;
 };
 
 struct StopOutputQuery : public OutputQuery { 
     StopOutputQuery(int id, std::string_view name)
-        : OutputQuery{id, QueryType::STOP, name} {} 
+        : OutputQuery{ id, QueryType::STOP }, stop_name(name) {} 
+    std::string_view stop_name;
 };
 
 } // namespace domain

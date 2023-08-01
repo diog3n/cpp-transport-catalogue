@@ -11,9 +11,10 @@ namespace json_reader {
 
 namespace util {
 
-json::Node AssembleBusNode(domain::BusInfo& bus_info, int id);
 
-json::Node AssembleStopNode(domain::StopInfo& stop_info, int id);
+void PrintLnBusInfo(std::ostream& out, domain::BusInfo bus_info);
+
+void PrintLnStopInfo(std::ostream& out, domain::StopInfo stop_info);
 
 } // namespace json_reader::utils
 
@@ -44,7 +45,12 @@ private:
 
     json::Document json_;
 
+    std::deque<domain::MapOutputQuery> map_output_queries_;
+
     std::deque<const domain::OutputQuery*> query_ptrs_;
+
+    domain::MapOutputQuery AssembleMapOutputQuery(const json::Node& query_node) const;
+
 
     domain::StopOutputQuery AssembleStopOutputQuery(const json::Node& query_node) const;
 
@@ -57,6 +63,14 @@ private:
     renderer::RenderSettings AssembleRenderSettings(const json::Node& render_settings) const;
 
     svg::Color ExtractColor(const json::Node& node) const;
+    
+    json::Node AssembleErrorNode(const int id, const domain::InfoType& type) const;
+
+    json::Node AssembleBusNode(domain::BusInfo& bus_info, int id) const;
+
+    json::Node AssembleStopNode(domain::StopInfo& stop_info, int id) const;
+
+    json::Node AssembleMapNode(int id) const;
 
 };
 

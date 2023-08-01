@@ -17,46 +17,6 @@ using namespace std::literals;
 
 namespace util {
 
-json::Node AssembleErrorNode(const int id, const domain::InfoType& type) {
-    json::Dict result;
-    result["request_id"s] = id;
-
-    result["error_message"s] = type == domain::InfoType::NOT_FOUND 
-                               ? "not found"s 
-                               : nullptr;
-    return result;
-}
-
-json::Node AssembleBusNode(domain::BusInfo& bus_info, int id) {
-    if (bus_info.type == domain::InfoType::VALID || bus_info.type == domain::EMPTY) {
-        return json::Dict{ { "request_id"s, id },
-                           { "curvature"s, bus_info.curvature},
-                           { "route_length"s, bus_info.route_length },
-                           { "stop_count"s, static_cast<int>(bus_info.stops_on_route) },
-                           { "unique_stop_count"s, static_cast<int>(bus_info.unique_stops) } };
-    }
-    
-    return AssembleErrorNode(id, bus_info.type);
-}
-
-json::Node AssembleStopNode(domain::StopInfo& stop_info, int id) {
-    if (stop_info.type == domain::InfoType::VALID 
-        || stop_info.type == domain::InfoType::EMPTY) {
-        
-        json::Array bus_array; 
-        bus_array.reserve(stop_info.bus_names.size());
-
-        for (const std::string_view view : stop_info.bus_names) {
-            bus_array.push_back(std::string(view));
-        }
-
-        return json::Dict{ { "buses"s, bus_array },
-                           { "request_id"s, id } };
-    }
-    
-    return AssembleErrorNode(id, stop_info.type);
-}
-
 void PrintLnBusInfo(std::ostream& out, domain::BusInfo bus_info) {
     out << "name:           " << bus_info.name << std:: endl
         << "curvature:      " << bus_info.curvature << std:: endl
@@ -97,7 +57,7 @@ void JSONReader::ParseDocument() {
         } else if (type == "Bus"sv) {
             bus_input_queries_.push_back(AssembleBusInputQuery(node));
         } else {
-            //throw std::invalid_argument("Unknown query type: "s + std::string(type));
+            throw std::invalid_argument("Unknown query type: "s + std::string(type));
         }
     });
 
@@ -113,8 +73,11 @@ void JSONReader::ParseDocument() {
         } else if (type == "Bus"sv) {
             bus_output_queries_.push_back(AssembleBusOutputQuery(node));
             query_ptrs_.push_back(&bus_output_queries_.back());
+        } else if (type == "Map"sv) {
+            map_output_queries_.push_back(AssembleMapOutputQuery(node));
+            query_ptrs_.push_back(&map_output_queries_.back());
         } else {
-            //throw std::invalid_argument("Unknown query type: "s + std::string(type));
+            throw std::invalid_argument("Unknown query type: "s + std::string(type));
         }
     });
 }
@@ -132,6 +95,68 @@ void JSONReader::LoadJSON(std::istream& in) {
 
     ParseDocument();
     ExecuteInputQueries();
+}
+
+json::Node JSONReader::AssembleErrorNode(const int id, const domain::InfoType& type) const {
+    json::Dict result;
+    result["request_id"s] = id;
+
+    result["error_message"s] = type == domain::InfoType::NOT_FOUND 
+                               ? "not found"s 
+                               : nullptr;
+    return result;
+}
+
+json::Node JSONReader::AssembleBusNode(domain::BusInfo& bus_info, int id) const {
+    if (bus_info.type == domain::InfoType::VALID || bus_info.type == domain::EMPTY) {
+        return json::Dict{ { "request_id"s, id },
+                           { "curvature"s, bus_info.curvature},
+                           { "route_length"s, bus_info.route_length },
+                           { "stop_count"s, static_cast<int>(bus_info.stops_on_route) },
+                           { "unique_stop_count"s, static_cast<int>(bus_info.unique_stops) } };
+    }
+    
+    return AssembleErrorNode(id, bus_info.type);
+}
+
+json::Node JSONReader::AssembleStopNode(domain::StopInfo& stop_info, int id) const {
+    if (stop_info.type == domain::InfoType::VALID 
+        || stop_info.type == domain::InfoType::EMPTY) {
+        
+        json::Array bus_array; 
+        bus_array.reserve(stop_info.bus_names.size());
+
+        for (const std::string_view view : stop_info.bus_names) {
+            bus_array.push_back(std::string(view));
+        }
+
+        return json::Dict{ { "buses"s, bus_array },
+                           { "request_id"s, id } };
+    }
+    
+    return AssembleErrorNode(id, stop_info.type);
+}
+
+json::Node JSONReader::AssembleMapNode(int id) const {
+    renderer::MapRenderer renderer(render_settings_);
+
+    request_handler::RequestHandler rh(catalogue_, renderer);
+
+    svg::Document document = rh.RenderMap();
+
+    std::ostringstream out;
+
+    document.Render(out);
+
+    return json::Dict{ { "map"s, out.str()   },
+                       { "request_id"s, id } };
+}
+
+domain::MapOutputQuery JSONReader::AssembleMapOutputQuery(const json::Node& query_node) const {
+    const json::Dict& request_map = query_node.AsMap();
+    const int id = request_map.at("id").AsInt();
+
+    return { id };
 }
 
 domain::StopOutputQuery JSONReader::AssembleStopOutputQuery(const json::Node& query_node) const {
@@ -252,14 +277,17 @@ void JSONReader::ExecuteOutputQueries(handlers::OutputContext& context) const {
     std::for_each(query_ptrs_.begin(), query_ptrs_.end(), 
     [this, &output_array](const domain::OutputQuery* query_ptr) {
         if (query_ptr->type == domain::QueryType::STOP) {
-            domain::StopInfo stop_info = catalogue_.GetStopInfo(query_ptr->name);
-            util::PrintLnStopInfo(std::cerr, stop_info);
-            output_array.push_back(util::AssembleStopNode(stop_info, query_ptr->id));
+            const domain::StopOutputQuery* stop_query_ptr = static_cast<const domain::StopOutputQuery*>(query_ptr);
+            domain::StopInfo stop_info = catalogue_.GetStopInfo(stop_query_ptr->stop_name);
+            output_array.push_back(AssembleStopNode(stop_info, query_ptr->id));
 
         } else if (query_ptr->type == domain::QueryType::BUS) {
-            domain::BusInfo bus_info = catalogue_.GetBusInfo(query_ptr->name);
-            util::PrintLnBusInfo(std::cerr, bus_info);
-            output_array.push_back(util::AssembleBusNode(bus_info, query_ptr->id));
+            const domain::BusOutputQuery* bus_query_ptr = static_cast<const domain::BusOutputQuery*>(query_ptr);            
+            domain::BusInfo bus_info = catalogue_.GetBusInfo(bus_query_ptr->bus_name);
+            output_array.push_back(AssembleBusNode(bus_info, query_ptr->id));
+        } else if (query_ptr->type == domain::QueryType::MAP) {
+            const domain::MapOutputQuery* map_query_ptr = static_cast<const domain::MapOutputQuery*>(query_ptr);
+            output_array.push_back(AssembleMapNode(map_query_ptr->id));
         }
     });
 

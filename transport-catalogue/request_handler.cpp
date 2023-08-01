@@ -57,7 +57,7 @@ svg::Document RequestHandler::RenderMap() const {
     std::vector<std::string_view> bus_names = GetBusNames();
     std::vector<std::string_view> stop_names = GetStopNames();
 
-    std::unordered_map<std::string_view, std::vector<svg::Point>> bus_names_to_points;
+    std::map<std::string_view, std::vector<svg::Point>> bus_names_to_points;
 
     // Rendering bus route lines
     std::for_each(bus_names.begin(), bus_names.end(), 
@@ -81,7 +81,12 @@ svg::Document RequestHandler::RenderMap() const {
             } else {
                 svg::Point midpoint = points.at(points.size() / 2);
 
-                renderer_.DrawRouteName(bus_name, points.front(), midpoint);
+                if (midpoint == points.front()) {
+                    renderer_.DrawRoundRouteName(bus_name, points.front());
+                } else {
+                    renderer_.DrawRouteName(bus_name, points.front(), midpoint);
+                }
+
             }
         });
 

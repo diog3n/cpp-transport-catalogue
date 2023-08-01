@@ -31,8 +31,8 @@ void MapRenderer::DrawRoute(std::string_view bus_name, const std::vector<svg::Po
 
 void MapRenderer::DrawRouteName(const std::string_view bus_name, const svg::Point& begin, const svg::Point& end) {
     doc_.Add(GetUnderlayerText(bus_name, begin, BUS));
-    doc_.Add(GetUnderlayerText(bus_name, end, BUS));
     doc_.Add(GetRouteNameText(bus_name, begin));
+    doc_.Add(GetUnderlayerText(bus_name, end, BUS));
     doc_.Add(GetRouteNameText(bus_name, end));
 }
 
@@ -84,8 +84,7 @@ svg::Text MapRenderer::GetRouteNameText(const std::string_view bus_name, const s
               .SetFontFamily("Verdana"s)
               .SetFontSize(render_settings.bus_label_font_size)
               .SetFontWeight("bold"s)
-              .SetFillColor(*bus_names_to_colors_.at(bus_name))
-              .SetStrokeColor(svg::NoneColor);
+              .SetFillColor(*bus_names_to_colors_.at(bus_name));
 
     return route_name;
 }
