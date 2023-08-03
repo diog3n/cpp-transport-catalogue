@@ -20,9 +20,9 @@ public:
 
     void AddDistance(const std::string_view stop_from, const std::string_view stop_to, const int distance);
 
-    const Bus& FindBus(const std::string_view name) const;
+    BusPtr FindBus(const std::string_view name) const;
 
-    const Stop& FindStop(const std::string_view name) const;
+    StopPtr FindStop(const std::string_view name) const;
 
     int GetDistance(const std::string_view stop_from, const std::string_view stop_to) const;
 
@@ -37,7 +37,7 @@ public:
 private:
 
     struct StopPtrPairHasher {
-        size_t operator() (const std::pair<Stop*, Stop*>& stop_pair) const {
+        size_t operator() (const std::pair<StopPtr, StopPtr>& stop_pair) const {
             std::hash<const void *> hasher;
             size_t hash1 = hasher(stop_pair.first);
             size_t hash2 = hasher(stop_pair.second);

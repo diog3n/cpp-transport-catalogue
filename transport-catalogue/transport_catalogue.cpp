@@ -87,14 +87,14 @@ void TransportCatalogue::AddDistance(const std::string_view stop_from, const std
 
 // Finds a bus by name and returns a reference to its struct 
 // contained in buses_ deque
-const Bus& TransportCatalogue::FindBus(const std::string_view name) const {
-    return *names_to_buses_.at(name);
+BusPtr TransportCatalogue::FindBus(const std::string_view name) const {
+    return names_to_buses_.at(name);
 }
 
 // Finds a stop by name and returns a reference to its struct
 // contained in stops_ deque
-const Stop& TransportCatalogue::FindStop(const std::string_view name) const {
-    return *names_to_stops_.at(name);
+StopPtr TransportCatalogue::FindStop(const std::string_view name) const {
+    return names_to_stops_.at(name);
 }
 
 // Returns info on a given bus in a specific format
@@ -214,13 +214,13 @@ void TestAddFindMethods() {
     tc.AddBus(bus2.name, bus2.stop_names); 
     tc.AddBus(bus3.name, bus3.stop_names); 
 
-    const Stop& stop1_ref = tc.FindStop("Marushkino"s);
-    const Stop& stop2_ref = tc.FindStop("Tolstopaltsevo"s);
-    const Stop& stop3_ref = tc.FindStop("Biryusinka Miryusinka"s);
+    const Stop& stop1_ref = *tc.FindStop("Marushkino"s);
+    const Stop& stop2_ref = *tc.FindStop("Tolstopaltsevo"s);
+    const Stop& stop3_ref = *tc.FindStop("Biryusinka Miryusinka"s);
 
-    const Bus& bus1_ref = tc.FindBus("256"s);
-    const Bus& bus2_ref = tc.FindBus("47"s);
-    const Bus& bus3_ref = tc.FindBus("11"s);
+    const Bus& bus1_ref = *tc.FindBus("256"s);
+    const Bus& bus2_ref = *tc.FindBus("47"s);
+    const Bus& bus3_ref = *tc.FindBus("11"s);
 
     bool test_ref_1 = !bus1_ref.route.empty();
     bool test_ref_2 = !bus1_ref.route.empty();

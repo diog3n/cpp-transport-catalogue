@@ -19,7 +19,7 @@ SphereProjector MakeSphereProjector(const transport_catalogue::TransportCatalogu
     std::vector<geo::Coordinates> coordinates;
     std::for_each(stop_names.begin(), stop_names.end(), 
         [&catalogue, &coordinates](std::string_view stop_name) {
-            const domain::Stop& stop = catalogue.FindStop(stop_name);
+            const domain::Stop& stop = *catalogue.FindStop(stop_name);
             if (!stop.buses.empty()) {
                 coordinates.push_back(stop.coordinates);
             }
@@ -42,7 +42,7 @@ CoordinatesTransformer::CoordinatesTransformer(
 std::vector<svg::Point> CoordinatesTransformer::TransformRouteCoords(
             const transport_catalogue::TransportCatalogue& catalogue, 
             const std::string_view bus_name) const {
-    const domain::Bus& bus = catalogue.FindBus(bus_name);
+    const domain::Bus& bus = *catalogue.FindBus(bus_name);
 
     std::vector<svg::Point> points(bus.route.size());
 
@@ -58,7 +58,7 @@ std::vector<svg::Point> CoordinatesTransformer::TransformRouteCoords(
 svg::Point CoordinatesTransformer::TransformStopCoords(
             const transport_catalogue::TransportCatalogue& catalogue, 
             const std::string_view stop_name) const {
-    const domain::Stop& stop = catalogue.FindStop(stop_name);
+    const domain::Stop& stop = *catalogue.FindStop(stop_name);
     return projector_(stop.coordinates);
 }
 

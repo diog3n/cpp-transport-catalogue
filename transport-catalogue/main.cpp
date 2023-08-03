@@ -48,14 +48,6 @@ int main() {
 
     reader.LoadJSON(json_reader::JSONReader::ReadJSON(std::cin));
 
-    //renderer::MapRenderer renderer(reader.GetRenderSettings());
-
-    //request_handler::RequestHandler rh(tc, renderer);
-
-    //svg::Document document = rh.RenderMap();
-
-    //document.Render(cout);
-
     reader.ExecuteOutputQueries(std::cout);
 
     return 0;

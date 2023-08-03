@@ -33,7 +33,7 @@ svg::Document RequestHandler::RenderMap() const {
         [this](const std::pair<std::string_view, std::vector<svg::Point>>& bus_name_to_points) {
             const auto& [bus_name, points] = bus_name_to_points;
                 
-            const domain::Bus& bus = catalogue_.FindBus(bus_name);
+            const domain::Bus& bus = *catalogue_.FindBus(bus_name);
 
             if (bus.route.empty()) return;
 
@@ -53,7 +53,7 @@ svg::Document RequestHandler::RenderMap() const {
     // Rendering stop circles
     std::for_each(stop_names.begin(), stop_names.end(), 
         [this, &transformer](const std::string_view& stop_name) {
-            const domain::Stop& stop = catalogue_.FindStop(stop_name);
+            const domain::Stop& stop = *catalogue_.FindStop(stop_name);
 
             if (stop.buses.empty()) return;
 
@@ -65,7 +65,7 @@ svg::Document RequestHandler::RenderMap() const {
     // Rendering stop names
     std::for_each(stop_names.begin(), stop_names.end(),
         [this, &transformer](const std::string_view& stop_name) {
-            const domain::Stop& stop = catalogue_.FindStop(stop_name);
+            const domain::Stop& stop = *catalogue_.FindStop(stop_name);
 
             if (stop.buses.empty()) return;
 
