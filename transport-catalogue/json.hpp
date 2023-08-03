@@ -31,7 +31,7 @@ struct PrintContext {
         }
     }
 
-    // Возвращает новый контекст вывода с увеличенным смещением
+    // Returns a new context with deeper level of indentation
     PrintContext Indented() const {
         return {out, indent_step, indent_step + indent};
     }
@@ -45,20 +45,7 @@ public:
     using Value = std::variant<std::nullptr_t, 
                                Array, Dict, bool, 
                                int, double, std::string>;
-    Node() = default;                        
-    
-    Node(const int value);
-    
-    Node(const bool value);
-    
-    Node(const double value);
-    
-    Node(const Array value);
-    
-    Node(const std::string value);
-    
-    Node(const Dict value);
-    
+
     const Value& GetValue() const;
 
     bool IsInt() const;
@@ -91,14 +78,11 @@ public:
     
     double AsDouble() const;
     
+    
     bool operator==(const Node& other) const;
     
     bool operator!=(const Node& other) const; 
-
-private:
     
-    Value val_;
-
 };
 
 // Houses JSON nodes

@@ -260,21 +260,9 @@ Node LoadNode(istream& input) {
 
 }  // namespace
 
-// Various constructors
-Node::Node(int value)          : val_(value) {}
-Node::Node(bool value)         : val_(value) {}
-Node::Node(double value)       : val_(value) {}
-Node::Node(Array value)        : val_(value) {}
-Node::Node(std::string value)  : val_(value) {}
-Node::Node(Dict value)         : val_(value) {}
-
-const Node::Value& Node::GetValue() const {
-    return val_;
-}
-
 // Is-methods
 bool Node::IsInt() const {
-    return std::holds_alternative<int>(val_);
+    return std::holds_alternative<int>(*this);
 }
 
 bool Node::IsDouble() const {
@@ -282,67 +270,71 @@ bool Node::IsDouble() const {
 }
 
 bool Node::IsPureDouble() const {
-    return std::holds_alternative<double>(val_);
+    return std::holds_alternative<double>(*this);
 }
 
 bool Node::IsBool() const {
-    return std::holds_alternative<bool>(val_);
+    return std::holds_alternative<bool>(*this);
 }
 
 bool Node::IsString() const {
-    return std::holds_alternative<std::string>(val_);
+    return std::holds_alternative<std::string>(*this);
 }
 
 bool Node::IsNull() const {
-    return std::holds_alternative<std::nullptr_t>(val_);
+    return std::holds_alternative<std::nullptr_t>(*this);
 }
 
 bool Node::IsArray() const {
-    return std::holds_alternative<Array>(val_);
+    return std::holds_alternative<Array>(*this);
 }
 
 bool Node::IsMap() const {
-    return std::holds_alternative<Dict>(val_);
+    return std::holds_alternative<Dict>(*this);
 }
 
 // As-methods
 int Node::AsInt() const {
-    if (IsInt()) return std::get<int>(val_);
-    throw std::logic_error("No int in val_");
+    if (IsInt()) return std::get<int>(*this);
+    throw std::logic_error("No int in Node");
 }
 
 bool Node::AsBool() const {
-    if (IsBool()) return std::get<bool>(val_);
-    throw std::logic_error("No bool in val_");
+    if (IsBool()) return std::get<bool>(*this);
+    throw std::logic_error("No bool in Node");
 }
 
 const std::string& Node::AsString() const {
-    if (IsString()) return std::get<std::string>(val_);
-    throw std::logic_error("No std::string in val_");
+    if (IsString()) return std::get<std::string>(*this);
+    throw std::logic_error("No std::string in Node");
 }
 
 const Array& Node::AsArray() const {
-    if (IsArray()) return std::get<Array>(val_);
-    throw std::logic_error("No Array (std::vector<Node>) in val_");
+    if (IsArray()) return std::get<Array>(*this);
+    throw std::logic_error("No Array (std::vector<Node>) in Node");
 }
 
 const Dict& Node::AsMap() const {
-    if (IsMap()) return std::get<Dict>(val_);
-    throw std::logic_error("No Dict (std::map<std::string, Node>) in val_");
+    if (IsMap()) return std::get<Dict>(*this);
+    throw std::logic_error("No Dict (std::map<std::string, Node>) in Node");
 }
 
 double Node::AsDouble() const {
-    if (IsPureDouble()) return std::get<double>(val_);
-    else if (IsInt()) return static_cast<double>(std::get<int>(val_));
-    throw std::logic_error("No double in val_");
+    if (IsPureDouble()) return std::get<double>(*this);
+    else if (IsInt()) return static_cast<double>(std::get<int>(*this));
+    throw std::logic_error("No double in Node");
+}
+
+const Node::Value& Node::GetValue() const {
+    return *this;
 }
 
 bool Node::operator==(const Node& other) const {
-    return this->GetValue() == other.GetValue(); 
+    return GetValue() == other.GetValue(); 
 }
 
 bool Node::operator!=(const Node& other) const {
-    return !(*this == other);
+    return !(GetValue() == other.GetValue());
 }
 
 Document::Document(Node root)
@@ -358,11 +350,11 @@ Document Load(istream& input) {
 }
 
 bool Document::operator==(const Document& other) const {
-    return GetRoot() == other.GetRoot();
+    return root_ == other.root_;
 }
 
 bool Document::operator!=(const Document& other) const {
-    return !(GetRoot() == other.GetRoot());
+    return !(root_ == other.root_);
 }
 
 void PrintValue(std::ostream& out, const double value) {
