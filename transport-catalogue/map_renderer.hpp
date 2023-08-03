@@ -7,20 +7,22 @@
 #include "domain.hpp"
 #include "geo.hpp"
 #include "svg.hpp"
+#include "transport_catalogue.hpp"
 
 namespace renderer {
+
+class MapRenderer;
 
 namespace util {
 
 inline const double EPSILON = 1e-6;
 bool IsZero(double value);
 
+
 /* Sphere projector takes latitude-longitude coordinates of a sphere 
  * and transforms them to the x-y coordinates of a plane */
 class SphereProjector {
 public:
-    // points_begin и points_end задают начало и конец интервала элементов geo::Coordinates
-
     /* points_begin and points_end are iterators of a 
      * container of geo::Coordinates */
     template <typename PointInputIt>
@@ -88,6 +90,31 @@ private:
     double max_lat_ = 0;
 
     double zoom_coeff_ = 0;
+
+};
+
+SphereProjector MakeSphereConstructor(const transport_catalogue::TransportCatalogue& catalogue, const MapRenderer& renderer);
+
+class CoordinatesTransformer {
+public:
+
+    CoordinatesTransformer(
+            const transport_catalogue::TransportCatalogue& catalogue, 
+            const MapRenderer& renderer);
+
+    // Returns a vector of coordinates for stops in a bus route
+    std::vector<svg::Point> TransformRouteCoords(
+            const transport_catalogue::TransportCatalogue& catalogue, 
+            const std::string_view bus_name) const;
+
+    // Returns a svg::Point-projected coordinate of a given stop
+    svg::Point TransformStopCoords(
+            const transport_catalogue::TransportCatalogue& catalogue, 
+            const std::string_view stop_name) const; 
+
+private:
+
+    SphereProjector projector_;
 
 };
 

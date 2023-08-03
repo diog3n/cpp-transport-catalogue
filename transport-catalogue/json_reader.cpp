@@ -302,10 +302,6 @@ void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
     json::Print(output_doc, out);
 }
 
-void JSONReader::PrintTo(std::ostream& out) const {
-    ExecuteOutputQueries(out);
-}
-
 std::string JSONReader::ReadJSON(std::istream& in) {
     std::vector<std::string> lines;
     std::string line;
@@ -594,7 +590,7 @@ void TestAssembleQuery() {
 
     std::ostringstream out;
 
-    jreader.PrintTo(out);
+    jreader.ExecuteOutputQueries(out);
 
     std::istringstream input2(out.str());
 

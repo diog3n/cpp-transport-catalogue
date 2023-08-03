@@ -46,28 +46,12 @@ public:
     RequestHandler(const transport_catalogue::TransportCatalogue& db, 
                    renderer::MapRenderer& renderer);
 
-    // Returns a document with a drawn map in it
+    // Returns a document with a map
     svg::Document RenderMap() const;
-
+    
 private:
     const transport_catalogue::TransportCatalogue& catalogue_;
     renderer::MapRenderer& renderer_;
-
-    // Wrapper method. Returns names of all buses in catalogue
-    std::vector<std::string_view> GetBusNames() const;
-
-    // Wrapper method. Returns names of all stops in catalogue
-    std::vector<std::string_view> GetStopNames() const;
-
-    // Factory that sets up a sphere projector
-    renderer::util::SphereProjector GetSphereProjector() const;
-
-    // Returns a vector of coordinates for stops in a bus route
-    std::vector<svg::Point> GetStopPoints(const renderer::util::SphereProjector& projector, const std::string_view bus_name) const;
-
-    // Returns a svg::Point-projected coordinate of a given stop
-    svg::Point GetStopPoint(const renderer::util::SphereProjector& projector, const std::string_view stop_name) const; 
-
 };
 
 namespace tests {

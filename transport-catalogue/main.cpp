@@ -56,7 +56,7 @@ int main() {
 
     //document.Render(cout);
 
-    reader.PrintTo(std::cout);
+    reader.ExecuteOutputQueries(std::cout);
 
     return 0;
 }

@@ -34,17 +34,14 @@ public:
     // Handles the user input
     static std::string ReadJSON(std::istream& in);
 
-    // Outputs JSON document to the given stream
-    void PrintTo(std::ostream& out) const;
+    // Executes output queries in the order they were given in
+    void ExecuteOutputQueries(std::ostream& out) const override;
 
     const json::Document& GetDoc() const;
 
     const renderer::RenderSettings GetRenderSettings() const; 
 
 private:
-
-    // Executes output queries in the order they were given in
-    void ExecuteOutputQueries(std::ostream& out) const override; 
 
     // Executes input queries. Stops first, then buses
     void ExecuteInputQueries() override;

@@ -14,12 +14,61 @@ bool IsZero(double value) {
     return std::abs(value) < EPSILON;
 }
 
+SphereProjector MakeSphereProjector(const transport_catalogue::TransportCatalogue& catalogue, const MapRenderer& renderer) {
+    std::vector<std::string_view> stop_names = catalogue.GetStopNames();
+    std::vector<geo::Coordinates> coordinates;
+    std::for_each(stop_names.begin(), stop_names.end(), 
+        [&catalogue, &coordinates](std::string_view stop_name) {
+            const domain::Stop& stop = catalogue.FindStop(stop_name);
+            if (!stop.buses.empty()) {
+                coordinates.push_back(stop.coordinates);
+            }
+        });
+
+    return renderer::util::SphereProjector(
+                           coordinates.begin(), 
+                           coordinates.end(), 
+                           renderer.render_settings.width, 
+                           renderer.render_settings.height, 
+                           renderer.render_settings.padding);
+}
+
+CoordinatesTransformer::CoordinatesTransformer(
+            const transport_catalogue::TransportCatalogue& catalogue, 
+            const MapRenderer& renderer)
+    : projector_(MakeSphereProjector(catalogue, renderer)) {}
+
+// Collects stop points for a given bus
+std::vector<svg::Point> CoordinatesTransformer::TransformRouteCoords(
+            const transport_catalogue::TransportCatalogue& catalogue, 
+            const std::string_view bus_name) const {
+    const domain::Bus& bus = catalogue.FindBus(bus_name);
+
+    std::vector<svg::Point> points(bus.route.size());
+
+    std::transform(bus.route.begin(), bus.route.end(), points.begin(),
+        [this, &catalogue](const domain::StopPtr stop_ptr) {
+            return TransformStopCoords(catalogue, stop_ptr->name);
+        });
+
+    return points;
+}
+
+// Projects stop geo coordinates onto a plane
+svg::Point CoordinatesTransformer::TransformStopCoords(
+            const transport_catalogue::TransportCatalogue& catalogue, 
+            const std::string_view stop_name) const {
+    const domain::Stop& stop = catalogue.FindStop(stop_name);
+    return projector_(stop.coordinates);
+}
+
 } // namespace renderer::util
 
 MapRenderer::MapRenderer(RenderSettings render_settings)
     : render_settings(render_settings) {}
 
-void MapRenderer::DrawRoute(std::string_view bus_name, const std::vector<svg::Point>& points) {
+void MapRenderer::DrawRoute(std::string_view bus_name, 
+                            const std::vector<svg::Point>& points) {
     const svg::Color& line_color = render_settings.color_palette.at(color_counter_ % render_settings.color_palette.size());
     if (points.empty()) return; 
     
@@ -29,24 +78,29 @@ void MapRenderer::DrawRoute(std::string_view bus_name, const std::vector<svg::Po
 }
 
 
-void MapRenderer::DrawRouteName(const std::string_view bus_name, const svg::Point& begin, const svg::Point& end) {
+void MapRenderer::DrawRouteName(const std::string_view bus_name, 
+                                const svg::Point& begin, 
+                                const svg::Point& end) {
     doc_.Add(GetUnderlayerText(bus_name, begin, BUS));
     doc_.Add(GetRouteNameText(bus_name, begin));
     doc_.Add(GetUnderlayerText(bus_name, end, BUS));
     doc_.Add(GetRouteNameText(bus_name, end));
 }
 
-void MapRenderer::DrawRoundRouteName(const std::string_view bus_name, const svg::Point& begin) {
+void MapRenderer::DrawRoundRouteName(const std::string_view bus_name, 
+                                     const svg::Point& begin) {
     doc_.Add(GetUnderlayerText(bus_name, begin, BUS));
     doc_.Add(GetRouteNameText(bus_name, begin));
 }
 
-void MapRenderer::DrawStopName(const std::string_view stop_name, const svg::Point& pos) {
+void MapRenderer::DrawStopName(const std::string_view stop_name, 
+                               const svg::Point& pos) {
     doc_.Add(GetUnderlayerText(stop_name, pos, STOP));
     doc_.Add(GetStopNameText(stop_name, pos));
 }
 
-svg::Text MapRenderer::GetStopNameText(const std::string_view stop_name, const svg::Point& pos) const {
+svg::Text MapRenderer::GetStopNameText(const std::string_view stop_name,
+                                       const svg::Point& pos) const {
     svg::Text stop_name_text;
     stop_name_text.SetOffset(render_settings.stop_label_offset)
                   .SetPosition(pos)
@@ -58,7 +112,9 @@ svg::Text MapRenderer::GetStopNameText(const std::string_view stop_name, const s
     return stop_name_text;
 }
 
-svg::Polyline MapRenderer::GetRouteLine(const svg::Color& line_color, const std::vector<svg::Point>& points) const {
+svg::Polyline MapRenderer::GetRouteLine(
+                            const svg::Color& line_color, 
+                            const std::vector<svg::Point>& points) const {
     svg::Polyline route;
 
     route.SetStrokeColor(line_color)
@@ -75,7 +131,8 @@ svg::Polyline MapRenderer::GetRouteLine(const svg::Color& line_color, const std:
     return route;
 }
 
-svg::Text MapRenderer::GetRouteNameText(const std::string_view bus_name, const svg::Point& pos) const {
+svg::Text MapRenderer::GetRouteNameText(const std::string_view bus_name,
+                                        const svg::Point& pos) const {
     svg::Text route_name;
 
     route_name.SetData(std::string(bus_name))
@@ -89,10 +146,9 @@ svg::Text MapRenderer::GetRouteNameText(const std::string_view bus_name, const s
     return route_name;
 }
 
-/*<text x="333.61" y="269.08" dx="7" dy="-3" font-size="20" font-family="Verdana" font-weight="bold" fill="rgba(255,255,255,0.85)" stroke="rgba(255,255,255,0.85)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">Ulitsa Dokuchaeva</text>
-*/
-
-svg::Text MapRenderer::GetUnderlayerText(const std::string_view text, const svg::Point& pos, UnderlayerTextType type) const {
+svg::Text MapRenderer::GetUnderlayerText(const std::string_view text, 
+                                         const svg::Point& pos,
+                                         UnderlayerTextType type) const {
     svg::Text underlayer_text;
 
     svg::Point offset = type == BUS 
