@@ -13,12 +13,6 @@ private:
 
     class BaseContext;
 
-    class ValueContext;
-    
-    class ContainerContext;
-    
-    class GeneralContext;
-    
     class KeyContext;
     
     class DictContext;
@@ -70,44 +64,25 @@ public:
 
     BaseContext(Builder& builder);
 
+    DictContext StartDict();
+    
+    Builder& EndDict();
+    
+    KeyContext Key(std::string key);
+    
+    Builder& Value(Node& val);
+    
+    ArrayContext StartArray();
+    
+    Builder& EndArray();
+
 protected:
     
     Builder& builder_;
 
 };
 
-class Builder::ValueContext: public BaseContext {
-public:
-
-    ValueContext(Builder& builder);
-
-};
-
-class Builder::ContainerContext: public BaseContext {
-public:
-
-    ContainerContext(Builder& builder);
-
-    DictContext StartDict();
-
-    ArrayContext StartArray();
-
-};
-
-class Builder::GeneralContext: public ContainerContext {
-public:
-    
-    GeneralContext(Builder& builder);
-
-    GeneralContext Value(Node val);
-
-    Builder& EndDict();
-
-    Builder& EndArray();
-
-};
-
-class Builder::KeyContext: public ContainerContext {
+class Builder::KeyContext: private BaseContext {
 public:
 
     KeyContext(Builder& builder);
@@ -116,25 +91,24 @@ public:
 
 };
 
-class Builder::DictContext: public BaseContext {
+class Builder::DictContext: private BaseContext {
 public:
+
+    using BaseContext::Key;
+    using BaseContext::EndDict;
 
     DictContext(Builder& builder);
 
-    KeyContext Key(std::string key);
-
-    Builder& EndDict();
-
 };
 
-class Builder::ArrayContext: public ContainerContext {
+class Builder::ArrayContext: private BaseContext {
 public:
+
+    using BaseContext::EndArray;
 
     ArrayContext(Builder& builder);
 
     ArrayContext Value(Node val);
-
-    Builder& EndArray();
 
 };
 

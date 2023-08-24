@@ -6,62 +6,45 @@ namespace json {
 Builder::BaseContext::BaseContext(Builder& builder)
     : builder_(builder) {}
 
-Builder::ValueContext::ValueContext(Builder& builder)
-    : BaseContext(builder) {}
-
-Builder::ContainerContext::ContainerContext(Builder& builder)
-    : BaseContext(builder) {}
-
-Builder::GeneralContext::GeneralContext(Builder& builder) 
-    : ContainerContext(builder) {}
-
 Builder::KeyContext::KeyContext(Builder& builder)
-    : ContainerContext(builder) {}
+    : BaseContext(builder) {}
 
 Builder::DictContext::DictContext(Builder& builder) 
     : BaseContext(builder) {}
 
 Builder::ArrayContext::ArrayContext(Builder& builder)
-    : ContainerContext(builder) {}
+    : BaseContext(builder) {}
 
-Builder::DictContext Builder::ContainerContext::StartDict() {
+Builder::DictContext Builder::BaseContext::StartDict() {
     return builder_.StartDict();
 }
-    
-Builder::ArrayContext Builder::ContainerContext::StartArray() {
-    return builder_.StartArray();
-}
 
-Builder::GeneralContext Builder::GeneralContext::Value(Node val) {
-    return GeneralContext(builder_.Value(val));
-}
-
-Builder& Builder::GeneralContext::EndDict() {
+Builder& Builder::BaseContext::EndDict() {
     return builder_.EndDict();
 }
 
-Builder& Builder::GeneralContext::EndArray() {
+Builder::KeyContext Builder::BaseContext::Key(std::string key) {
+    return builder_.Key(key);
+}
+
+Builder& Builder::BaseContext::Value(Node& val) {
+    return builder_.Value(val);
+}
+
+Builder::ArrayContext Builder::BaseContext::StartArray() {
+    return builder_.StartArray();
+}
+
+Builder& Builder::BaseContext::EndArray() {
     return builder_.EndArray();
 }
 
 Builder::DictContext Builder::KeyContext::Value(Node val) {
-    return DictContext(builder_.Value(val));
-}
-
-Builder::KeyContext Builder::DictContext::Key(std::string key) {
-    return builder_.Key(key);
-}
-
-Builder& Builder::DictContext::EndDict() {
-    return builder_.EndDict();
+    return builder_.Value(val);
 }
 
 Builder::ArrayContext Builder::ArrayContext::Value(Node val) {
-    return ArrayContext(builder_.Value(val));
-}
-
-Builder& Builder::ArrayContext::EndArray() {
-    return builder_.EndArray();
+    return builder_.Value(val);
 }
 
 Builder::Builder(): ctx_stack_({ GENERAL }) {}
