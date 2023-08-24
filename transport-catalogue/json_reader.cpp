@@ -9,6 +9,7 @@
 #include "json.hpp"
 #include "json_reader.hpp"
 #include "map_renderer.hpp"
+#include "json_builder.hpp"
 
 namespace json_reader {
 
@@ -97,20 +98,22 @@ void JSONReader::LoadJSON(std::istream& in) {
 }
 
 json::Node JSONReader::AssembleErrorNode(const int id) const {
-    json::Dict result;
-    result["request_id"s] = id;
-
-    result["error_message"s] = "not found"s;
+    json::Node result = json::Builder{}.StartDict()
+                                .Key("request_id"s).Value(id)
+                                .Key("error_message"s).Value("not found"s)
+                             .EndDict().Build();
     return result;
 }
 
 json::Node JSONReader::AssembleBusNode(domain::BusInfoOpt& bus_info_opt, int id) const {
     if (bus_info_opt) {
-        return json::Dict{ { "request_id"s, id },
-                           { "curvature"s, bus_info_opt->curvature},
-                           { "route_length"s, bus_info_opt->route_length },
-                           { "stop_count"s, static_cast<int>(bus_info_opt->stops_on_route) },
-                           { "unique_stop_count"s, static_cast<int>(bus_info_opt->unique_stops) } };
+        return json::Builder{}.StartDict()
+                        .Key("request_id"s).Value(id)
+                        .Key("curvature"s).Value(bus_info_opt->curvature)
+                        .Key("route_length"s).Value(bus_info_opt->route_length)
+                        .Key("stop_count"s).Value(static_cast<int>(bus_info_opt->stops_on_route))
+                        .Key("unique_stop_count"s).Value(static_cast<int>(bus_info_opt->unique_stops))
+                    .EndDict().Build();
     }
     
     return AssembleErrorNode(id);
@@ -125,8 +128,11 @@ json::Node JSONReader::AssembleStopNode(domain::StopInfoOpt& stop_info_opt, int 
             bus_array.push_back(std::string(view));
         }
 
-        return json::Dict{ { "buses"s, bus_array },
-                           { "request_id"s, id } };
+        return json::Builder{}
+                    .StartDict()
+                        .Key("buses"s).Value(bus_array)
+                        .Key("request_id"s).Value(id)
+                    .EndDict().Build();
     }
     
     return AssembleErrorNode(id);
@@ -143,8 +149,11 @@ json::Node JSONReader::AssembleMapNode(int id) const {
 
     document.Render(out);
 
-    return json::Dict{ { "map"s, out.str()   },
-                       { "request_id"s, id } };
+    return json::Builder{}
+                .StartDict()
+                    .Key("map"s).Value(out.str())
+                    .Key("request_id"s).Value(id)
+                .EndDict().Build();
 }
 
 domain::MapOutputQuery JSONReader::AssembleMapOutputQuery(const json::Node& query_node) const {
