@@ -47,8 +47,6 @@ public:
                    renderer::MapRenderer& renderer);
 
     // Returns a document with a map
-
-    // TODO: NEEDS TO BE REWORKED
     svg::Document RenderMap() const;
     
 private:

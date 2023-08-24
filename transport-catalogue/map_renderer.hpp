@@ -183,6 +183,8 @@ public:
     // Draws stop label and adds it to the document
     void DrawStopName(const std::string_view stop_name, const svg::Point& pos);
 
+    svg::Document RenderMap(const transport_catalogue::TransportCatalogue& catalogue);
+
     svg::Document GetDoc() const;
 
 private:
