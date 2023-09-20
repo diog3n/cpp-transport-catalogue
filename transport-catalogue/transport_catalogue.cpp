@@ -14,22 +14,18 @@ namespace util {
 
 namespace view {
 
-// Returns a substring [start_pos, end_pos) of a given string_view 
 std::string_view Substr(std::string_view view, size_t start_pos, size_t end_pos) {
     assert(end_pos > start_pos);
     size_t length = end_pos - start_pos;
     return view.substr(start_pos, length);
 }
 
-// Moves the start of given view to the first non-to_remove character
-// and moves the end of given view to the last non-to_remove character
 std::string_view Trim(std::string_view view, char to_remove) {
     while (!view.empty() && view.front() == to_remove) view.remove_prefix(1);
     while (!view.empty() && view.back() == to_remove) view.remove_suffix(1);
     return view;
 }
 
-// Splits a string_view into a vector of string_views, delimited by a delim char
 std::vector<std::string_view> SplitBy(std::string_view view, const char delim) {
     std::vector<std::string_view> result;
 
@@ -53,15 +49,11 @@ std::vector<std::string_view> SplitBy(std::string_view view, const char delim) {
 
 } // namespace transport_catalogue::util
 
-// Adds a stop to the transport catalogue. This operation involves population 
-// of stops_ deque as well as population of names_to_stops_ index
 void TransportCatalogue::AddStop(const std::string_view name, const geo::Coordinates& coordinates) {
     stops_.emplace_back(std::string(name), coordinates, std::set<Bus*, BusCompare>());
     names_to_stops_[stops_.back().name] = &stops_.back();
 }
 
-// Adds a stop to the transport catalogue. This operation involves population 
-// of buses_ deque as well as population of names_to_buses_ index
 void TransportCatalogue::AddBus(const std::string_view name, const std::vector<std::string_view>& stop_names, bool is_round) {
     buses_.emplace_back(std::string(name), std::vector<Stop*>());
     
@@ -76,7 +68,6 @@ void TransportCatalogue::AddBus(const std::string_view name, const std::vector<s
     names_to_buses_[buses_.back().name] = &buses_.back();
 }
 
-// Adds a distance between stops. Stops existence is required
 void TransportCatalogue::AddDistance(const std::string_view stop_from, const std::string_view stop_to, const int distance) {
     std::pair<Stop*, Stop*> stop_pair{ 
         names_to_stops_.at(stop_from),
@@ -85,19 +76,14 @@ void TransportCatalogue::AddDistance(const std::string_view stop_from, const std
     stop_distances_[stop_pair] = distance;
 }
 
-// Finds a bus by name and returns a reference to its struct 
-// contained in buses_ deque
 BusPtr TransportCatalogue::FindBus(const std::string_view name) const {
     return names_to_buses_.at(name);
 }
 
-// Finds a stop by name and returns a reference to its struct
-// contained in stops_ deque
 StopPtr TransportCatalogue::FindStop(const std::string_view name) const {
     return names_to_stops_.at(name);
 }
 
-// Returns info on a given bus in a specific format
 BusInfoOpt TransportCatalogue::GetBusInfo(const std::string_view name) const {
     if (names_to_buses_.count(name) == 0) return std::nullopt;
 
@@ -111,7 +97,6 @@ BusInfoOpt TransportCatalogue::GetBusInfo(const std::string_view name) const {
              ComputeCurvature(route_distance_cur, route_distance_geo) };
 }
 
-// Returns info on a given stop in a specific format
 StopInfoOpt TransportCatalogue::GetStopInfo(const std::string_view name) const {
     if (names_to_stops_.count(name) == 0) return std::nullopt;
 
@@ -126,15 +111,11 @@ StopInfoOpt TransportCatalogue::GetStopInfo(const std::string_view name) const {
     return stop_info;
 }
 
-// Returns a distance between stops. Distances between same stops may be different 
-// depending on direction. If a distance between stops in a given direction is not found,
-// function will try to look for a distance in the opposite direction
 int TransportCatalogue::GetDistance(const std::string_view stop_from, const std::string_view stop_to) const {
     if (stop_distances_.count({ names_to_stops_.at(stop_from), names_to_stops_.at(stop_to) }) > 0) return stop_distances_.at({ names_to_stops_.at(stop_from), names_to_stops_.at(stop_to) });
     return stop_distances_.at({ names_to_stops_.at(stop_to), names_to_stops_.at(stop_from) });
 }
 
-// Counts unique stops in given bus's route
 size_t TransportCatalogue::CountUniqueStops(const Bus& bus) {
     std::set<const Stop*> unique_stops;
     for (const Stop* stop_ptr : bus.route) {
@@ -143,12 +124,10 @@ size_t TransportCatalogue::CountUniqueStops(const Bus& bus) {
     return unique_stops.size();
 }
 
-// Computes route's curvature
 double TransportCatalogue::ComputeCurvature(const double curved_distance, const double geo_distance) {
     return curved_distance/geo_distance;
 }
 
-// Computes a route distance for a given bus
 double TransportCatalogue::ComputeRouteDistance(const Bus& bus) {
     const std::vector<Stop*>& route = bus.route;
     double result = 0.0;
@@ -160,7 +139,6 @@ double TransportCatalogue::ComputeRouteDistance(const Bus& bus) {
     return result;
 }
 
-// Computes bus route's length based on given distances
 double TransportCatalogue::ComputeCurvedRouteDistance(const Bus& bus) const {
     double route_length = 0.0;
 
@@ -186,6 +164,14 @@ std::vector<std::string_view> TransportCatalogue::GetBusNames() const {
             return node.first;
         });
     return names;
+}
+
+size_t TransportCatalogue::GetStopCount() const {
+    return stops_.size();
+}
+
+size_t TransportCatalogue::GetBusCount() const {
+    return buses_.size();
 }
 
 namespace tests {
@@ -394,6 +380,5 @@ void TestDistances() {
 }
 
 } // namespace transport_catalogue::tests
-
 
 } // namespace transport_catalogue
