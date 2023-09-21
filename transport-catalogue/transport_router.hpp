@@ -1,7 +1,11 @@
+#include "transport_catalogue.hpp"
 #include "router.hpp"
 #include "graph.hpp"
-#include "transport_catalogue.hpp"
+
 #include <unordered_map>
+#include <cstddef>
+#include <variant>
+#include <vector>
 
 namespace transport_router {
 
@@ -12,32 +16,69 @@ struct RoutingSettings {
     double bus_velocity;
 };
 
-struct RouteItem {
+struct BaseRouteItem {
+    BaseRouteItem() = default;
+
+    BaseRouteItem(std::string type, Weight time)
+        : type(std::move(type))
+        , time(std::move(time)) {}
+
     std::string type;
-    double time;
+    Weight time;
+
+    virtual void Clear() = 0; 
+
+    virtual ~BaseRouteItem() = default;
 };
 
-struct RouteItemStop: public RouteItem {
+struct RouteItemWait: public BaseRouteItem {
+    RouteItemWait()
+        : BaseRouteItem("Wait", {})
+        , stop_name{} {}
+
+    RouteItemWait(std::string stop_name, Weight time)
+        : BaseRouteItem("Wait", time)
+        , stop_name(std::move(stop_name)) {}
+
     std::string stop_name;
+
+    virtual void Clear() override;
 };
 
-struct RouteItemBus: public RouteItem {
-    std::string bus;
+struct RouteItemBus: public BaseRouteItem {
+    RouteItemBus()
+        : BaseRouteItem("Bus", {})
+        , bus_name{}
+        , span_count{} {}
+
+    RouteItemBus(std::string bus_name, int span_count, Weight time)
+        : BaseRouteItem("Bus", time)
+        , bus_name(std::move(bus_name))
+        , span_count(span_count) {}
+
+    std::string bus_name;
     int span_count;
+
+    virtual void Clear() override;
 };
 
-struct RouteInfo {
+using RouteItem = std::variant<RouteItemWait, 
+                               RouteItemBus,
+                               std::nullptr_t>;
+
+
+struct RoutingResult {
     Weight total_time;
-    std::vector<RouteItem> items;
+    std::optional<std::vector<RouteItem>> items;
 };
 
 class TransportRouter {
 public:
-    using Router             = graph::Router<Weight>;
     using Graph              = graph::DirectedWeightedGraph<Weight>;
+    using Router             = graph::Router<Weight>;
+    using EdgeId             = graph::EdgeId;
     using VertexId           = graph::VertexId;
     using TransportCatalogue = transport_catalogue::TransportCatalogue;
-
 
     explicit TransportRouter(const TransportCatalogue& catalogue, 
                              RoutingSettings settings)
@@ -47,18 +88,32 @@ public:
         , settings_(std::move(settings)) {}
 
     // Builds a route for two stop_names
-    std::optional<std::vector<RouteItem>> BuildRoute(std::string_view from, 
-                                                     std::string_view to) const;
+    std::optional<RoutingResult> BuildRoute(std::string_view from, 
+                                            std::string_view to) const;
 
-    /* Returns a stop id, mapped to it. */
-    std::optional<VertexId> GetStopId(std::string_view stop_name) const;
+    std::optional<VertexId> GetStopWaitId(std::string_view stop_name) const;
 
-    /* Returns a stop name, mapped to it */
-    std::optional<std::string_view> GetStopNameById(VertexId vertex_id) const;
-
+    std::optional<VertexId> GetStopSpanId(std::string_view stop_name) const;
 private:
 
-    bool PartOfSameRoute(std::string_view from, std::string_view to) const;
+    struct StopVertex {
+        VertexId wait_vertex;
+        VertexId span_vertex;
+
+        bool operator==(const StopVertex& other) const {
+            return wait_vertex == other.wait_vertex
+                && span_vertex == other.span_vertex;
+        }
+    };
+
+    struct StopVertexHasher {
+        size_t operator()(const StopVertex& vertex) const {
+            std::hash<VertexId> vertex_hasher;
+
+            return vertex_hasher(vertex.wait_vertex) 
+                   + 37 * vertex_hasher(vertex.span_vertex);
+        }
+    };
 
     /* Builds a graph based on info from transport catalogue
      * and fills stop_name_to_vertex_id_ map (hence not being const) */
@@ -67,10 +122,11 @@ private:
     /* Compute weight of the edge between two vertecies defined by the stop names. 
      * Weight is a sum of time it takes to get to the destination, in minutes, 
      * plus time it takes to wait for a bus before embarking, in minutes. */
-    Weight ComputeWeight(std::string_view from, std::string_view to) const;
+    Weight ComputeTravelTime(std::string_view from, std::string_view to) const;
 
-    /* Maps a given stop name to a VertexId (enumearates it, hence the name) 
-     * if such name is not already mapped. If it is, nothing happens */
+    /* Maps a given stop name to a StopVertex (enumearates it, hence the name) 
+     * and vice versa. 
+     * stop vertex as a start and bus vertex as an end. */
     void EnumerateIfNot(std::string_view stop_name);
 
     // Transport catalogue 
@@ -86,10 +142,26 @@ private:
     RoutingSettings settings_;
 
     // Maps stop name to vertex_id
-    std::unordered_map<std::string_view, VertexId> stop_name_to_vertex_id_;
+    std::unordered_map<std::string_view, 
+                       StopVertex> stop_name_to_vertex_;
 
-    // Maps vertex_id to stop name
-    std::unordered_map<VertexId, std::string_view> vertex_id_to_stop_name_;
+    // Maps vertex_id to bus_name
+    std::unordered_map<StopVertex, 
+                       std::string_view, 
+                       StopVertexHasher> vertex_to_stop_name_;
+
+    // Set of "wait" item edges 
+    std::set<EdgeId> wait_edges;
+    
+    // Set of "bus" item edges
+    std::set<EdgeId> span_edges;
+
+    // Maps span edge ids to the bus name
+    std::unordered_map<EdgeId, 
+                       std::string_view> span_edge_id_to_bus_name_;
+
+    std::unordered_map<EdgeId,
+                       std::string_view> wait_edge_id_to_stop_name_;
 
     VertexId current_vertex_id = 0;
 };

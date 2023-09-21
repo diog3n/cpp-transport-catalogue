@@ -1,10 +1,11 @@
+#include "transport_catalogue.hpp"
+#include "transport_router.hpp"
+#include "request_handler.hpp"
+#include "map_renderer.hpp"
+#include "json_reader.hpp"
+
 #include <filesystem>
 #include <iostream>
-
-#include "map_renderer.hpp"
-#include "request_handler.hpp"
-#include "transport_catalogue.hpp"
-#include "json_reader.hpp"
 
 using namespace std;
 
@@ -36,6 +37,13 @@ void RunTests() {
         cerr << "TestJSON OK!"s << endl;
     }
 
+    {
+        using namespace transport_router::tests;
+
+        TestBasicRouting();
+        cerr << "TestBasicRouting OK!"s << endl;
+    }
+    
     cerr << "All tests OK!"s << std::endl;
 }
 
