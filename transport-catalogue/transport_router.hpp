@@ -4,6 +4,7 @@
 
 #include <unordered_map>
 #include <cstddef>
+#include <unordered_set>
 #include <variant>
 #include <vector>
 
@@ -67,39 +68,60 @@ using RouteItem = std::variant<RouteItemWait,
                                RouteItemBus,
                                std::nullptr_t>;
 
-
 struct RoutingResult {
     Weight total_time;
     std::optional<std::vector<RouteItem>> items;
 };
 
-
-class TransportRouter {
+class TransportGraph {
 public:
     using Graph              = graph::DirectedWeightedGraph<Weight>;
-    using Router             = graph::Router<Weight>;
     using EdgeId             = graph::EdgeId;
     using VertexId           = graph::VertexId;
     using TransportCatalogue = transport_catalogue::TransportCatalogue;
 
-    // Builds a route for two stop_names
-    std::optional<RoutingResult> BuildRoute(std::string_view from, 
-                                            std::string_view to) const;
+    TransportGraph(const TransportCatalogue& catalogue,
+                   RoutingSettings settings )
+        : catalogue_(&catalogue)
 
-    std::optional<VertexId> GetStopWaitId(std::string_view stop_name) const;
-
-    std::optional<VertexId> GetStopSpanId(std::string_view stop_name) const;
-
-    explicit TransportRouter(const TransportCatalogue& catalogue, 
-                             RoutingSettings settings)
-        : catalogue_  (&catalogue)
-        , route_graph_(catalogue_->GetStopCount() * 2)
-        , settings_   (std::move(settings)) { 
-            BuildGraph(); 
-            router_ = router_{route_graph_};
+        /* CHANGE THIS */
+        , route_graph_(1024/*catalogue_->GetStopCount() * catalogue_->GetBusCount()*/)
+        , settings_(std::move(settings)) {
+            BuildGraph();
         }
 
+    const Graph& GetGraph() const;
+
+    bool IsSpanEdge(EdgeId edge) const;
+
+    bool IsWaitEdge(EdgeId edge) const;
+
+    Weight GetEdgeWeight(EdgeId edge) const;
+
+    std::string_view GetSpanEdgeBusName(EdgeId edge) const;
+
+    std::string_view GetWaitEdgeStopName(EdgeId edge) const;
+
+    std::optional<VertexId> GetStopVertexId(std::string_view stop_name) const;
+
+    std::optional<VertexId> GetSpanVertexId(std::string_view stop_name) const;
+
 private:
+    /* Builds a graph based on info from transport catalogue
+     * and fills stop_name_to_vertex_id_ map (hence not being const) */
+    void BuildGraph();
+
+    /* Maps a given stop name to a StopVertex (enumerates it, hence the name) 
+     * and vice versa. 
+     * stop vertex as a start and bus vertex as an end. */
+    void EnumerateVertecies(std::string_view stop_name);
+
+    /* Compute weight of the edge between two vertecies defined by the stop names. 
+     * Weight is a sum of time it takes to get to the destination, in minutes, 
+     * plus time it takes to wait for a bus before embarking, in minutes. */
+    Weight ComputeTravelTime(std::string_view from, std::string_view to) const;
+
+    const TransportCatalogue* catalogue_;
 
     struct StopVertex {
         VertexId wait_vertex;
@@ -120,46 +142,29 @@ private:
         }
     };
 
-    /* Builds a graph based on info from transport catalogue
-     * and fills stop_name_to_vertex_id_ map (hence not being const) */
-    void BuildGraph();
-
-    /* Compute weight of the edge between two vertecies defined by the stop names. 
-     * Weight is a sum of time it takes to get to the destination, in minutes, 
-     * plus time it takes to wait for a bus before embarking, in minutes. */
-    Weight ComputeTravelTime(std::string_view from, std::string_view to) const;
-
-    /* Maps a given stop name to a StopVertex (enumearates it, hence the name) 
-     * and vice versa. 
-     * stop vertex as a start and bus vertex as an end. */
-    void EnumerateIfNot(std::string_view stop_name);
-
-    // Transport catalogue 
-    const TransportCatalogue* catalogue_;
-
-    // Graph with stops as vertecies 
     Graph route_graph_;
-
-    // A router used to build routes
-    Router router_;
 
     // Routing settings necessary to compute weights
     RoutingSettings settings_;
-
-    // Maps stop name to vertex_id
-    std::unordered_map<std::string_view, 
-                       StopVertex> stop_name_to_vertex_;
-
-    // Maps vertex_id to bus_name
-    std::unordered_map<StopVertex, 
-                       std::string_view, 
-                       StopVertexHasher> vertex_to_stop_name_;
 
     // Set of "wait" item edges 
     std::set<EdgeId> wait_edges;
     
     // Set of "bus" item edges
     std::set<EdgeId> span_edges;
+
+    // Maps stop name to vertex_id
+    std::unordered_map<std::string_view, 
+                       VertexId> stop_name_to_vertex_id_;
+
+    std::unordered_map<VertexId, 
+                       std::string_view> vertex_id_to_stop_name_; 
+
+    std::unordered_map<std::string_view,
+                       VertexId> stop_name_to_span_vertex_id_;
+
+    std::unordered_map<VertexId,
+                       std::string_view> span_vertex_id_to_stop_name_;
 
     // Maps span edge ids to the bus name
     std::unordered_map<EdgeId, 
@@ -169,6 +174,38 @@ private:
                        std::string_view> wait_edge_id_to_stop_name_;
 
     VertexId current_vertex_id = 0;
+
+};
+
+class TransportRouter {
+public:
+    using Router             = graph::Router<Weight>;
+    using EdgeId             = graph::EdgeId;
+    using VertexId           = graph::VertexId;
+    using TransportCatalogue = transport_catalogue::TransportCatalogue;
+
+    // Builds a route for two stop_names
+    std::optional<RoutingResult> BuildRoute(std::string_view from, 
+                                            std::string_view to) const;
+    
+
+    explicit TransportRouter(const TransportCatalogue& catalogue, 
+                             RoutingSettings settings)
+        : catalogue_  (&catalogue)
+        , transport_graph_(catalogue, std::move(settings))
+        , router_(transport_graph_.GetGraph()) {}
+
+private:
+    
+    // Transport catalogue 
+    const TransportCatalogue* catalogue_;
+
+    // Graph with stops as vertecies 
+    TransportGraph transport_graph_;
+
+    // A router used to build routes
+    Router router_;
+    
 };
 
 namespace tests {
