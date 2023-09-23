@@ -18,9 +18,9 @@ void RouteItemBus::Clear() {
 }
 
 void RouteItemWait::Clear() {
-    this->type      = "Wait";
-    this->time      = {};
-    this->stop_name = {};
+    this->type       = "Wait";
+    this->time       = {};
+    this->stop_name  = {};
 }
 
 Weight TransportRouter::ComputeTravelTime(std::string_view from,
@@ -32,7 +32,7 @@ Weight TransportRouter::ComputeTravelTime(std::string_view from,
 
 void TransportRouter::EnumerateIfNot(std::string_view stop_name) {
      std::cerr << "(DEBUG INFO) TransportRouter::EnumerateIfNot(...): stop_name = " 
-                  << stop_name << std::endl;
+               << stop_name << std::endl;
 
     if (stop_name_to_vertex_.count(stop_name) > 0) return;
 
@@ -44,7 +44,7 @@ void TransportRouter::EnumerateIfNot(std::string_view stop_name) {
 
     /* Add an edge сonnecting wait_vertex to a stop_vertex. This edge
      * means that passenger waited for wait_time_minutes and got on a bus */
-    EdgeId wait_edge = road_graph_.AddEdge({ 
+    EdgeId wait_edge = route_graph_.AddEdge({ 
                           /* from:   */  vertex.wait_vertex, 
                           /* to:     */  vertex.span_vertex,
                           /* weight: */  settings_.wait_time_minutes });
@@ -54,11 +54,7 @@ void TransportRouter::EnumerateIfNot(std::string_view stop_name) {
     wait_edge_id_to_stop_name_[wait_edge] = stop_name;
 }
 
-TransportRouter::Graph TransportRouter::BuildGraph() {
-    
-    // Graph that is being constructed
-    Graph graph(catalogue_->GetStopCount());
-
+void TransportRouter::BuildGraph() {
     // All bus names
     std::vector<std::string_view> bus_names = catalogue_->GetBusNames();
 
@@ -69,7 +65,6 @@ TransportRouter::Graph TransportRouter::BuildGraph() {
         
         const std::vector<domain::StopPtr>& route = bus_ptr->route;
         
-
         // Enumerating the first stop in the route
         EnumerateIfNot(route.front()->name);
 
@@ -84,16 +79,16 @@ TransportRouter::Graph TransportRouter::BuildGraph() {
             /* Add an edge connecting two span vertecies. This edge
              * means passenger goes from stop to stop and does not 
              * disembark on any of them. */
-            EdgeId span_to_span_edge = graph.AddEdge({ 
+            EdgeId span_to_span_edge = route_graph_.AddEdge({ 
                 /* from:   */  stop_name_to_vertex_.at(from->name).span_vertex,
                 /* to:     */  stop_name_to_vertex_.at(to->name).span_vertex,
                 /* weight: */  ComputeTravelTime(from->name, to->name)
             });
 
-            /* Add an edge connecting span vertex to wait vertex. This edge
-             * means passenger goes from stop to stop and disembarks to
-             * get on another bus. */
-            EdgeId span_to_wait_edge = graph.AddEdge({ 
+            /* Add an edge connecting span vertex to wait vertex. This 
+             * edge means passenger goes from stop to stop and disembarks 
+             * to get on another bus. */
+            EdgeId span_to_wait_edge = route_graph_.AddEdge({ 
                 /* from:   */  stop_name_to_vertex_.at(from->name).span_vertex,
                 /* to:     */  stop_name_to_vertex_.at(to->name).wait_vertex,
                 /* weight: */  ComputeTravelTime(from->name, to->name)
@@ -106,20 +101,18 @@ TransportRouter::Graph TransportRouter::BuildGraph() {
             span_edge_id_to_bus_name_[span_to_wait_edge] = bus_name;
         }
     }
-
-    return graph;
 }
 
 std::optional<TransportRouter::VertexId> TransportRouter::GetStopWaitId(
                                                   std::string_view stop_name) const {
-    if (stop_name_to_vertex_.count(stop_name)) return std::nullopt;
+    if (stop_name_to_vertex_.count(stop_name) < 1) return std::nullopt;
 
     return stop_name_to_vertex_.at(stop_name).wait_vertex;
 }
 
 std::optional<TransportRouter::VertexId> TransportRouter::GetStopSpanId(
                                                   std::string_view stop_name) const {
-    if (stop_name_to_vertex_.count(stop_name)) return std::nullopt;
+    if (stop_name_to_vertex_.count(stop_name) < 1) return std::nullopt;
 
     return stop_name_to_vertex_.at(stop_name).span_vertex;
 }
@@ -128,10 +121,19 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
                                                          std::string_view to) const {
     // If one of the stops doesn't exist, abort and return nothing
     std::optional<VertexId> from_opt = GetStopWaitId(from);
+    std::cerr << "(DEBUG INFO) checking from_opt" << std::endl;
+   
     if (!from_opt.has_value()) return std::nullopt;
 
+    std::cerr << "(DEBUG INFO) from_opt has value" << std::endl;
+
     std::optional<VertexId> to_opt   = GetStopSpanId(to);
+    
+    std::cerr << "(DEBUG INFO) checking to_opt" << std::endl;
+    
     if (!to_opt.has_value()) return std::nullopt;
+
+    std::cerr << "(DEBUG INFO) to_opt has value" << std::endl;
 
     // Try building a route
     std::optional<Router::RouteInfo> route_info = router_.BuildRoute(*from_opt, 
@@ -139,6 +141,8 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
     // If building a route failed, return nothing
     if (!route_info.has_value()) return std::nullopt;
 
+    std::cerr << "(DEBUG INFO) route_info has value" << std::endl;
+    
     std::vector<RouteItem> route_items(route_info->edges.size());
 
     RouteItemBus current_bus;
@@ -154,7 +158,7 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
          * into the result vector, and then we push a "wait" item. */
         if (span_edges.count(edge_id) > 0) {
             current_bus.bus_name  =  span_edge_id_to_bus_name_.at(edge_id);
-            current_bus.time      += road_graph_.GetEdge(edge_id).weight;
+            current_bus.time      += route_graph_.GetEdge(edge_id).weight;
             current_bus.span_count++;
         } else if (wait_edges.count(edge_id) > 0) {
             total_time += current_bus.time;
@@ -336,6 +340,9 @@ void TestBasicRouting() {
     std::optional<RoutingResult> route_result2 = 
                                         trouter.BuildRoute("Biryulyovo Zapadnoye"sv,
                                                             "Prazhskaya"sv);
+    assert(route_result1.has_value());
+
+    assert(route_result2.has_value());
 
     bool test_total_time1 = route_result1->total_time == 11.235;
     

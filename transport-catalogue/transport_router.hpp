@@ -9,6 +9,7 @@
 
 namespace transport_router {
 
+class TransportRouter;
 using Weight = double;
 
 struct RoutingSettings {
@@ -72,6 +73,7 @@ struct RoutingResult {
     std::optional<std::vector<RouteItem>> items;
 };
 
+
 class TransportRouter {
 public:
     using Graph              = graph::DirectedWeightedGraph<Weight>;
@@ -80,13 +82,6 @@ public:
     using VertexId           = graph::VertexId;
     using TransportCatalogue = transport_catalogue::TransportCatalogue;
 
-    explicit TransportRouter(const TransportCatalogue& catalogue, 
-                             RoutingSettings settings)
-        : catalogue_(&catalogue)
-        , road_graph_(BuildGraph())
-        , router_(road_graph_)
-        , settings_(std::move(settings)) {}
-
     // Builds a route for two stop_names
     std::optional<RoutingResult> BuildRoute(std::string_view from, 
                                             std::string_view to) const;
@@ -94,6 +89,16 @@ public:
     std::optional<VertexId> GetStopWaitId(std::string_view stop_name) const;
 
     std::optional<VertexId> GetStopSpanId(std::string_view stop_name) const;
+
+    explicit TransportRouter(const TransportCatalogue& catalogue, 
+                             RoutingSettings settings)
+        : catalogue_  (&catalogue)
+        , route_graph_(catalogue_->GetStopCount() * 2)
+        , settings_   (std::move(settings)) { 
+            BuildGraph(); 
+            router_ = router_{route_graph_};
+        }
+
 private:
 
     struct StopVertex {
@@ -117,7 +122,7 @@ private:
 
     /* Builds a graph based on info from transport catalogue
      * and fills stop_name_to_vertex_id_ map (hence not being const) */
-    Graph BuildGraph();
+    void BuildGraph();
 
     /* Compute weight of the edge between two vertecies defined by the stop names. 
      * Weight is a sum of time it takes to get to the destination, in minutes, 
@@ -133,7 +138,7 @@ private:
     const TransportCatalogue* catalogue_;
 
     // Graph with stops as vertecies 
-    Graph road_graph_;
+    Graph route_graph_;
 
     // A router used to build routes
     Router router_;

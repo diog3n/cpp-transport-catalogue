@@ -93,7 +93,7 @@ Router<Weight>::Router(const Graph& graph)
         RelaxRoutesInternalDataThroughVertex(vertex_count, vertex_through);
     }
 }
-
+    
 template <typename Weight>
 std::optional<typename Router<Weight>::RouteInfo> Router<Weight>::BuildRoute(VertexId from,
                                                                              VertexId to) const {
