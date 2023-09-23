@@ -81,9 +81,8 @@ public:
     using TransportCatalogue = transport_catalogue::TransportCatalogue;
 
     TransportGraph(const TransportCatalogue& catalogue,
-                   RoutingSettings settings )
+                   RoutingSettings settings)
         : catalogue_(&catalogue)
-
         /* CHANGE THIS */
         , route_graph_(1024/*catalogue_->GetStopCount() * catalogue_->GetBusCount()*/)
         , settings_(std::move(settings)) {
@@ -104,9 +103,29 @@ public:
 
     std::optional<VertexId> GetStopVertexId(std::string_view stop_name) const;
 
-    std::optional<VertexId> GetSpanVertexId(std::string_view stop_name) const;
+    std::optional<VertexId> GetSpanVertexId(std::string_view stop_name,
+                                            std::string_view bus_name) const;
 
 private:
+
+    /* Add an edge connecting two span vertecies. This edge
+     * means passenger goes from stop to stop and does not 
+     * disembark on any of them. */
+    EdgeId AddSpanToSpanEdge(std::string_view from,
+                             std::string_view to,
+                             std::string_view bus_name);
+
+    /* Add an edge connecting span vertex to wait vertex. This 
+     * edge means passenger goes from stop to stop and disembarks 
+     * to get on another bus. */
+    EdgeId AddSpanToWaitEdge(std::string_view from,
+                             std::string_view to,
+                             std::string_view bus_name);
+
+    void EnumerateSpanEdge(EdgeId edge, std::string_view bus_name);
+
+    void EnumerateWaitEdge(EdgeId edge, std::string_view stop_name);
+
     /* Builds a graph based on info from transport catalogue
      * and fills stop_name_to_vertex_id_ map (hence not being const) */
     void BuildGraph();
@@ -114,7 +133,7 @@ private:
     /* Maps a given stop name to a StopVertex (enumerates it, hence the name) 
      * and vice versa. 
      * stop vertex as a start and bus vertex as an end. */
-    void EnumerateVertecies(std::string_view stop_name);
+    void EnumerateVertecies(std::string_view stop_name, std::string_view bus_name);
 
     /* Compute weight of the edge between two vertecies defined by the stop names. 
      * Weight is a sum of time it takes to get to the destination, in minutes, 
@@ -123,22 +142,22 @@ private:
 
     const TransportCatalogue* catalogue_;
 
-    struct StopVertex {
-        VertexId wait_vertex;
-        VertexId span_vertex;
+    struct VertexInfo {
+        std::string_view stop_name;
+        std::string_view bus_name;
 
-        bool operator==(const StopVertex& other) const {
-            return wait_vertex == other.wait_vertex
-                && span_vertex == other.span_vertex;
+        bool operator==(const VertexInfo& other) const {
+            return stop_name == other.stop_name
+                && bus_name  == other.bus_name;
         }
     };
 
-    struct StopVertexHasher {
-        size_t operator()(const StopVertex& vertex) const {
-            std::hash<VertexId> vertex_hasher;
+    struct VertexInfoHasher {
+        size_t operator()(const VertexInfo& route_vertex) const {
+            std::hash<std::string_view> sv_hasher;
 
-            return vertex_hasher(vertex.wait_vertex) 
-                   + 37 * vertex_hasher(vertex.span_vertex);
+            return sv_hasher(route_vertex.bus_name)
+                   + 37 * sv_hasher(route_vertex.stop_name);  
         }
     };
 
@@ -160,8 +179,9 @@ private:
     std::unordered_map<VertexId, 
                        std::string_view> vertex_id_to_stop_name_; 
 
-    std::unordered_map<std::string_view,
-                       VertexId> stop_name_to_span_vertex_id_;
+    std::unordered_map<VertexInfo,
+                       VertexId, 
+                       VertexInfoHasher> stop_name_to_span_vertex_id_;
 
     std::unordered_map<VertexId,
                        std::string_view> span_vertex_id_to_stop_name_;
@@ -210,7 +230,11 @@ private:
 
 namespace tests {
 
+bool DoubleEq(const double lhs, const double rhs);
+
 void TestBasicRouting();
+
+void TestComplexRouting();
 
 } // namespace transport_router::tests
 

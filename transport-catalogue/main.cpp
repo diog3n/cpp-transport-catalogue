@@ -42,6 +42,9 @@ void RunTests() {
 
         TestBasicRouting();
         cerr << "TestBasicRouting OK!"s << endl;
+
+        TestComplexRouting();
+        cerr << "TestComplexRouting OK!"s << endl;
     }
     
     cerr << "All tests OK!"s << std::endl;
