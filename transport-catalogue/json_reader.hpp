@@ -1,11 +1,12 @@
 #pragma once
 #include <memory>
 
-#include "json.hpp"
-#include "domain.hpp"
 #include "transport_catalogue.hpp"
+#include "transport_router.hpp"
 #include "request_handler.hpp"
 #include "map_renderer.hpp"
+#include "domain.hpp"
+#include "json.hpp"
 
 namespace json_reader {
 
@@ -49,8 +50,11 @@ private:
     // Parses the document, collecting queries into respective containers
     void ParseDocument();
 
-    // Map rendering settings taken from the give JSON
+    // Map rendering settings taken from the given JSON
     renderer::RenderSettings render_settings_;
+
+    // Routing settings taken from the given JSON
+    transport_router::RoutingSettings routing_settings_;
 
     // A reference to the transport database
     transport_catalogue::TransportCatalogue& catalogue_;
@@ -61,39 +65,46 @@ private:
     // A container for the map output queries
     std::deque<domain::MapOutputQuery> map_output_queries_;
 
+    // A container for the route output queries
+    std::deque<domain::RouteOutputQuery> route_output_queries_;
+
     /* A container that houses pointers to output queries, allowing 
      * for the easy iteration and execution in a given order */
     std::deque<const domain::OutputQuery*> query_ptrs_;
 
     /* Set of assembler-methods is used to assemble input/output queries
      * from JSON nodes */
-
-    domain::MapOutputQuery AssembleMapOutputQuery(const json::Node& query_node) const;
-
-    domain::StopOutputQuery AssembleStopOutputQuery(const json::Node& query_node) const;
-
-    domain::BusOutputQuery AssembleBusOutputQuery(const json::Node& query_node) const;
-
     domain::BusInputQuery AssembleBusInputQuery(const json::Node& query_node) const;
 
-    domain::StopInputQuery AssembleStopInputQuery(const json::Node& query_node) const;
-
-    renderer::RenderSettings AssembleRenderSettings(const json::Node& render_settings) const;
-
-    // Extracts color from a JSON Node
-    svg::Color ExtractColor(const json::Node& node) const;
-    
+    domain::MapOutputQuery AssembleMapOutputQuery(
+                                                 const json::Node& query_node) const;
+    domain::BusOutputQuery AssembleBusOutputQuery(
+                                                 const json::Node& query_node) const;
+    domain::StopInputQuery AssembleStopInputQuery(
+                                                 const json::Node& query_node) const;
+    domain::StopOutputQuery AssembleStopOutputQuery(
+                                                 const json::Node& query_node) const;
+    renderer::RenderSettings AssembleRenderSettings(
+                                            const json::Node& render_settings) const;
+    domain::RouteOutputQuery AssembleRouteOutputQuery(
+                                                 const json::Node& query_node) const;
+    transport_router::RoutingSettings AssembleRoutingSettings(
+                                           const json::Node& routing_settings) const;
     /* This set of methods assembles JSON nodes, so that they
      * can be then easily printed out */
+    json::Node AssembleMapNode(int id) const;
 
     json::Node AssembleErrorNode(const int id) const;
+    // Extracts color from a JSON Node
+    svg::Color ExtractColor(const json::Node& node) const;
 
     json::Node AssembleBusNode(domain::BusInfoOpt& bus_info_opt, int id) const;
 
     json::Node AssembleStopNode(domain::StopInfoOpt& stop_info_opt, int id) const;
 
-    json::Node AssembleMapNode(int id) const;
-
+    json::Node AssembleRouteNode(
+                    std::optional<transport_router::RoutingResult> routing_result,
+                                                               int id) const;
 };
 
 namespace tests {

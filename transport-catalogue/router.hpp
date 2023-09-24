@@ -12,6 +12,9 @@
 #include <utility>
 #include <vector>
 
+
+#include <iostream>
+
 namespace graph {
 
 template <typename Weight>
@@ -90,10 +93,14 @@ Router<Weight>::Router(const Graph& graph)
 
     const size_t vertex_count = graph.GetVertexCount();
     for (VertexId vertex_through = 0; vertex_through < vertex_count; ++vertex_through) {
+        std::cerr << "(DEBUG INFO) Router contructor: "
+                  << "vertex_through = " << vertex_through  
+                  << "/" << vertex_count << std::endl;
+
         RelaxRoutesInternalDataThroughVertex(vertex_count, vertex_through);
     }
 }
-    
+
 template <typename Weight>
 std::optional<typename Router<Weight>::RouteInfo> Router<Weight>::BuildRoute(VertexId from,
                                                                              VertexId to) const {

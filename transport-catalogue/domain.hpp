@@ -27,7 +27,7 @@ public:
 };
 
 enum QueryType {
-    STOP, BUS, MAP
+    STOP, BUS, MAP, ROUTE
 };
 
 struct Bus {
@@ -106,6 +106,17 @@ struct StopOutputQuery : public OutputQuery {
     StopOutputQuery(int id, std::string_view name)
         : OutputQuery{ id, QueryType::STOP }, stop_name(name) {} 
     std::string_view stop_name;
+};
+
+struct RouteOutputQuery : public OutputQuery {
+    RouteOutputQuery(int id, std::string_view from, 
+                             std::string_view to)
+        : OutputQuery{ id, QueryType::ROUTE }
+        , from(from)
+        , to(to) {}
+
+    std::string_view from;
+    std::string_view to;
 };
 
 } // namespace domain
