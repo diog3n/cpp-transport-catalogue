@@ -5,6 +5,8 @@
 #include <cassert>
 #include <variant>
 
+#include "domain.hpp"
+#include "geo.hpp"
 #include "transport_catalogue.hpp"
 #include "transport_router.hpp"
 #include "json_reader.hpp"
@@ -42,144 +44,93 @@ size_t TransportGraph::ComputeAmountOfVertecies() const {
     return stop_count + sum_bus_routes_count;
 }
 
-Weight TransportGraph::ComputeTravelTime(std::string_view from,
-                                          std::string_view to) const {
-    constexpr double MIN_PER_HOUR  = 60;
-    constexpr double METERS_PER_KM = 1000;
+void TransportGraph::EnumerateVertecies(std::string_view stop_name) {
 
+    bool wait_vertex_existed = stop_name_to_wait_vertex_id_
+                                    .count(stop_name) > 0;
+    bool bus_vertex_existed  = stop_name_to_bus_vertex_id_
+                                    .count(stop_name) > 0;
 
-    double distance = catalogue_->GetDistance(from, to);
-
-    /* Distance is measured in meters, velocity is km/h, waiting time is in minutes.
-     * The best decision is to transform velocity into meters per minute. */
-    return (distance * MIN_PER_HOUR) / (settings_.bus_velocity * METERS_PER_KM);
-}
-
-void TransportGraph::EnumerateVertecies(VertexInfo vertex_info) {
-
-    bool stop_vertex_existed = stop_name_to_vertex_id_
-                                    .count(vertex_info.stop_name) > 0;
-    bool span_vertex_existed = vertex_info_to_span_vertex_id_
-                                    .count(vertex_info) > 0;
-
-    if (!stop_vertex_existed) {
-        stop_name_to_vertex_id_[vertex_info.stop_name] = current_vertex_id++;
+    if (!wait_vertex_existed) {
+        stop_name_to_wait_vertex_id_[stop_name] = current_vertex_id++;
     } 
 
-    if (!span_vertex_existed) {
-        vertex_info_to_span_vertex_id_[vertex_info] = current_vertex_id++;
+    if (!bus_vertex_existed)  {
+        stop_name_to_bus_vertex_id_[stop_name] = current_vertex_id++;
     }
 
-    if (stop_vertex_existed && span_vertex_existed) return;
+    if (wait_vertex_existed && bus_vertex_existed)  return;
 
     /* Add an edge сonnecting wait_vertex to a stop_vertex. This edge
      * means that passenger waited for bus_wait_time and got on a bus */
     EdgeId wait_edge = route_graph_.AddEdge({ 
-                          /* from:   */  stop_name_to_vertex_id_.at(
-                                                            vertex_info.stop_name), 
-                          /* to:     */  vertex_info_to_span_vertex_id_.at(
-                                                                      vertex_info),
-                          /* weight: */  settings_.bus_wait_time });
+                        /* from:   */  stop_name_to_wait_vertex_id_.at(stop_name),
+                        /* to:     */  stop_name_to_bus_vertex_id_.at(stop_name),
+                        /* weight: */  settings_.bus_wait_time });
     
     std::cerr << "(DEBUG INFO) TransportGraph::EnumerateVertecies(...): "
-              << "saved edge stop_name = " << vertex_info.stop_name 
-              << " with seq_number = "     << vertex_info.sequence_number 
-              << std::endl;
+              << "saved edge stop_name = " << stop_name << std::endl;
 
-    EnumerateWaitEdge(wait_edge, vertex_info.stop_name);
+    wait_edges.insert(wait_edge);
+    wait_edge_id_to_edge_info_[wait_edge] = { stop_name, settings_.bus_wait_time };
 }
-
-void TransportGraph::EnumerateSpanEdge(EdgeId edge, std::string_view bus_name) {
-    span_edges.insert(edge);
-    span_edge_id_to_bus_name_[edge] = bus_name;
-}
-
-void TransportGraph::EnumerateWaitEdge(EdgeId edge, std::string_view stop_name) {
-    wait_edges.insert(edge);
-    wait_edge_id_to_stop_name_[edge] = stop_name;
-}
-
-TransportGraph::EdgeId TransportGraph::AddSpanToSpanEdge(
-                                                    VertexInfo from,
-                                                    VertexInfo to,
-                                                    std::string_view bus_name) {
-    EdgeId span_to_span_edge = route_graph_.AddEdge({ 
-        /* from:   */  vertex_info_to_span_vertex_id_.at(from),
-        /* to:     */  vertex_info_to_span_vertex_id_.at(to),
-        /* weight: */  ComputeTravelTime(from.stop_name, to.stop_name)
-    });
-    
-    EnumerateSpanEdge(span_to_span_edge, bus_name);
-
-    return span_to_span_edge;
-}
-
-TransportGraph::EdgeId TransportGraph::AddSpanToWaitEdge(
-                                                    VertexInfo from,
-                                                    VertexInfo to,
-                                                    std::string_view bus_name) {
-    EdgeId span_to_wait_edge = route_graph_.AddEdge({ 
-        /* from:   */  vertex_info_to_span_vertex_id_.at(from),
-        /* to:     */  stop_name_to_vertex_id_.at(to.stop_name),
-        /* weight: */  ComputeTravelTime(from.stop_name, to.stop_name)  
-    });
-
-    EnumerateSpanEdge(span_to_wait_edge, bus_name);
-
-    return span_to_wait_edge;
-} 
 
 void TransportGraph::BuildGraph() {
-    // All bus names
     std::vector<std::string_view> bus_names = catalogue_->GetBusNames();
     
-    size_t current_seq_number = 1;
+    for (std::string_view bus_name : bus_names) {
 
-    /* For every bus we iterate over its route */
-    for (const std::string_view bus_name : bus_names) {
-        
         const domain::BusPtr bus_ptr = catalogue_->FindBus(bus_name);
         
         const std::vector<domain::StopPtr>& route = bus_ptr->route;
         
-        // Enumerating the first stop in the route
-        EnumerateVertecies({ route.front()->name, current_seq_number });
+        EnumerateVertecies(route.front()->name);
 
-        auto last_stop_iter = route.end() - 1;
+        for (auto from_iter =  route.begin(); 
+                  from_iter != (route.end() - 1); from_iter++) {
 
-        for (auto l_iter  = route.begin(), r_iter  = route.begin() + 1; 
-                  r_iter != route.end();   l_iter++, r_iter++) {
-            
-            const VertexInfo from{ (*l_iter)->name,   current_seq_number };
-            const VertexInfo to  { (*r_iter)->name, ++current_seq_number };
+            const domain::StopPtr from_ptr = *from_iter;
 
-            EnumerateVertecies(to);
+            for (auto to_iter = from_iter; to_iter != route.end(); to_iter++) {
+                if (to_iter == from_iter) continue;
 
-            if (!(r_iter == last_stop_iter)) {
-                AddSpanToSpanEdge(from, to, bus_name);
+                const domain::StopPtr to_ptr = *to_iter;
+
+                if (from_ptr == to_ptr) continue;
+
+                EnumerateVertecies(to_ptr->name);
+
+                BusEdgeInfo edge_info = AssembleBusEdgeInfo(from_iter, 
+                                                            to_iter, 
+                                                            bus_ptr);
+
+                EdgeId route_edge = route_graph_.AddEdge({
+                    /* "from":   */ stop_name_to_bus_vertex_id_.at(from_ptr->name),
+                    /* "to":     */ stop_name_to_wait_vertex_id_.at(to_ptr->name),
+                    /* "weight": */ edge_info.total_time
+                });
+
+                std::cerr << "(DEBUG INFO) BuildRoute(...): Edge added:" << std::endl
+                      << "    from = "       << from_ptr->name << std::endl
+                      << "    to = "         << to_ptr->name << std::endl
+                      << "    bus_name = "   << edge_info.bus_name << std::endl
+                      << "    weight = "     << edge_info.total_time << std::endl
+                      << "    span count = " << edge_info.span_count << std::endl;
+
+                span_edges.insert(route_edge);
+                span_edge_id_to_edge_info_[route_edge] = edge_info;
             }
-
-            AddSpanToWaitEdge(from, to, bus_name);
-
-            std::cerr << "(DEBUG INFO) TransportGraph::BuildGraph(...): saved bus_name = " << bus_name << std::endl;
         }
     }
-
-    std::cerr << "(DEBUG INFO) TransportGraph::BuildGraph(...): "
-              << "Total vertecies count:"
-              << vertex_info_to_span_vertex_id_.size() 
-               + stop_name_to_vertex_id_.size()
-              << std::endl
-              << "(DEBUG INFO) TransportGraph::BuildGraph(...): " 
-              << "current_vertex_id = " << current_vertex_id << std::endl;
 }
 
 std::optional<TransportGraph::VertexId> TransportGraph::GetStopVertexId(
-                                                  std::string_view stop_name) const {
-    if (stop_name_to_vertex_id_.count(stop_name) < 1) return std::nullopt;
+                                                std::string_view stop_name) const {
+    if (stop_name_to_wait_vertex_id_.count(stop_name) < 1) return std::nullopt;
 
-    return stop_name_to_vertex_id_.at(stop_name);
+    return stop_name_to_wait_vertex_id_.at(stop_name);
 }
+
 
 const TransportGraph::Graph& TransportGraph::GetGraph() const {
     return route_graph_;
@@ -197,12 +148,12 @@ Weight TransportGraph::GetEdgeWeight(EdgeId edge) const {
     return route_graph_.GetEdge(edge).weight;
 }
 
-std::string_view TransportGraph::GetSpanEdgeBusName(EdgeId edge) const {
-    return span_edge_id_to_bus_name_.at(edge);
+TransportGraph::BusEdgeInfo TransportGraph::GetBusEdgeInfo(EdgeId edge) const {
+    return span_edge_id_to_edge_info_.at(edge);
 }
 
-std::string_view TransportGraph::GetWaitEdgeStopName(EdgeId edge) const {
-    return wait_edge_id_to_stop_name_.at(edge);
+TransportGraph::WaitEdgeInfo TransportGraph::GetWaitEdgeInfo(EdgeId edge) const {
+    return wait_edge_id_to_edge_info_.at(edge);
 }
 
 // ======================== TransportRouter ========================
@@ -246,56 +197,21 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
          * As soon as we hit a "wait" edge, we push our bus item
          * into the result vector, and then we push a "wait" item. */
         if (transport_graph_.IsSpanEdge(edge_id)) {
-            std::cerr << "(DEBUG INFO) BuildRoute(): edge(" 
-                      << edge_id << ") is a span edge" << std::endl;
+            auto edge_info = transport_graph_.GetBusEdgeInfo(edge_id); 
 
-            current_bus.bus_name  =  transport_graph_.GetSpanEdgeBusName(edge_id);
-            current_bus.time      += transport_graph_.GetEdgeWeight(edge_id);
-            current_bus.span_count++;
-            std::cerr << "(DEBUG INFO) BuildRoute()(IsSpanEdge): span_edge bus_name = "
-                      << current_bus.bus_name << std::endl
-                      << "(DEBUG INFO) BuildRoute()(IsSpanEdge): span_edge time = "
-                      << current_bus.time << std::endl
-                      << "(DEBUG INFO) BuildRoute()(IsSpanEdge): span_edge span_count = "
-                      << current_bus.span_count << std::endl;
+            route_items.push_back(RouteItemBus{ std::string(edge_info.bus_name),
+                                                edge_info.span_count,
+                                                edge_info.total_time });
+            total_time += edge_info.total_time;
         } else if (transport_graph_.IsWaitEdge(edge_id)) {
-            std::cerr << "(DEBUG INFO) BuildRoute(): edge(" 
-                      << edge_id << ") is a wait edge" << std::endl;
-            
-            total_time += transport_graph_.GetEdgeWeight(edge_id);
+            auto edge_info = transport_graph_.GetWaitEdgeInfo(edge_id);
 
-            if (current_bus.span_count > 0) {
-                std::cerr << "(DEBUG INFO) BuildRoute()(IsWaitEdge): span_edge bus_name = "
-                          << current_bus.bus_name << std::endl
-                          << "(DEBUG INFO) BuildRoute()(IsWaitEdge): span_edge time = "
-                          << current_bus.time << std::endl
-                          << "(DEBUG INFO) BuildRoute()(IsWaitEdge): span_edge span_count = "
-                          << current_bus.span_count << std::endl;
-                total_time += current_bus.time;
-                route_items.emplace_back(current_bus);
-                current_bus.Clear();                
-            }
-
-            std::string stop_name = 
-                        std::string(transport_graph_.GetWaitEdgeStopName(edge_id));
-
-            std::cerr << "(DEBUG INFO) BuildRoute(): wait_edge stop_name = "
-                      << stop_name << std::endl
-                      << "(DEBUG INFO) BuildRoute(): wait_edge time = "
-                      << transport_graph_.GetEdgeWeight(edge_id) << std::endl;
-
-            route_items.emplace_back(std::move(RouteItemWait(
-                /* "stop_name": */  stop_name,
-                /* "time":      */  transport_graph_.GetEdgeWeight(edge_id)
-            )));
+            route_items.push_back(RouteItemWait{ std::string(edge_info.stop_name),
+                                                 edge_info.total_time });
+            total_time += edge_info.total_time;
         }
     }
 
-    route_items.emplace_back(current_bus);
-    total_time += current_bus.time;
-
-    std::cerr << "(DEBUG INFO) BuildRoute(): Returning route_items of size = "
-              << route_items.size() << std::endl;
     return RoutingResult{ total_time, route_items };
 }
 
@@ -476,7 +392,7 @@ void TestBasicRouting() {
 
     RoutingSettings settings {
         /* bus_wait_time: */  6,
-        /* bus_velocity:      */  40
+        /* bus_velocity:  */  40
     };
 
     TransportRouter trouter(tc, settings);
@@ -511,7 +427,7 @@ void TestBasicRouting() {
     
     if (SHOW_DEBUG_MESSAGES)
         std::cerr << "(DEBUG INFO) route_result1->total_time = " 
-                  << route_result1->total_time << std::endl;
+                  << route_result2->total_time << std::endl;
 
     assert(test_total_time2);
 }
@@ -760,7 +676,7 @@ void TestComplexRouting() {
 
     RoutingSettings settings {
         /* bus_wait_time: */  2,
-        /* bus_velocity:      */  30
+        /* bus_velocity:  */  30
     };
 
     TransportRouter trouter(tc, settings);
@@ -986,7 +902,7 @@ void TestTrickyRouting() {
 
     RoutingSettings settings {
         /* bus_wait_time: */  2,
-        /* bus_velocity:      */  30
+        /* bus_velocity:  */  30
     };
 
     TransportRouter trouter(tc, settings);

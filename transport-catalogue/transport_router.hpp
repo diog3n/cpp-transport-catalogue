@@ -5,6 +5,7 @@
 #include <variant>
 #include <vector>
 
+#include "domain.hpp"
 #include "transport_catalogue.hpp"
 #include "router.hpp"
 #include "graph.hpp"
@@ -80,12 +81,15 @@ public:
     using EdgeId             = graph::EdgeId;
     using VertexId           = graph::VertexId;
     using TransportCatalogue = transport_catalogue::TransportCatalogue;
+    struct BusEdgeInfo;
+    struct WaitEdgeInfo;
+
 
     TransportGraph(const TransportCatalogue& catalogue,
                    RoutingSettings settings)
         : catalogue_(&catalogue)
         /* CHANGE THIS */
-        , route_graph_(ComputeAmountOfVertecies())
+        , route_graph_(catalogue_->GetStopCount() * 2)
         , settings_(std::move(settings)) {
             BuildGraph();
         }
@@ -98,52 +102,37 @@ public:
 
     Weight GetEdgeWeight(EdgeId edge) const;
 
-    std::string_view GetSpanEdgeBusName(EdgeId edge) const;
+    BusEdgeInfo GetBusEdgeInfo(EdgeId edge) const;
 
-    std::string_view GetWaitEdgeStopName(EdgeId edge) const;
+    WaitEdgeInfo GetWaitEdgeInfo(EdgeId edge) const;
 
     std::optional<VertexId> GetStopVertexId(std::string_view stop_name) const;
+
+    struct WaitEdgeInfo {
+        std::string_view stop_name;
+        Weight total_time;
+
+        bool operator==(const WaitEdgeInfo& other) const {
+            return stop_name  == other.stop_name
+                && total_time == other.total_time;
+        }
+    };
+
+    struct BusEdgeInfo {
+        std::string_view bus_name;
+        int span_count;
+        Weight total_time;
+
+        bool operator==(const BusEdgeInfo& other) const {
+            return bus_name   == other.bus_name
+                && span_count == other.span_count
+                && total_time == other.total_time;
+        }
+    };
 
 private:
 
     size_t ComputeAmountOfVertecies() const;
-
-    struct VertexInfo {
-        std::string_view stop_name;
-        size_t sequence_number;
-
-        bool operator==(const VertexInfo& other) const {
-            return stop_name       == other.stop_name
-                && sequence_number == other.sequence_number;
-        }
-    };
-
-    struct VertexInfoHasher {
-        size_t operator()(const VertexInfo& route_vertex) const {
-            std::hash<std::string_view> sv_hasher;
-
-            return 37 * sv_hasher(route_vertex.stop_name) 
-                   + 37 * 37 * route_vertex.sequence_number;  
-        }
-    };
-
-    /* Add an edge connecting two span vertecies. This edge
-     * means passenger goes from stop to stop and does not 
-     * disembark on any of them. */
-    EdgeId AddSpanToSpanEdge(VertexInfo from,
-                             VertexInfo to,
-                             std::string_view bus_name);
-
-    /* Add an edge connecting span vertex to wait vertex. This 
-     * edge means passenger goes from stop to stop and disembarks 
-     * to get on another bus. */
-    EdgeId AddSpanToWaitEdge(VertexInfo from,
-                             VertexInfo to,
-                             std::string_view bus_name);
-
-    void EnumerateSpanEdge(EdgeId edge, std::string_view bus_name);
-
-    void EnumerateWaitEdge(EdgeId edge, std::string_view stop_name);
 
     /* Builds a graph based on info from transport catalogue
      * and fills stop_name_to_vertex_id_ map (hence not being const) */
@@ -152,12 +141,12 @@ private:
     /* Maps a given stop name to a vertex id (enumerates it, hence the name) 
      * maps a VertexInfo to a vertex id, adds an edge between them with weight 
      * equal to wait_time in the settings */
-    void EnumerateVertecies(VertexInfo vertex_info);
+    void EnumerateVertecies(std::string_view stop_name);
 
-    /* Compute weight of the edge between two vertecies defined by the stop names. 
-     * Weight is a sum of time it takes to get to the destination, in minutes, 
-     * plus time it takes to wait for a bus before embarking, in minutes. */
-    Weight ComputeTravelTime(std::string_view from, std::string_view to) const;
+    template <typename InputIt>
+    BusEdgeInfo AssembleBusEdgeInfo(InputIt from_iter, 
+                                    InputIt to_iter, 
+                                    domain::BusPtr bus_ptr) const;
 
     const TransportCatalogue* catalogue_;
 
@@ -174,18 +163,17 @@ private:
 
     // Maps stop name to vertex_id
     std::unordered_map<std::string_view, 
-                       VertexId> stop_name_to_vertex_id_;
+                       VertexId> stop_name_to_wait_vertex_id_;
 
-    std::unordered_map<VertexInfo,
-                       VertexId, 
-                       VertexInfoHasher> vertex_info_to_span_vertex_id_;
+    std::unordered_map<std::string_view,
+                       VertexId> stop_name_to_bus_vertex_id_;
 
     // Maps span edge ids to the bus name
     std::unordered_map<EdgeId, 
-                       std::string_view> span_edge_id_to_bus_name_;
+                       BusEdgeInfo> span_edge_id_to_edge_info_;
 
     std::unordered_map<EdgeId,
-                       std::string_view> wait_edge_id_to_stop_name_;
+                       WaitEdgeInfo> wait_edge_id_to_edge_info_;
 
     VertexId current_vertex_id = 0;
 
@@ -221,6 +209,47 @@ private:
     Router router_;
     
 };
+
+
+template <typename InputIt>
+TransportGraph::BusEdgeInfo TransportGraph::AssembleBusEdgeInfo(
+                                                    InputIt from_iter,
+                                                    InputIt to_iter,
+                                                    domain::BusPtr bus_ptr)  const {
+    constexpr double MIN_PER_HOUR  = 60;
+    
+    constexpr double METERS_PER_KM = 1000;
+
+    assert(from_iter < to_iter);
+
+    const std::vector<domain::StopPtr>& route = bus_ptr->route;
+
+    assert(from_iter < (route.end() - 1));
+
+    double total_distance = 0.0;
+    int span_count = 0;
+    auto l_iter = from_iter, r_iter = from_iter + 1;
+
+    for (; r_iter != to_iter; r_iter++, l_iter++) {
+        total_distance += catalogue_->GetDistance((*l_iter)->name, 
+                                                  (*r_iter)->name);
+        span_count++;
+    }
+
+    if (r_iter == to_iter) {
+        total_distance += catalogue_->GetDistance((*l_iter)->name,
+                                                  (*r_iter)->name);
+        span_count++;
+    }
+
+    Weight total_time = (total_distance * MIN_PER_HOUR) 
+                      / (settings_.bus_velocity * METERS_PER_KM);
+
+
+    /* Distance is measured in meters, velocity is km/h, waiting time is in minutes.
+     * The best decision is to transform velocity into meters per minute. */
+    return { bus_ptr->name, span_count, total_time };
+}
 
 namespace tests {
 
