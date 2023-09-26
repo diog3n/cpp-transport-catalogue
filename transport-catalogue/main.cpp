@@ -54,7 +54,7 @@ void RunTests() {
 }
 
 int main() {
-    // RunTests();
+    RunTests();
 
     transport_catalogue::TransportCatalogue tc;
 
