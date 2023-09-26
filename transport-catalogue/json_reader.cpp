@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <memory>
 #include <stdexcept>
 #include <exception>
 #include <cassert>
@@ -12,6 +13,7 @@
 #include "domain.hpp"
 #include "json.hpp"
 #include "router.hpp"
+#include "transport_catalogue.hpp"
 #include "transport_router.hpp"
 
 namespace json_reader {
@@ -42,6 +44,8 @@ JSONReader::JSONReader(transport_catalogue::TransportCatalogue& tc)
     , json_(json::Document{nullptr}) {}
 
 void JSONReader::ParseDocument() {
+    std::cerr << "(DEBUG INFO) Parsing a document" << std::endl;
+
     const json::Dict& root_map = json_.GetRoot().AsMap();
 
     const json::Array& base_requests   = root_map.at("base_requests"s).AsArray();
@@ -89,12 +93,19 @@ void JSONReader::ParseDocument() {
     });
 }
 
+void JSONReader::InitializeRouter() {
+    using namespace transport_router;
+
+    router_ = std::make_unique<TransportRouter>(catalogue_, routing_settings_);
+}
+
 void JSONReader::LoadJSON(const std::string& document) {    
     std::istringstream in(document);
     json_ = json::Load(in);
     
     ParseDocument();
     ExecuteInputQueries();
+    InitializeRouter();
 }
 
 void JSONReader::LoadJSON(std::istream& in) {
@@ -102,6 +113,7 @@ void JSONReader::LoadJSON(std::istream& in) {
 
     ParseDocument();
     ExecuteInputQueries();
+    InitializeRouter();
 }
 
 json::Node JSONReader::AssembleErrorNode(const int id) const {
@@ -347,6 +359,8 @@ svg::Color JSONReader::ExtractColor(const json::Node& node) const {
 }
 
 void JSONReader::ExecuteInputQueries() {
+    std::cerr << "(DEBUG INFO) Executing Input Queries" << std::endl;
+
     std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
         catalogue_.AddStop(std::string(stop_query.name), stop_query.coordinates);
     });
@@ -361,14 +375,12 @@ void JSONReader::ExecuteInputQueries() {
 }
 
 void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
-
-    // For routing queries we create a router.
-    transport_router::TransportRouter router(catalogue_, routing_settings_);
-
+    std::cerr << "(DEBUG INFO) Executing Output Queries" << std::endl;
+    
     json::Array output_array;
 
     std::for_each(query_ptrs_.begin(), query_ptrs_.end(), 
-    [this, &router, &output_array](const domain::OutputQuery* query_ptr) {
+    [this, &output_array](const domain::OutputQuery* query_ptr) {
         if (query_ptr->type == domain::QueryType::STOP) {
             
             const domain::StopOutputQuery* stop_query_ptr = 
@@ -400,10 +412,8 @@ void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
             const domain::RouteOutputQuery* route_query_ptr = 
                              static_cast<const domain::RouteOutputQuery*>(query_ptr);
             
-            
-
             std::optional<transport_router::RoutingResult> routing_result = 
-                    router.BuildRoute(route_query_ptr->from, route_query_ptr->to);
+                    router_->BuildRoute(route_query_ptr->from, route_query_ptr->to);
             
             output_array.push_back(AssembleRouteNode(routing_result, 
                                                      route_query_ptr->id));

@@ -25,6 +25,9 @@ private:
 
 public:
     DirectedWeightedGraph() = default;
+
+    DirectedWeightedGraph<Weight>& operator=(DirectedWeightedGraph<Weight> other) = delete; 
+
     explicit DirectedWeightedGraph(size_t vertex_count);
     EdgeId AddEdge(const Edge<Weight>& edge);
 

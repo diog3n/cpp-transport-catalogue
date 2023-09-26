@@ -62,6 +62,8 @@ private:
     // Loaded JSON document
     json::Document json_;
 
+    std::unique_ptr<transport_router::TransportRouter> router_;
+
     // A container for the map output queries
     std::deque<domain::MapOutputQuery> map_output_queries_;
 
@@ -90,6 +92,9 @@ private:
                                                  const json::Node& query_node) const;
     transport_router::RoutingSettings AssembleRoutingSettings(
                                            const json::Node& routing_settings) const;
+
+    void InitializeRouter();
+
     /* This set of methods assembles JSON nodes, so that they
      * can be then easily printed out */
     json::Node AssembleMapNode(int id) const;

@@ -29,9 +29,6 @@ struct BaseRouteItem {
 
     std::string type;
     Weight time;
-
-    virtual void Clear() = 0; 
-
     virtual ~BaseRouteItem() = default;
 };
 
@@ -45,8 +42,6 @@ struct RouteItemWait: public BaseRouteItem {
         , stop_name(std::move(stop_name)) {}
 
     std::string stop_name;
-
-    virtual void Clear() override;
 };
 
 struct RouteItemBus: public BaseRouteItem {
@@ -62,8 +57,6 @@ struct RouteItemBus: public BaseRouteItem {
 
     std::string bus_name;
     int span_count;
-
-    virtual void Clear() override;
 };
 
 using RouteItem = std::variant<RouteItemWait, 
@@ -81,14 +74,13 @@ public:
     using EdgeId             = graph::EdgeId;
     using VertexId           = graph::VertexId;
     using TransportCatalogue = transport_catalogue::TransportCatalogue;
+    
     struct BusEdgeInfo;
     struct WaitEdgeInfo;
-
 
     TransportGraph(const TransportCatalogue& catalogue,
                    RoutingSettings settings)
         : catalogue_(&catalogue)
-        /* CHANGE THIS */
         , route_graph_(catalogue_->GetStopCount() * 2)
         , settings_(std::move(settings)) {
             BuildGraph();
@@ -96,7 +88,7 @@ public:
 
     const Graph& GetGraph() const;
 
-    bool IsSpanEdge(EdgeId edge) const;
+    bool IsBusEdge(EdgeId edge) const;
 
     bool IsWaitEdge(EdgeId edge) const;
 
@@ -131,9 +123,6 @@ public:
     };
 
 private:
-
-    size_t ComputeAmountOfVertecies() const;
-
     /* Builds a graph based on info from transport catalogue
      * and fills stop_name_to_vertex_id_ map (hence not being const) */
     void BuildGraph();
@@ -155,12 +144,6 @@ private:
     // Routing settings necessary to compute weights
     RoutingSettings settings_;
 
-    // Set of "wait" item edges 
-    std::set<EdgeId> wait_edges;
-    
-    // Set of "bus" item edges
-    std::set<EdgeId> span_edges;
-
     // Maps stop name to vertex_id
     std::unordered_map<std::string_view, 
                        VertexId> stop_name_to_wait_vertex_id_;
@@ -170,7 +153,7 @@ private:
 
     // Maps span edge ids to the bus name
     std::unordered_map<EdgeId, 
-                       BusEdgeInfo> span_edge_id_to_edge_info_;
+                       BusEdgeInfo> bus_edge_id_to_edge_info_;
 
     std::unordered_map<EdgeId,
                        WaitEdgeInfo> wait_edge_id_to_edge_info_;
@@ -242,8 +225,8 @@ TransportGraph::BusEdgeInfo TransportGraph::AssembleBusEdgeInfo(
         span_count++;
     }
 
-    Weight total_time = (total_distance * MIN_PER_HOUR) 
-                      / (settings_.bus_velocity * METERS_PER_KM);
+    Weight total_time = (total_distance / settings_.bus_velocity) 
+                      * (MIN_PER_HOUR / METERS_PER_KM);
 
 
     /* Distance is measured in meters, velocity is km/h, waiting time is in minutes.

@@ -14,64 +14,25 @@
 
 namespace transport_router {
 
-void RouteItemBus::Clear() {
-    this->type       = "Bus";
-    this->time       = {};
-    this->bus_name   = {};
-    this->span_count = 0;
-}
-
-void RouteItemWait::Clear() {
-    this->type       = "Wait";
-    this->time       = {};
-    this->stop_name  = {};
-}
-
 // ======================== TransportGraph ========================
-
-size_t TransportGraph::ComputeAmountOfVertecies() const {
-    size_t stop_count = catalogue_->GetStopCount();
-
-    size_t sum_bus_routes_count = 0;
-
-    for (std::string_view bus_name : catalogue_->GetBusNames()) {
-        sum_bus_routes_count += catalogue_->FindBus(bus_name)->route.size();
-    }
-
-    std::cerr << "(DEBUG INFO) amount of vertecies = " 
-              << stop_count + sum_bus_routes_count << std::endl;
-
-    return stop_count + sum_bus_routes_count;
-}
 
 void TransportGraph::EnumerateVertecies(std::string_view stop_name) {
 
-    bool wait_vertex_existed = stop_name_to_wait_vertex_id_
-                                    .count(stop_name) > 0;
-    bool bus_vertex_existed  = stop_name_to_bus_vertex_id_
-                                    .count(stop_name) > 0;
+    if (stop_name_to_wait_vertex_id_.count(stop_name) > 0) return;
 
-    if (!wait_vertex_existed) {
-        stop_name_to_wait_vertex_id_[stop_name] = current_vertex_id++;
-    } 
+    stop_name_to_wait_vertex_id_[stop_name] = current_vertex_id;
 
-    if (!bus_vertex_existed)  {
-        stop_name_to_bus_vertex_id_[stop_name] = current_vertex_id++;
-    }
-
-    if (wait_vertex_existed && bus_vertex_existed)  return;
+    stop_name_to_bus_vertex_id_[stop_name] = current_vertex_id + 1;
 
     /* Add an edge сonnecting wait_vertex to a stop_vertex. This edge
      * means that passenger waited for bus_wait_time and got on a bus */
     EdgeId wait_edge = route_graph_.AddEdge({ 
-                        /* from:   */  stop_name_to_wait_vertex_id_.at(stop_name),
-                        /* to:     */  stop_name_to_bus_vertex_id_.at(stop_name),
+                        /* from:   */  current_vertex_id,
+                        /* to:     */  current_vertex_id + 1,
                         /* weight: */  settings_.bus_wait_time });
     
-    std::cerr << "(DEBUG INFO) TransportGraph::EnumerateVertecies(...): "
-              << "saved edge stop_name = " << stop_name << std::endl;
+    current_vertex_id += 2;
 
-    wait_edges.insert(wait_edge);
     wait_edge_id_to_edge_info_[wait_edge] = { stop_name, settings_.bus_wait_time };
 }
 
@@ -83,6 +44,9 @@ void TransportGraph::BuildGraph() {
         const domain::BusPtr bus_ptr = catalogue_->FindBus(bus_name);
         
         const std::vector<domain::StopPtr>& route = bus_ptr->route;
+
+        
+        std::vector<std::pair<Weight, int>> measurement_edges(route.size() - 1);
         
         EnumerateVertecies(route.front()->name);
 
@@ -91,18 +55,32 @@ void TransportGraph::BuildGraph() {
 
             const domain::StopPtr from_ptr = *from_iter;
 
-            for (auto to_iter = from_iter; to_iter != route.end(); to_iter++) {
-                if (to_iter == from_iter) continue;
+            for (auto to_iter = from_iter + 1; to_iter != route.end(); to_iter++) {
 
                 const domain::StopPtr to_ptr = *to_iter;
 
-                if (from_ptr == to_ptr) continue;
-
                 EnumerateVertecies(to_ptr->name);
 
-                BusEdgeInfo edge_info = AssembleBusEdgeInfo(from_iter, 
-                                                            to_iter, 
-                                                            bus_ptr);
+                BusEdgeInfo edge_info;
+
+                if (from_iter == route.begin()) {
+                    edge_info = AssembleBusEdgeInfo(from_iter, 
+                                                    to_iter, 
+                                                    bus_ptr);
+                    measurement_edges[to_iter - from_iter - 1] 
+                                                          = {edge_info.total_time, 
+                                                             edge_info.span_count}; 
+                } else {
+                    const auto& [left_time, left_span] = 
+                                measurement_edges.at(from_iter - route.begin() - 1);
+                    const auto& [right_time, right_span] =  
+                                measurement_edges.at(to_iter - route.begin() - 1);
+                    edge_info = {
+                        bus_ptr->name,
+                        right_span - left_span,
+                        static_cast<Weight>(right_time - left_time)
+                    };
+                }
 
                 EdgeId route_edge = route_graph_.AddEdge({
                     /* "from":   */ stop_name_to_bus_vertex_id_.at(from_ptr->name),
@@ -110,15 +88,7 @@ void TransportGraph::BuildGraph() {
                     /* "weight": */ edge_info.total_time
                 });
 
-                std::cerr << "(DEBUG INFO) BuildRoute(...): Edge added:" << std::endl
-                      << "    from = "       << from_ptr->name << std::endl
-                      << "    to = "         << to_ptr->name << std::endl
-                      << "    bus_name = "   << edge_info.bus_name << std::endl
-                      << "    weight = "     << edge_info.total_time << std::endl
-                      << "    span count = " << edge_info.span_count << std::endl;
-
-                span_edges.insert(route_edge);
-                span_edge_id_to_edge_info_[route_edge] = edge_info;
+                bus_edge_id_to_edge_info_[route_edge] = edge_info;
             }
         }
     }
@@ -131,17 +101,16 @@ std::optional<TransportGraph::VertexId> TransportGraph::GetStopVertexId(
     return stop_name_to_wait_vertex_id_.at(stop_name);
 }
 
-
 const TransportGraph::Graph& TransportGraph::GetGraph() const {
     return route_graph_;
 }
 
-bool TransportGraph::IsSpanEdge(EdgeId edge) const {
-    return span_edges.count(edge) > 0;
+bool TransportGraph::IsBusEdge(EdgeId edge) const {
+    return bus_edge_id_to_edge_info_.count(edge) > 0;
 }
 
 bool TransportGraph::IsWaitEdge(EdgeId edge) const {
-    return wait_edges.count(edge) > 0;
+    return wait_edge_id_to_edge_info_.count(edge) > 0;
 }
 
 Weight TransportGraph::GetEdgeWeight(EdgeId edge) const {
@@ -149,7 +118,7 @@ Weight TransportGraph::GetEdgeWeight(EdgeId edge) const {
 }
 
 TransportGraph::BusEdgeInfo TransportGraph::GetBusEdgeInfo(EdgeId edge) const {
-    return span_edge_id_to_edge_info_.at(edge);
+    return bus_edge_id_to_edge_info_.at(edge);
 }
 
 TransportGraph::WaitEdgeInfo TransportGraph::GetWaitEdgeInfo(EdgeId edge) const {
@@ -163,11 +132,9 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
     // If one of the stops doesn't exist, abort and return nothing
     std::optional<VertexId> from_opt = transport_graph_.GetStopVertexId(from);
     if (!from_opt.has_value()) return std::nullopt;
-    std::cerr << "(DEBUG INFO) from_opt has value" << std::endl;
 
     std::optional<VertexId> to_opt   = transport_graph_.GetStopVertexId(to);
     if (!to_opt.has_value()) return std::nullopt;
-    std::cerr << "(DEBUG INFO) to_opt has value" << std::endl;
 
     
     if (from == to) {
@@ -180,8 +147,6 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
     // If building a route failed, return nothing
     if (!route_info.has_value()) return std::nullopt;
 
-    std::cerr << "(DEBUG INFO) route_info has value" << std::endl;
-    
     std::vector<RouteItem> route_items;
 
     RouteItemBus current_bus;
@@ -190,23 +155,19 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
 
     // For every edge create two items: wait and bus.
     for (EdgeId edge_id : route_info->edges) {
-        std::cerr << "(DEBUG INFO) BuildRoute(): Entering a for loop, edge_id = " 
-                  << edge_id << std::endl;
-        /* Until we hit a "wait" edge, we're on the same bus,
-         * so we just count spans and time.
-         * As soon as we hit a "wait" edge, we push our bus item
-         * into the result vector, and then we push a "wait" item. */
-        if (transport_graph_.IsSpanEdge(edge_id)) {
+        if (transport_graph_.IsBusEdge(edge_id)) {
             auto edge_info = transport_graph_.GetBusEdgeInfo(edge_id); 
 
-            route_items.push_back(RouteItemBus{ std::string(edge_info.bus_name),
+            route_items.emplace_back(RouteItemBus{ 
+                                                std::string(edge_info.bus_name),
                                                 edge_info.span_count,
                                                 edge_info.total_time });
             total_time += edge_info.total_time;
         } else if (transport_graph_.IsWaitEdge(edge_id)) {
             auto edge_info = transport_graph_.GetWaitEdgeInfo(edge_id);
 
-            route_items.push_back(RouteItemWait{ std::string(edge_info.stop_name),
+            route_items.emplace_back(RouteItemWait{ 
+                                                 std::string(edge_info.stop_name),
                                                  edge_info.total_time });
             total_time += edge_info.total_time;
         }
@@ -245,7 +206,7 @@ void PrintDebugRoutingResultMessage(std::optional<RoutingResult> route_result,
     }
 }
 
-bool SHOW_DEBUG_MESSAGES = true;
+bool SHOW_DEBUG_MESSAGES = false;
 
 void TestBasicRouting() {
     using namespace std::literals;
