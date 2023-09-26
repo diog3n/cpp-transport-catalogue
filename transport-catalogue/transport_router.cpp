@@ -45,8 +45,10 @@ void TransportGraph::BuildGraph() {
         
         const std::vector<domain::StopPtr>& route = bus_ptr->route;
 
-        
-        std::vector<std::pair<Weight, int>> measurement_edges(route.size() - 1);
+        /* This is by far the trickiest part of the code. This vector will
+         * contain time and span counts of the first route.size() - 1 edges. 
+         * Such measurements will allow us to quickly compute distances. */
+        std::vector<BusEdgeInfo> edge_measurements(route.size() - 1);
         
         EnumerateVertecies(route.front()->name);
 
@@ -63,22 +65,23 @@ void TransportGraph::BuildGraph() {
 
                 BusEdgeInfo edge_info;
 
+                /* For the first route.size() - 1 edges all the measurements will
+                 * be computed head-on, but for any others it'll be done at 
+                 * constant time. */
                 if (from_iter == route.begin()) {
                     edge_info = AssembleBusEdgeInfo(from_iter, 
                                                     to_iter, 
                                                     bus_ptr);
-                    measurement_edges[to_iter - from_iter - 1] 
-                                                          = {edge_info.total_time, 
-                                                             edge_info.span_count}; 
+                    edge_measurements[to_iter - from_iter - 1] = edge_info; 
                 } else {
-                    const auto& [left_time, left_span] = 
-                                measurement_edges.at(from_iter - route.begin() - 1);
-                    const auto& [right_time, right_span] =  
-                                measurement_edges.at(to_iter - route.begin() - 1);
+                    const auto& l_info = 
+                                edge_measurements.at(from_iter - route.begin() - 1);
+                    const auto& r_info =  
+                                edge_measurements.at(to_iter - route.begin() - 1);
                     edge_info = {
                         bus_ptr->name,
-                        right_span - left_span,
-                        static_cast<Weight>(right_time - left_time)
+                        r_info.span_count - l_info.span_count,
+                        static_cast<Weight>(r_info.total_time - l_info.total_time)
                     };
                 }
 

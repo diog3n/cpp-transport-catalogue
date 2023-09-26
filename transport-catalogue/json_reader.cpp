@@ -44,8 +44,6 @@ JSONReader::JSONReader(transport_catalogue::TransportCatalogue& tc)
     , json_(json::Document{nullptr}) {}
 
 void JSONReader::ParseDocument() {
-    std::cerr << "(DEBUG INFO) Parsing a document" << std::endl;
-
     const json::Dict& root_map = json_.GetRoot().AsMap();
 
     const json::Array& base_requests   = root_map.at("base_requests"s).AsArray();
@@ -359,8 +357,6 @@ svg::Color JSONReader::ExtractColor(const json::Node& node) const {
 }
 
 void JSONReader::ExecuteInputQueries() {
-    std::cerr << "(DEBUG INFO) Executing Input Queries" << std::endl;
-
     std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
         catalogue_.AddStop(std::string(stop_query.name), stop_query.coordinates);
     });
@@ -375,8 +371,6 @@ void JSONReader::ExecuteInputQueries() {
 }
 
 void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
-    std::cerr << "(DEBUG INFO) Executing Output Queries" << std::endl;
-    
     json::Array output_array;
 
     std::for_each(query_ptrs_.begin(), query_ptrs_.end(), 
