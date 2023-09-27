@@ -126,8 +126,6 @@ TransportRouter::WaitEdgeInfo TransportRouter::GetWaitEdgeInfo(
     return wait_edge_id_to_edge_info_.at(edge);
 }
 
-// ======================== TransportRouter ========================
-
 std::optional<RoutingResult> TransportRouter::BuildRoute(
                                                     std::string_view from, 
                                                     std::string_view to) const {
