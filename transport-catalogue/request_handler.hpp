@@ -5,6 +5,7 @@
 #include <optional>
 
 #include "transport_catalogue.hpp"
+#include "transport_router.hpp"
 #include "map_renderer.hpp"
 
 namespace handlers {
@@ -42,16 +43,31 @@ namespace request_handler {
 
 class RequestHandler {
 public:
+
+    using MapRenderer = renderer::MapRenderer;
+    using RoutingResult = transport_router::RoutingResult;
+    using TransportRouter = transport_router::TransportRouter;
+    using TransportCatalogue = transport_catalogue::TransportCatalogue;
+
     // Uses map_renderer
-    RequestHandler(const transport_catalogue::TransportCatalogue& db, 
-                   renderer::MapRenderer& renderer);
+    RequestHandler(const transport_catalogue::TransportCatalogue* db, 
+                   const transport_router::TransportRouter* router,
+                   renderer::MapRenderer* renderer);
 
     // Returns a document with a map
     svg::Document RenderMap() const;
+
+    // Returns a routing result
+    std::optional<RoutingResult> BuildRoute(std::string_view from,
+                                            std::string_view to) const;
     
 private:
-    const transport_catalogue::TransportCatalogue& catalogue_;
-    renderer::MapRenderer& renderer_;
+    
+    std::shared_ptr<const TransportCatalogue> catalogue_;
+    
+    std::shared_ptr<const TransportRouter> router_;
+
+    std::shared_ptr<MapRenderer> renderer_;
 };
 
 namespace tests {

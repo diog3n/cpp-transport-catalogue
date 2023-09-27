@@ -14,9 +14,7 @@
 
 namespace transport_router {
 
-// ======================== TransportGraph ========================
-
-void TransportGraph::EnumerateVertecies(std::string_view stop_name) {
+void TransportRouter::EnumerateVertecies(std::string_view stop_name) {
 
     if (stop_name_to_wait_vertex_id_.count(stop_name) > 0) return;
 
@@ -36,7 +34,7 @@ void TransportGraph::EnumerateVertecies(std::string_view stop_name) {
     wait_edge_id_to_edge_info_[wait_edge] = { stop_name, settings_.bus_wait_time };
 }
 
-void TransportGraph::BuildGraph() {
+void TransportRouter::BuildGraph() {
     std::vector<std::string_view> bus_names = catalogue_->GetBusNames();
     
     for (std::string_view bus_name : bus_names) {
@@ -57,7 +55,8 @@ void TransportGraph::BuildGraph() {
 
             const domain::StopPtr from_ptr = *from_iter;
 
-            for (auto to_iter = from_iter + 1; to_iter != route.end(); to_iter++) {
+            for (auto to_iter = from_iter + 1; 
+                      to_iter != route.end(); to_iter++) {
 
                 const domain::StopPtr to_ptr = *to_iter;
 
@@ -65,30 +64,35 @@ void TransportGraph::BuildGraph() {
 
                 BusEdgeInfo edge_info;
 
-                /* For the first route.size() - 1 edges all the measurements will
-                 * be computed head-on, but for any others it'll be done at 
+                /* For the first route.size() - 1 edges all the measurements 
+                 * will be computed head-on, but for any others it'll be done at 
                  * constant time. */
                 if (from_iter == route.begin()) {
-                    edge_info = AssembleBusEdgeInfo(from_iter, 
-                                                    to_iter, 
-                                                    bus_ptr);
+                    edge_info = AssembleBusEdgeInfo(from_iter, to_iter, 
+                                                               bus_ptr);
                     edge_measurements[to_iter - from_iter - 1] = edge_info; 
                 } else {
-                    const auto& l_info = 
-                                edge_measurements.at(from_iter - route.begin() - 1);
-                    const auto& r_info =  
-                                edge_measurements.at(to_iter - route.begin() - 1);
+                    const auto& l_info {
+                        edge_measurements.at(from_iter - route.begin() - 1)        
+                    };
+
+                    const auto& r_info {
+                        edge_measurements.at(to_iter - route.begin() - 1)
+                    };
+
                     edge_info = {
                         bus_ptr->name,
                         r_info.span_count - l_info.span_count,
-                        static_cast<Weight>(r_info.total_time - l_info.total_time)
+                        static_cast<Weight>(
+                            r_info.total_time - l_info.total_time
+                        )
                     };
                 }
 
                 EdgeId route_edge = route_graph_.AddEdge({
-                    /* "from":   */ stop_name_to_bus_vertex_id_.at(from_ptr->name),
-                    /* "to":     */ stop_name_to_wait_vertex_id_.at(to_ptr->name),
-                    /* "weight": */ edge_info.total_time
+                /* "from":   */ stop_name_to_bus_vertex_id_.at(from_ptr->name),
+                /* "to":     */ stop_name_to_wait_vertex_id_.at(to_ptr->name),
+                /* "weight": */ edge_info.total_time
                 });
 
                 bus_edge_id_to_edge_info_[route_edge] = edge_info;
@@ -97,46 +101,42 @@ void TransportGraph::BuildGraph() {
     }
 }
 
-std::optional<TransportGraph::VertexId> TransportGraph::GetStopVertexId(
-                                                std::string_view stop_name) const {
+std::optional<TransportRouter::VertexId> TransportRouter::GetStopVertexId(
+                                             std::string_view stop_name) const {
     if (stop_name_to_wait_vertex_id_.count(stop_name) < 1) return std::nullopt;
 
     return stop_name_to_wait_vertex_id_.at(stop_name);
 }
 
-const TransportGraph::Graph& TransportGraph::GetGraph() const {
-    return route_graph_;
-}
-
-bool TransportGraph::IsBusEdge(EdgeId edge) const {
+bool TransportRouter::IsBusEdge(EdgeId edge) const {
     return bus_edge_id_to_edge_info_.count(edge) > 0;
 }
 
-bool TransportGraph::IsWaitEdge(EdgeId edge) const {
+bool TransportRouter::IsWaitEdge(EdgeId edge) const {
     return wait_edge_id_to_edge_info_.count(edge) > 0;
 }
 
-Weight TransportGraph::GetEdgeWeight(EdgeId edge) const {
-    return route_graph_.GetEdge(edge).weight;
-}
-
-TransportGraph::BusEdgeInfo TransportGraph::GetBusEdgeInfo(EdgeId edge) const {
+TransportRouter::BusEdgeInfo TransportRouter::GetBusEdgeInfo(
+                                                            EdgeId edge) const {
     return bus_edge_id_to_edge_info_.at(edge);
 }
 
-TransportGraph::WaitEdgeInfo TransportGraph::GetWaitEdgeInfo(EdgeId edge) const {
+TransportRouter::WaitEdgeInfo TransportRouter::GetWaitEdgeInfo(
+                                                            EdgeId edge) const {
     return wait_edge_id_to_edge_info_.at(edge);
 }
 
 // ======================== TransportRouter ========================
 
-std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from, 
-                                                         std::string_view to) const {
+std::optional<RoutingResult> TransportRouter::BuildRoute(
+                                                    std::string_view from, 
+                                                    std::string_view to) const {
+    
     // If one of the stops doesn't exist, abort and return nothing
-    std::optional<VertexId> from_opt = transport_graph_.GetStopVertexId(from);
+    std::optional<VertexId> from_opt = GetStopVertexId(from);
     if (!from_opt.has_value()) return std::nullopt;
 
-    std::optional<VertexId> to_opt   = transport_graph_.GetStopVertexId(to);
+    std::optional<VertexId> to_opt   = GetStopVertexId(to);
     if (!to_opt.has_value()) return std::nullopt;
 
     
@@ -145,8 +145,8 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
     }
 
     // Try building a route
-    std::optional<Router::RouteInfo> route_info = router_.BuildRoute(*from_opt, 
-                                                                     *to_opt);
+    std::optional<Router::RouteInfo> route_info = router_->BuildRoute(*from_opt, 
+                                                                      *to_opt);
     // If building a route failed, return nothing
     if (!route_info.has_value()) return std::nullopt;
 
@@ -158,20 +158,20 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(std::string_view from,
 
     // For every edge create two items: wait and bus.
     for (EdgeId edge_id : route_info->edges) {
-        if (transport_graph_.IsBusEdge(edge_id)) {
-            auto edge_info = transport_graph_.GetBusEdgeInfo(edge_id); 
+        if (IsBusEdge(edge_id)) {
+            auto edge_info = GetBusEdgeInfo(edge_id); 
 
             route_items.emplace_back(RouteItemBus{ 
-                                                std::string(edge_info.bus_name),
-                                                edge_info.span_count,
-                                                edge_info.total_time });
+                                        std::string(edge_info.bus_name),
+                                        edge_info.span_count,
+                                        edge_info.total_time });
             total_time += edge_info.total_time;
-        } else if (transport_graph_.IsWaitEdge(edge_id)) {
-            auto edge_info = transport_graph_.GetWaitEdgeInfo(edge_id);
+        } else if (IsWaitEdge(edge_id)) {
+            auto edge_info = GetWaitEdgeInfo(edge_id);
 
             route_items.emplace_back(RouteItemWait{ 
-                                                 std::string(edge_info.stop_name),
-                                                 edge_info.total_time });
+                                        std::string(edge_info.stop_name),
+                                        edge_info.total_time });
             total_time += edge_info.total_time;
         }
     }
@@ -209,7 +209,7 @@ void PrintDebugRoutingResultMessage(std::optional<RoutingResult> route_result,
     }
 }
 
-bool SHOW_DEBUG_MESSAGES = false;
+bool SHOW_DEBUG_MESSAGES = true;
 
 void TestBasicRouting() {
     using namespace std::literals;

@@ -46,15 +46,17 @@ JSONReader::JSONReader(transport_catalogue::TransportCatalogue& tc)
 void JSONReader::ParseDocument() {
     const json::Dict& root_map = json_.GetRoot().AsMap();
 
-    const json::Array& base_requests   = root_map.at("base_requests"s).AsArray();
-    const json::Array& stat_requests   = root_map.at("stat_requests"s).AsArray();
+    const json::Array& base_requests  = root_map.at("base_requests"s).AsArray();
+    const json::Array& stat_requests  = root_map.at("stat_requests"s).AsArray();
     const json::Node& render_settings  = root_map.at("render_settings"s);
     const json::Node& routing_settings = root_map.at("routing_settings"s);
 
     render_settings_  = AssembleRenderSettings(render_settings);
     routing_settings_ = AssembleRoutingSettings(routing_settings);
 
-    std::for_each(base_requests.begin(), base_requests.end(), [this](const json::Node& node) {
+    std::for_each(base_requests.begin(), 
+                  base_requests.end(), [this](const json::Node& node) {
+
         const json::Dict& query_map = node.AsMap();
 
         const std::string_view type = query_map.at("type"s).AsString();
@@ -64,11 +66,14 @@ void JSONReader::ParseDocument() {
         } else if (type == "Bus"sv) {
             bus_input_queries_.push_back(AssembleBusInputQuery(node));
         } else {
-            throw std::invalid_argument("Unknown query type: "s + std::string(type));
+            throw std::invalid_argument("Unknown query type: "s 
+                                        + std::string(type));
         }
     });
 
-    std::for_each(stat_requests.begin(), stat_requests.end(), [this](const json::Node& node) {
+    std::for_each(stat_requests.begin(), 
+                  stat_requests.end(), [this](const json::Node& node) {
+
         const json::Dict& query_map = node.AsMap();
 
         const std::string_view type = query_map.at("type"s).AsString();
@@ -86,7 +91,8 @@ void JSONReader::ParseDocument() {
             route_output_queries_.push_back(AssembleRouteOutputQuery(node));
             query_ptrs_.push_back(&route_output_queries_.back());
         } else {
-            throw std::invalid_argument("Unknown query type: "s + std::string(type));
+            throw std::invalid_argument("Unknown query type: "s 
+                                         + std::string(type));
         }
     });
 }
@@ -94,7 +100,7 @@ void JSONReader::ParseDocument() {
 void JSONReader::InitializeRouter() {
     using namespace transport_router;
 
-    router_ = std::make_unique<TransportRouter>(catalogue_, routing_settings_);
+    router_ = std::make_shared<TransportRouter>(catalogue_, routing_settings_);
 }
 
 void JSONReader::LoadJSON(const std::string& document) {    
@@ -122,21 +128,25 @@ json::Node JSONReader::AssembleErrorNode(const int id) const {
     return result;
 }
 
-json::Node JSONReader::AssembleBusNode(domain::BusInfoOpt& bus_info_opt, int id) const {
+json::Node JSONReader::AssembleBusNode(domain::BusInfoOpt& bus_info_opt, 
+                                       int id) const {
     if (bus_info_opt) {
         return json::Builder{}.StartDict()
                         .Key("request_id"s).Value(id)
                         .Key("curvature"s).Value(bus_info_opt->curvature)
                         .Key("route_length"s).Value(bus_info_opt->route_length)
-                        .Key("stop_count"s).Value(static_cast<int>(bus_info_opt->stops_on_route))
-                        .Key("unique_stop_count"s).Value(static_cast<int>(bus_info_opt->unique_stops))
+                        .Key("stop_count"s).Value(static_cast<int>(
+                                                  bus_info_opt->stops_on_route))
+                        .Key("unique_stop_count"s).Value(static_cast<int>(
+                                                    bus_info_opt->unique_stops))
                     .EndDict().Build();
     }
     
     return AssembleErrorNode(id);
 }
 
-json::Node JSONReader::AssembleStopNode(domain::StopInfoOpt& stop_info_opt, int id) const {
+json::Node JSONReader::AssembleStopNode(domain::StopInfoOpt& stop_info_opt, 
+                                        int id) const {
     if (stop_info_opt) {
         json::Array bus_array; 
         bus_array.reserve(stop_info_opt->bus_names.size());
@@ -158,7 +168,7 @@ json::Node JSONReader::AssembleStopNode(domain::StopInfoOpt& stop_info_opt, int 
 json::Node JSONReader::AssembleMapNode(int id) const {
     renderer::MapRenderer renderer(render_settings_);
 
-    request_handler::RequestHandler rh(catalogue_, renderer);
+    request_handler::RequestHandler rh(&catalogue_, nullptr, &renderer);
 
     svg::Document document = rh.RenderMap();
 
@@ -174,8 +184,8 @@ json::Node JSONReader::AssembleMapNode(int id) const {
 }
 
 json::Node JSONReader::AssembleRouteNode(
-                    std::optional<transport_router::RoutingResult> routing_result,
-                                                               int id) const {
+                  std::optional<transport_router::RoutingResult> routing_result,
+                                                                 int id) const {
     using namespace transport_router;
 
     if (!routing_result.has_value()) {
@@ -218,14 +228,16 @@ json::Node JSONReader::AssembleRouteNode(
             .EndDict().Build();
 }
 
-domain::MapOutputQuery JSONReader::AssembleMapOutputQuery(const json::Node& query_node) const {
+domain::MapOutputQuery JSONReader::AssembleMapOutputQuery(
+                                           const json::Node& query_node) const {
     const json::Dict& request_map = query_node.AsMap();
     const int id = request_map.at("id").AsInt();
 
     return { id };
 }
 
-domain::StopOutputQuery JSONReader::AssembleStopOutputQuery(const json::Node& query_node) const {
+domain::StopOutputQuery JSONReader::AssembleStopOutputQuery(
+                                           const json::Node& query_node) const {
     const json::Dict& request_map = query_node.AsMap();
     const int id = request_map.at("id"s).AsInt(); 
     const std::string_view name = request_map.at("name"s).AsString();
@@ -233,7 +245,8 @@ domain::StopOutputQuery JSONReader::AssembleStopOutputQuery(const json::Node& qu
     return { id, name };
 }
 
-domain::BusOutputQuery JSONReader::AssembleBusOutputQuery(const json::Node& query_node) const {
+domain::BusOutputQuery JSONReader::AssembleBusOutputQuery(
+                                           const json::Node& query_node) const {
     const json::Dict& request_map = query_node.AsMap();
     const int id = request_map.at("id"s).AsInt(); 
     const std::string_view name = request_map.at("name"s).AsString();
@@ -241,7 +254,8 @@ domain::BusOutputQuery JSONReader::AssembleBusOutputQuery(const json::Node& quer
     return { id, name };
 }
 
-domain::BusInputQuery JSONReader::AssembleBusInputQuery(const json::Node& query_node) const {
+domain::BusInputQuery JSONReader::AssembleBusInputQuery(
+                                           const json::Node& query_node) const {
     const json::Dict& request_map = query_node.AsMap();
     const std::string_view bus_name = request_map.at("name"s).AsString();
     const json::Array& stops_array = request_map.at("stops"s).AsArray();
@@ -265,8 +279,10 @@ domain::BusInputQuery JSONReader::AssembleBusInputQuery(const json::Node& query_
 domain::StopInputQuery JSONReader::AssembleStopInputQuery(const json::Node& query_node) const {
     const json::Dict& request_map    = query_node.AsMap();
     const std::string_view stop_name = request_map.at("name"s).AsString();
-    const geo::Coordinates coordinates{ request_map.at("latitude"s).AsDouble(),
-                                        request_map.at("longitude"s).AsDouble() };
+    const geo::Coordinates coordinates{ 
+        request_map.at("latitude"s).AsDouble(),
+        request_map.at("longitude"s).AsDouble() 
+    };
     
     std::unordered_map<std::string_view, int> distances;
 
@@ -278,7 +294,7 @@ domain::StopInputQuery JSONReader::AssembleStopInputQuery(const json::Node& quer
 }
 
 domain::RouteOutputQuery JSONReader::AssembleRouteOutputQuery(
-                                                const json::Node& query_node) const {
+                                           const json::Node& query_node) const {
     const json::Dict& request_map = query_node.AsMap();
     const std::string_view from   = request_map.at("from").AsString();
     const std::string_view to     = request_map.at("to").AsString();
@@ -298,20 +314,24 @@ renderer::RenderSettings JSONReader::AssembleRenderSettings(const json::Node& re
     rs.stop_radius = settings_map.at("stop_radius"s).AsDouble();
     rs.line_width = settings_map.at("line_width"s).AsDouble();
     rs.bus_label_font_size = settings_map.at("bus_label_font_size"s).AsDouble();
-    const json::Array& bus_label_offset_array = settings_map.at("bus_label_offset"s).AsArray();
+    const json::Array& bus_label_offset_array = 
+                                 settings_map.at("bus_label_offset"s).AsArray();
     rs.bus_label_offset = {
         bus_label_offset_array[0].AsDouble(),
         bus_label_offset_array[1].AsDouble()
     };
 
-    rs.stop_label_font_size = settings_map.at("stop_label_font_size"s).AsDouble();
-    const json::Array& stop_label_offset_array = settings_map.at("stop_label_offset"s).AsArray();
+    rs.stop_label_font_size = 
+                            settings_map.at("stop_label_font_size"s).AsDouble();
+    const json::Array& stop_label_offset_array = 
+                                settings_map.at("stop_label_offset"s).AsArray();
     rs.stop_label_offset = {
         stop_label_offset_array[0].AsDouble(),
         stop_label_offset_array[1].AsDouble()
     };
 
-    const json::Node& underlayer_color_node = settings_map.at("underlayer_color"s);
+    const json::Node& underlayer_color_node = 
+                                           settings_map.at("underlayer_color"s);
     rs.underlayer_color = ExtractColor(underlayer_color_node);
     rs.underlayer_width = settings_map.at("underlayer_width"s).AsDouble();
     const json::Array& color_palette_array = settings_map.at("color_palette"s).AsArray();
@@ -323,7 +343,7 @@ renderer::RenderSettings JSONReader::AssembleRenderSettings(const json::Node& re
 }
 
 transport_router::RoutingSettings JSONReader::AssembleRoutingSettings(
-                                        const json::Node& routing_settings) const {
+                                     const json::Node& routing_settings) const {
     const json::Dict& settings_map = routing_settings.AsMap();
 
     double bus_velocity  = settings_map.at("bus_velocity").AsDouble();
@@ -357,15 +377,25 @@ svg::Color JSONReader::ExtractColor(const json::Node& node) const {
 }
 
 void JSONReader::ExecuteInputQueries() {
-    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
-        catalogue_.AddStop(std::string(stop_query.name), stop_query.coordinates);
+    std::for_each(stop_input_queries_.begin(), 
+                  stop_input_queries_.end(), 
+        [this](const domain::StopInputQuery& stop_query) {
+        
+        catalogue_.AddStop(std::string(stop_query.name), 
+                           stop_query.coordinates);
     });
-    std::for_each(stop_input_queries_.begin(), stop_input_queries_.end(), [this](const domain::StopInputQuery& stop_query) {
+    std::for_each(stop_input_queries_.begin(), 
+                  stop_input_queries_.end(), 
+        [this](const domain::StopInputQuery& stop_query) {
+        
         for (const auto& [dest_name, distance] : stop_query.distances) {
             catalogue_.AddDistance(stop_query.name, dest_name, distance);
         }
     });
-    std::for_each(bus_input_queries_.begin(), bus_input_queries_.end(), [this](const domain::BusInputQuery& bus_query) {
+    std::for_each(bus_input_queries_.begin(), 
+                  bus_input_queries_.end(), 
+        [this](const domain::BusInputQuery& bus_query) {
+        
         catalogue_.AddBus(std::string(bus_query.name), bus_query.stop_names, bus_query.is_roundtrip);
     });
 }
@@ -373,41 +403,54 @@ void JSONReader::ExecuteInputQueries() {
 void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
     json::Array output_array;
 
-    std::for_each(query_ptrs_.begin(), query_ptrs_.end(), 
-    [this, &output_array](const domain::OutputQuery* query_ptr) {
+    std::for_each(query_ptrs_.begin(), 
+                  query_ptrs_.end(), 
+        [this, &output_array](const domain::OutputQuery* query_ptr) {
+        
         if (query_ptr->type == domain::QueryType::STOP) {
             
-            const domain::StopOutputQuery* stop_query_ptr = 
-                              static_cast<const domain::StopOutputQuery*>(query_ptr);
+            const domain::StopOutputQuery* stop_query_ptr {
+                static_cast<const domain::StopOutputQuery*>(query_ptr)
+            };
             
-            domain::StopInfoOpt stop_info_opt = 
-                                   catalogue_.GetStopInfo(stop_query_ptr->stop_name);
+            domain::StopInfoOpt stop_info_opt {
+                catalogue_.GetStopInfo(stop_query_ptr->stop_name)
+            };
             
-            output_array.push_back(AssembleStopNode(stop_info_opt, query_ptr->id));
+            output_array.push_back(AssembleStopNode(stop_info_opt, 
+                                                    query_ptr->id));
         
         } else if (query_ptr->type == domain::QueryType::BUS) {
         
-            const domain::BusOutputQuery* bus_query_ptr = 
-                               static_cast<const domain::BusOutputQuery*>(query_ptr);            
-            domain::BusInfoOpt bus_info_opt = 
-                                      catalogue_.GetBusInfo(bus_query_ptr->bus_name);
+            const domain::BusOutputQuery* bus_query_ptr {
+                static_cast<const domain::BusOutputQuery*>(query_ptr)            
+            };
+
+            domain::BusInfoOpt bus_info_opt {
+                catalogue_.GetBusInfo(bus_query_ptr->bus_name)
+            }; 
             
-            output_array.push_back(AssembleBusNode(bus_info_opt, query_ptr->id));
+            output_array.push_back(AssembleBusNode(bus_info_opt, 
+                                                   query_ptr->id));
         
         } else if (query_ptr->type == domain::QueryType::MAP) {
         
-            const domain::MapOutputQuery* map_query_ptr = 
-                               static_cast<const domain::MapOutputQuery*>(query_ptr);
+            const domain::MapOutputQuery* map_query_ptr {
+                static_cast<const domain::MapOutputQuery*>(query_ptr)
+            };
         
             output_array.push_back(AssembleMapNode(map_query_ptr->id));
 
         } else if (query_ptr->type == domain::QueryType::ROUTE) {
             
-            const domain::RouteOutputQuery* route_query_ptr = 
-                             static_cast<const domain::RouteOutputQuery*>(query_ptr);
+            const domain::RouteOutputQuery* route_query_ptr {
+                static_cast<const domain::RouteOutputQuery*>(query_ptr)
+            };
             
-            std::optional<transport_router::RoutingResult> routing_result = 
-                    router_->BuildRoute(route_query_ptr->from, route_query_ptr->to);
+            std::optional<transport_router::RoutingResult> routing_result {
+                router_->BuildRoute(route_query_ptr->from, 
+                                    route_query_ptr->to)
+            };
             
             output_array.push_back(AssembleRouteNode(routing_result, 
                                                      route_query_ptr->id));

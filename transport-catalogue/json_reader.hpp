@@ -62,7 +62,7 @@ private:
     // Loaded JSON document
     json::Document json_;
 
-    std::unique_ptr<transport_router::TransportRouter> router_;
+    std::shared_ptr<transport_router::TransportRouter> router_;
 
     // A container for the map output queries
     std::deque<domain::MapOutputQuery> map_output_queries_;
@@ -76,22 +76,22 @@ private:
 
     /* Set of assembler-methods is used to assemble input/output queries
      * from JSON nodes */
-    domain::BusInputQuery AssembleBusInputQuery(const json::Node& query_node) const;
-
+    domain::BusInputQuery AssembleBusInputQuery(
+                                            const json::Node& query_node) const;
     domain::MapOutputQuery AssembleMapOutputQuery(
-                                                 const json::Node& query_node) const;
+                                            const json::Node& query_node) const;
     domain::BusOutputQuery AssembleBusOutputQuery(
-                                                 const json::Node& query_node) const;
+                                            const json::Node& query_node) const;
     domain::StopInputQuery AssembleStopInputQuery(
-                                                 const json::Node& query_node) const;
+                                            const json::Node& query_node) const;
     domain::StopOutputQuery AssembleStopOutputQuery(
-                                                 const json::Node& query_node) const;
+                                            const json::Node& query_node) const;
     renderer::RenderSettings AssembleRenderSettings(
-                                            const json::Node& render_settings) const;
+                                       const json::Node& render_settings) const;
     domain::RouteOutputQuery AssembleRouteOutputQuery(
-                                                 const json::Node& query_node) const;
+                                            const json::Node& query_node) const;
     transport_router::RoutingSettings AssembleRoutingSettings(
-                                           const json::Node& routing_settings) const;
+                                      const json::Node& routing_settings) const;
 
     void InitializeRouter();
 
@@ -105,11 +105,11 @@ private:
 
     json::Node AssembleBusNode(domain::BusInfoOpt& bus_info_opt, int id) const;
 
-    json::Node AssembleStopNode(domain::StopInfoOpt& stop_info_opt, int id) const;
-
+    json::Node AssembleStopNode(
+                              domain::StopInfoOpt& stop_info_opt, int id) const;
     json::Node AssembleRouteNode(
-                    std::optional<transport_router::RoutingResult> routing_result,
-                                                               int id) const;
+                  std::optional<transport_router::RoutingResult> routing_result,
+                                                                  int id) const;
 };
 
 namespace tests {

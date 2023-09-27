@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <unordered_map>
 #include <unordered_set>
 #include <cstddef>
@@ -68,31 +69,38 @@ struct RoutingResult {
     std::vector<RouteItem> items;
 };
 
-class TransportGraph {
+/* Вы правы, использование двух классов не было необходимым, поскольку класс 
+ * TransportGraph никогда не использовался чем-либо кроме TransportRouter, 
+ * так что я решил объединить их. */ 
+class TransportRouter {
 public:
     using Graph              = graph::DirectedWeightedGraph<Weight>;
+    using Router             = graph::Router<Weight>;
     using EdgeId             = graph::EdgeId;
     using VertexId           = graph::VertexId;
     using TransportCatalogue = transport_catalogue::TransportCatalogue;
-    
-    struct BusEdgeInfo;
-    struct WaitEdgeInfo;
 
-    TransportGraph(const TransportCatalogue& catalogue,
-                   RoutingSettings settings)
-        : catalogue_(&catalogue)
+    explicit TransportRouter(const TransportCatalogue& catalogue, 
+                             RoutingSettings settings)
+        : catalogue_  (&catalogue)
         , route_graph_(catalogue_->GetStopCount() * 2)
-        , settings_(std::move(settings)) {
+        , settings_   (std::move(settings)) {
             BuildGraph();
+            router_ = std::make_unique<Router>(route_graph_);
         }
+    
+    // Builds a route for two stop_names
+    std::optional<RoutingResult> BuildRoute(std::string_view from, 
+                                            std::string_view to) const;
+private:    
 
-    const Graph& GetGraph() const;
+    struct BusEdgeInfo;
+    
+    struct WaitEdgeInfo;
 
     bool IsBusEdge(EdgeId edge) const;
 
     bool IsWaitEdge(EdgeId edge) const;
-
-    Weight GetEdgeWeight(EdgeId edge) const;
 
     BusEdgeInfo GetBusEdgeInfo(EdgeId edge) const;
 
@@ -122,7 +130,6 @@ public:
         }
     };
 
-private:
     /* Builds a graph based on info from transport catalogue
      * and fills stop_name_to_vertex_id_ map (hence not being const) */
     void BuildGraph();
@@ -137,9 +144,13 @@ private:
                                     InputIt to_iter, 
                                     domain::BusPtr bus_ptr) const;
 
+    // Transport catalogue 
     const TransportCatalogue* catalogue_;
 
     Graph route_graph_;
+
+    // A router used to build routes
+    std::unique_ptr<Router> router_;
 
     // Routing settings necessary to compute weights
     RoutingSettings settings_;
@@ -160,45 +171,14 @@ private:
 
     VertexId current_vertex_id = 0;
 
-    size_t current_vertex_info_id = 0;
-
-};
-
-class TransportRouter {
-public:
-    using Router             = graph::Router<Weight>;
-    using EdgeId             = graph::EdgeId;
-    using VertexId           = graph::VertexId;
-    using TransportCatalogue = transport_catalogue::TransportCatalogue;
-
-    explicit TransportRouter(const TransportCatalogue& catalogue, 
-                             RoutingSettings settings)
-        : catalogue_  (&catalogue)
-        , transport_graph_(catalogue, std::move(settings))
-        , router_(transport_graph_.GetGraph()) {}
-    
-    // Builds a route for two stop_names
-    std::optional<RoutingResult> BuildRoute(std::string_view from, 
-                                            std::string_view to) const;
-private:
-    
-    // Transport catalogue 
-    const TransportCatalogue* catalogue_;
-
-    // Graph with stops as vertecies 
-    TransportGraph transport_graph_;
-
-    // A router used to build routes
-    Router router_;
-    
 };
 
 
 template <typename InputIt>
-TransportGraph::BusEdgeInfo TransportGraph::AssembleBusEdgeInfo(
-                                                    InputIt from_iter,
-                                                    InputIt to_iter,
-                                                    domain::BusPtr bus_ptr)  const {
+TransportRouter::BusEdgeInfo TransportRouter::AssembleBusEdgeInfo(
+                                                InputIt from_iter,
+                                                InputIt to_iter,
+                                                domain::BusPtr bus_ptr)  const {
     constexpr double MIN_PER_HOUR  = 60;
     
     constexpr double METERS_PER_KM = 1000;
