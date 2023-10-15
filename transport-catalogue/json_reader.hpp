@@ -4,6 +4,7 @@
 #include "transport_catalogue.hpp"
 #include "transport_router.hpp"
 #include "request_handler.hpp"
+#include "serialization.hpp"
 #include "map_renderer.hpp"
 #include "domain.hpp"
 #include "json.hpp"
@@ -26,11 +27,18 @@ public:
 
     JSONReader(transport_catalogue::TransportCatalogue& tc);
 
-    // Loads JSON document from a string
-    void LoadJSON(const std::string& document);
-
     // Loads JSON document from an input stream
+    void LoadMakeBaseJSON(std::istream& in);
+
+    void LoadRequestsJSON(std::istream& in);
+
     void LoadJSON(std::istream& in);
+
+    void LoadMakeBaseJSON(const std::string& in);
+
+    void LoadRequestsJSON(const std::string& in);
+
+    void LoadJSON(const std::string& in);
 
     // Handles the user input
     static std::string ReadJSON(std::istream& in);
@@ -48,7 +56,12 @@ private:
     void ExecuteInputQueries() override;
 
     // Parses the document, collecting queries into respective containers
-    void ParseDocument();
+    void ParseMakeBaseJSON();
+
+    void ParseRequestsJSON();
+
+    // Binary serialization settings
+    serializer::SerializationSettings serialization_settings_;
 
     // Map rendering settings taken from the given JSON
     renderer::RenderSettings render_settings_;
@@ -92,6 +105,8 @@ private:
                                             const json::Node& query_node) const;
     transport_router::RoutingSettings AssembleRoutingSettings(
                                       const json::Node& routing_settings) const;
+    serializer::SerializationSettings AssembleSerializationSettings(
+                                const json::Node& serialization_settings) const;
 
     void InitializeRouter();
 

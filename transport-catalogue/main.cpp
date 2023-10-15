@@ -53,16 +53,32 @@ void RunTests() {
     cerr << "All tests OK!"s << std::endl;
 }
 
-int main() {
+using namespace std::literals;
+
+void PrintUsage(std::ostream& stream = std::cerr) {
+    stream << "Usage: transport_catalogue [make_base|process_requests]\n"sv;
+}
+
+int main(int argc, char* argv[]) {
     RunTests();
 
-    transport_catalogue::TransportCatalogue tc;
+    if (argc != 2) {
+        PrintUsage();
+        return 1;
+    }
 
-    json_reader::JSONReader reader(tc);
+    const std::string_view mode(argv[1]);
 
-    reader.LoadJSON(json_reader::JSONReader::ReadJSON(std::cin));
+    if (mode == "make_base"sv) {
+        transport_catalogue::TransportCatalogue tc;
+        json_reader::JSONReader reader(tc);
+        reader.LoadMakeBaseJSON(json_reader::JSONReader::ReadJSON(std::cin));
+    } else if (mode == "process_requests"sv) {
 
-    reader.ExecuteOutputQueries(std::cout);
+        // process requests here
 
-    return 0;
+    } else {
+        PrintUsage();
+        return 1;
+    }
 }
