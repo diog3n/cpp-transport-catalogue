@@ -61,7 +61,7 @@ private:
     void ParseRequestsJSON();
 
     // Binary serialization settings
-    serializer::SerializationSettings serialization_settings_;
+    serialization::SerializationSettings serialization_settings_;
 
     // Map rendering settings taken from the given JSON
     renderer::RenderSettings render_settings_;
@@ -105,7 +105,7 @@ private:
                                             const json::Node& query_node) const;
     transport_router::RoutingSettings AssembleRoutingSettings(
                                       const json::Node& routing_settings) const;
-    serializer::SerializationSettings AssembleSerializationSettings(
+    serialization::SerializationSettings AssembleSerializationSettings(
                                 const json::Node& serialization_settings) const;
 
     void InitializeRouter();

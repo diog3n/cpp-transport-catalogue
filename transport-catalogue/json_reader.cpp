@@ -389,7 +389,7 @@ transport_router::RoutingSettings JSONReader::AssembleRoutingSettings(
     return { bus_wait_time, bus_velocity };
 }
 
-serializer::SerializationSettings JSONReader::AssembleSerializationSettings(
+serialization::SerializationSettings JSONReader::AssembleSerializationSettings(
                                const json::Node& serialization_settings) const {
     const json::Dict& serialization_map = serialization_settings.AsMap();
 

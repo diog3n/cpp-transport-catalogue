@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+9df4c8b2f1664bbf020b24a2faf3c62e main.pb.h
+f8774b155d7291f501e16b17fcbe1d57 transport_catalogue.pb.h
