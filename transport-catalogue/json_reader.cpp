@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <fstream>
 #include <memory>
 #include <stdexcept>
 #include <exception>
@@ -13,6 +14,7 @@
 #include "domain.hpp"
 #include "json.hpp"
 #include "router.hpp"
+#include "serialization.hpp"
 #include "transport_catalogue.hpp"
 #include "transport_router.hpp"
 
@@ -39,8 +41,10 @@ void PrintLnStopInfo(std::ostream& out, domain::StopInfo stop_info) {
 
 } // namespace json_reader::util
 
+JSONReader::JSONReader(): json_(json::Document{nullptr}) {}
+
 JSONReader::JSONReader(transport_catalogue::TransportCatalogue& tc)
-    : catalogue_(tc)
+    : catalogue_(&tc)
     , json_(json::Document{nullptr}) {}
 
 void JSONReader::ParseMakeBaseJSON() {
@@ -112,7 +116,7 @@ void JSONReader::ParseRequestsJSON() {
 void JSONReader::InitializeRouter() {
     using namespace transport_router;
 
-    router_ = std::make_shared<TransportRouter>(catalogue_, routing_settings_);
+    router_ = std::make_shared<TransportRouter>(*catalogue_, routing_settings_);
 }
 
 void JSONReader::LoadJSON(std::istream& in) {
@@ -127,15 +131,18 @@ void JSONReader::LoadJSON(std::istream& in) {
 void JSONReader::LoadMakeBaseJSON(std::istream& in) {
     json_ = json::Load(in);
 
+    catalogue_ = std::make_shared<transport_catalogue::TransportCatalogue>();
+
     ParseMakeBaseJSON();
     ExecuteInputQueries();
-    InitializeRouter();
+    SerializeBase();
 }
 
 void JSONReader::LoadRequestsJSON(std::istream& in) {
     json_ = json::Load(in);
 
     ParseRequestsJSON();
+    DeserializeBase();
     InitializeRouter();
 }
 
@@ -205,7 +212,7 @@ json::Node JSONReader::AssembleStopNode(domain::StopInfoOpt& stop_info_opt,
 json::Node JSONReader::AssembleMapNode(int id) const {
     renderer::MapRenderer renderer(render_settings_);
 
-    request_handler::RequestHandler rh(&catalogue_, nullptr, &renderer);
+    request_handler::RequestHandler rh(catalogue_.get(), nullptr, &renderer);
 
     svg::Document document = rh.RenderMap();
 
@@ -425,22 +432,22 @@ void JSONReader::ExecuteInputQueries() {
                   stop_input_queries_.end(), 
         [this](const domain::StopInputQuery& stop_query) {
         
-        catalogue_.AddStop(std::string(stop_query.name), 
-                           stop_query.coordinates);
+        catalogue_->AddStop(std::string(stop_query.name), 
+                            stop_query.coordinates);
     });
     std::for_each(stop_input_queries_.begin(), 
                   stop_input_queries_.end(), 
         [this](const domain::StopInputQuery& stop_query) {
         
         for (const auto& [dest_name, distance] : stop_query.distances) {
-            catalogue_.AddDistance(stop_query.name, dest_name, distance);
+            catalogue_->AddDistance(stop_query.name, dest_name, distance);
         }
     });
     std::for_each(bus_input_queries_.begin(), 
                   bus_input_queries_.end(), 
         [this](const domain::BusInputQuery& bus_query) {
         
-        catalogue_.AddBus(std::string(bus_query.name), bus_query.stop_names, bus_query.is_roundtrip);
+        catalogue_->AddBus(std::string(bus_query.name), bus_query.stop_names, bus_query.is_roundtrip);
     });
 }
 
@@ -458,7 +465,7 @@ void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
             };
             
             domain::StopInfoOpt stop_info_opt {
-                catalogue_.GetStopInfo(stop_query_ptr->stop_name)
+                catalogue_->GetStopInfo(stop_query_ptr->stop_name)
             };
             
             output_array.push_back(AssembleStopNode(stop_info_opt, 
@@ -471,7 +478,7 @@ void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
             };
 
             domain::BusInfoOpt bus_info_opt {
-                catalogue_.GetBusInfo(bus_query_ptr->bus_name)
+                catalogue_->GetBusInfo(bus_query_ptr->bus_name)
             }; 
             
             output_array.push_back(AssembleBusNode(bus_info_opt, 
@@ -504,6 +511,26 @@ void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
 
     json::Document output_doc{output_array};
     json::Print(output_doc, out);
+}
+
+void JSONReader::SerializeBase() const {
+    using Serializer = serialization::transport_catalogue
+                                    ::TransportCatalogueSerializer;
+
+    std::ofstream ofs(serialization_settings_.filename, std::ios::binary);
+
+    Serializer::SerializeTransportCatalogue(*catalogue_, ofs);
+}
+
+void JSONReader::DeserializeBase() {
+    using Serializer = serialization::transport_catalogue
+                                    ::TransportCatalogueSerializer;
+    using TransportCatalogue = transport_catalogue::TransportCatalogue;
+
+    std::ifstream ifs(serialization_settings_.filename, std::ios::binary);
+
+    catalogue_ = std::make_shared<TransportCatalogue>(
+                                Serializer::DeserializeTransportCatalogue(ifs));
 }
 
 std::string JSONReader::ReadJSON(std::istream& in) {

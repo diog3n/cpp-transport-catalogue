@@ -77,14 +77,12 @@ int main(int argc, char* argv[]) {
 
     const std::string_view mode(argv[1]);
 
+    json_reader::JSONReader reader;
     if (mode == "make_base"sv) {
-        transport_catalogue::TransportCatalogue tc;
-        json_reader::JSONReader reader(tc);
         reader.LoadMakeBaseJSON(json_reader::JSONReader::ReadJSON(std::cin));
     } else if (mode == "process_requests"sv) {
-
-        // process requests here
-
+        reader.LoadRequestsJSON(json_reader::JSONReader::ReadJSON(std::cin));
+        reader.ExecuteOutputQueries(std::cout);
     } else {
         PrintUsage();
         return 1;

@@ -25,6 +25,8 @@ class JSONReader final : private handlers::InputHandler,
                          private handlers::OutputHandler {
 public:
 
+    JSONReader();
+
     JSONReader(transport_catalogue::TransportCatalogue& tc);
 
     // Loads JSON document from an input stream
@@ -45,6 +47,10 @@ public:
 
     // Executes output queries in the order they were given in
     void ExecuteOutputQueries(std::ostream& out) const override;
+
+    void SerializeBase() const;
+
+    void DeserializeBase();
 
     const json::Document& GetDoc() const;
 
@@ -70,7 +76,7 @@ private:
     transport_router::RoutingSettings routing_settings_;
 
     // A reference to the transport database
-    transport_catalogue::TransportCatalogue& catalogue_;
+    std::shared_ptr<transport_catalogue::TransportCatalogue> catalogue_;
 
     // Loaded JSON document
     json::Document json_;
