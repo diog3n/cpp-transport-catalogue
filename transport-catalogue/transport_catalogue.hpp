@@ -2,6 +2,7 @@
 
 #include <map>
 #include <deque>
+#include <unordered_map>
 
 #include "geo.hpp"
 #include "domain.hpp"
@@ -12,6 +13,10 @@ using namespace domain;
 
 class TransportCatalogue {
 public:
+    struct StopPtrPairHasher;
+
+    using DistanceMap = std::unordered_map<std::pair<StopPtr, StopPtr>, 
+                                            int, StopPtrPairHasher>;
     TransportCatalogue() {};
 
     /* Adds a stop to the transport catalogue. This operation involves population 
@@ -49,11 +54,11 @@ public:
 
     std::vector<std::string_view> GetBusNames() const;
 
+    const DistanceMap& GetDistanceMap() const;
+
     size_t GetStopCount() const;
 
     size_t GetBusCount() const;
-
-private:
 
     struct StopPtrPairHasher {
         size_t operator() (const std::pair<StopPtr, StopPtr>& stop_pair) const {
@@ -63,6 +68,8 @@ private:
             return hash1 + hash2 * 37;
         }
     };
+
+private:
 
     // Counts unique stops in given bus's route
     static size_t CountUniqueStops(const Bus& bus);
@@ -84,7 +91,7 @@ private:
     
     std::map<std::string_view, BusPtr> names_to_buses_; 
 
-    std::unordered_map<std::pair<StopPtr, StopPtr>, int, StopPtrPairHasher> stop_distances_;
+    DistanceMap stop_distances_;
     
 };
 

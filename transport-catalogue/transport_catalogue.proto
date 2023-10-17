@@ -21,7 +21,7 @@ message Bus {
 message StopDistance {
     uint32 l_stop_index = 1;
     uint32 r_stop_index = 2;
-    double distance = 3;
+    int32 distance = 3;
 }
 
 message TransportCatalogue {

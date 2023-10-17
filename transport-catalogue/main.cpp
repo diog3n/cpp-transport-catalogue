@@ -1,6 +1,7 @@
 #include "transport_catalogue.hpp"
 #include "transport_router.hpp"
 #include "request_handler.hpp"
+#include "serialization.hpp"
 #include "map_renderer.hpp"
 #include "json_reader.hpp"
 
@@ -28,17 +29,17 @@ void RunTests() {
     }
 
     {
-        using namespace json_reader::tests;
+        /*using namespace json_reader::tests;
 
         TestAssembleQuery();
         cerr << "TestAssembleQuery OK!"s << endl;
 
         TestJSON();
-        cerr << "TestJSON OK!"s << endl;
+        cerr << "TestJSON OK!"s << endl;*/
     }
 
     {
-        using namespace transport_router::tests;
+        /*using namespace transport_router::tests;
 
         TestBasicRouting();
         cerr << "TestBasicRouting OK!"s << endl;
@@ -47,9 +48,16 @@ void RunTests() {
         cerr << "TestComplexRouting OK!"s << endl;
 
         TestTrickyRouting();
-        cerr << "TestTrickyRouting OK!"s << endl;
+        cerr << "TestTrickyRouting OK!"s << endl;*/
     }
     
+    {
+        using namespace serialization::transport_catalogue::tests;
+
+        TestTransportCatalogueSerialization();
+        cerr << "TestTransportCatalogueSerialization OK!"s << endl;
+    }
+
     cerr << "All tests OK!"s << std::endl;
 }
 

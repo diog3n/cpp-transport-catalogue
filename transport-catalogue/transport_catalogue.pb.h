@@ -736,13 +736,13 @@ class StopDistance final :
   void _internal_set_r_stop_index(uint32_t value);
   public:
 
-  // double distance = 3;
+  // int32 distance = 3;
   void clear_distance();
-  double distance() const;
-  void set_distance(double value);
+  int32_t distance() const;
+  void set_distance(int32_t value);
   private:
-  double _internal_distance() const;
-  void _internal_set_distance(double value);
+  int32_t _internal_distance() const;
+  void _internal_set_distance(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:serialize_transport_catalogue.StopDistance)
@@ -755,7 +755,7 @@ class StopDistance final :
   struct Impl_ {
     uint32_t l_stop_index_;
     uint32_t r_stop_index_;
-    double distance_;
+    int32_t distance_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1318,22 +1318,22 @@ inline void StopDistance::set_r_stop_index(uint32_t value) {
   // @@protoc_insertion_point(field_set:serialize_transport_catalogue.StopDistance.r_stop_index)
 }
 
-// double distance = 3;
+// int32 distance = 3;
 inline void StopDistance::clear_distance() {
   _impl_.distance_ = 0;
 }
-inline double StopDistance::_internal_distance() const {
+inline int32_t StopDistance::_internal_distance() const {
   return _impl_.distance_;
 }
-inline double StopDistance::distance() const {
+inline int32_t StopDistance::distance() const {
   // @@protoc_insertion_point(field_get:serialize_transport_catalogue.StopDistance.distance)
   return _internal_distance();
 }
-inline void StopDistance::_internal_set_distance(double value) {
+inline void StopDistance::_internal_set_distance(int32_t value) {
   
   _impl_.distance_ = value;
 }
-inline void StopDistance::set_distance(double value) {
+inline void StopDistance::set_distance(int32_t value) {
   _internal_set_distance(value);
   // @@protoc_insertion_point(field_set:serialize_transport_catalogue.StopDistance.distance)
 }

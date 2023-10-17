@@ -475,16 +475,16 @@ CMakeFiles/transport_catalogue.dir/input_reader.cpp.o: /home/ilya/Documents/Code
   /usr/include/c++/12/bits/stl_uninitialized.h \
   /usr/include/c++/12/bits/stl_deque.h \
   /usr/include/c++/12/bits/deque.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
-  /usr/include/c++/12/optional \
-  /usr/include/c++/12/bits/enable_special_members.h \
-  /usr/include/c++/12/set \
-  /usr/include/c++/12/bits/stl_set.h \
-  /usr/include/c++/12/bits/stl_multiset.h \
   /usr/include/c++/12/unordered_map \
   /usr/include/c++/12/bits/hashtable.h \
   /usr/include/c++/12/bits/hashtable_policy.h \
+  /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/unordered_map.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /usr/include/c++/12/optional \
+  /usr/include/c++/12/set \
+  /usr/include/c++/12/bits/stl_set.h \
+  /usr/include/c++/12/bits/stl_multiset.h \
   /usr/include/c++/12/vector \
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
@@ -1189,12 +1189,82 @@ CMakeFiles/transport_catalogue.dir/json_reader.cpp.o: /home/ilya/Documents/Code/
   /usr/include/c++/12/bits/stl_relops.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
-  /usr/include/c++/12/filesystem \
-  /usr/include/c++/12/bits/fs_fwd.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
+  /usr/include/c++/12/limits \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_undef.inc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/coded_stream.h \
+  /usr/include/c++/12/atomic \
+  /usr/include/c++/12/climits \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/c++/12/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/common.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/macros.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/platform_macros.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/port.h \
+  /usr/include/c++/12/stdlib.h \
+  /usr/include/byteswap.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/stringpiece.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/hash.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/logging.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/status.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/strutil.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena_impl.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenaz_sampler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenastring.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/explicitly_constructed.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/once.h \
+  /usr/include/c++/12/mutex \
   /usr/include/c++/12/bits/chrono.h \
   /usr/include/c++/12/ratio \
-  /usr/include/c++/12/limits \
   /usr/include/c++/12/ctime \
+  /usr/include/c++/12/bits/std_mutex.h \
+  /usr/include/c++/12/bits/unique_lock.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/any.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/message_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/metadata_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/has_bits.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/implicit_weak_message.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/repeated_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/repeated_ptr_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/wire_format_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/casts.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_reflection.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/descriptor.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/mutex.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_reflection.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/unknown_field_set.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream_impl_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/callback.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/stl_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/parse_context.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/endian.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/inlined_string_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/message.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map.h \
+  /usr/include/c++/12/functional \
+  /usr/include/c++/12/bits/std_function.h \
+  /usr/include/c++/12/array \
+  /usr/include/c++/12/compare \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map_type_handler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/extension_set.h \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
   /usr/include/c++/12/bits/fs_path.h \
   /usr/include/c++/12/locale \
   /usr/include/c++/12/bits/locale_facets_nonio.h \
@@ -1271,6 +1341,13 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/c++/12/bits/stl_deque.h \
   /usr/include/c++/12/bits/refwrap.h \
   /usr/include/c++/12/bits/deque.tcc \
+  /usr/include/c++/12/unordered_map \
+  /usr/include/c++/12/bits/functional_hash.h \
+  /usr/include/c++/12/bits/hash_bytes.h \
+  /usr/include/c++/12/bits/hashtable.h \
+  /usr/include/c++/12/bits/hashtable_policy.h \
+  /usr/include/c++/12/bits/enable_special_members.h \
+  /usr/include/c++/12/bits/unordered_map.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
   /usr/include/c++/12/optional \
@@ -1279,10 +1356,7 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/c++/12/bits/cxxabi_init_exception.h \
   /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
   /usr/include/c++/12/typeinfo \
-  /usr/include/c++/12/bits/hash_bytes.h \
   /usr/include/c++/12/bits/nested_exception.h \
-  /usr/include/c++/12/bits/enable_special_members.h \
-  /usr/include/c++/12/bits/functional_hash.h \
   /usr/include/c++/12/set \
   /usr/include/c++/12/bits/stl_set.h \
   /usr/include/c++/12/bits/stl_multiset.h \
@@ -1372,10 +1446,6 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/12/bits/charconv.h \
   /usr/include/c++/12/bits/basic_string.tcc \
-  /usr/include/c++/12/unordered_map \
-  /usr/include/c++/12/bits/hashtable.h \
-  /usr/include/c++/12/bits/hashtable_policy.h \
-  /usr/include/c++/12/bits/unordered_map.h \
   /usr/include/c++/12/vector \
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
@@ -1462,14 +1532,83 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
-  /usr/include/c++/12/filesystem \
-  /usr/include/c++/12/bits/fs_fwd.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
+  /usr/include/c++/12/limits \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_undef.inc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/coded_stream.h \
+  /usr/include/c++/12/atomic \
+  /usr/include/c++/12/climits \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/c++/12/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/common.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/macros.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/platform_macros.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/port.h \
+  /usr/include/c++/12/stdlib.h \
+  /usr/include/byteswap.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/stringpiece.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/hash.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/logging.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/status.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/strutil.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena_impl.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenaz_sampler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenastring.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/explicitly_constructed.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/once.h \
+  /usr/include/c++/12/mutex \
   /usr/include/c++/12/bits/chrono.h \
   /usr/include/c++/12/ratio \
-  /usr/include/c++/12/limits \
   /usr/include/c++/12/ctime \
+  /usr/include/c++/12/bits/std_mutex.h \
+  /usr/include/c++/12/bits/unique_lock.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/any.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/message_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/metadata_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/has_bits.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/implicit_weak_message.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/repeated_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/repeated_ptr_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/wire_format_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/casts.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_reflection.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/descriptor.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/mutex.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_reflection.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/unknown_field_set.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream_impl_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/callback.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/stl_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/parse_context.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/endian.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/inlined_string_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/message.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map.h \
+  /usr/include/c++/12/functional \
+  /usr/include/c++/12/bits/std_function.h \
+  /usr/include/c++/12/array \
+  /usr/include/c++/12/compare \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map_type_handler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/extension_set.h \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
   /usr/include/c++/12/bits/fs_path.h \
   /usr/include/c++/12/locale \
   /usr/include/c++/12/bits/locale_facets_nonio.h \
@@ -1486,6 +1625,7 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/c++/12/codecvt \
   /usr/include/c++/12/bits/fs_dir.h \
   /usr/include/c++/12/bits/fs_ops.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.hpp
 
 CMakeFiles/transport_catalogue.dir/map_renderer.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.cpp \
@@ -1892,6 +2032,10 @@ CMakeFiles/transport_catalogue.dir/request_handler.cpp.o: /home/ilya/Documents/C
   /usr/include/c++/12/bits/stl_map.h \
   /usr/include/c++/12/bits/stl_multimap.h \
   /usr/include/c++/12/bits/erase_if.h \
+  /usr/include/c++/12/unordered_map \
+  /usr/include/c++/12/bits/hashtable.h \
+  /usr/include/c++/12/bits/hashtable_policy.h \
+  /usr/include/c++/12/bits/unordered_map.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
   /usr/include/c++/12/set \
@@ -1930,10 +2074,6 @@ CMakeFiles/transport_catalogue.dir/request_handler.cpp.o: /home/ilya/Documents/C
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/12/bits/charconv.h \
   /usr/include/c++/12/bits/basic_string.tcc \
-  /usr/include/c++/12/unordered_map \
-  /usr/include/c++/12/bits/hashtable.h \
-  /usr/include/c++/12/bits/hashtable_policy.h \
-  /usr/include/c++/12/bits/unordered_map.h \
   /usr/include/c++/12/vector \
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
@@ -1981,12 +2121,82 @@ CMakeFiles/transport_catalogue.dir/request_handler.cpp.o: /home/ilya/Documents/C
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
-  /usr/include/c++/12/filesystem \
-  /usr/include/c++/12/bits/fs_fwd.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
+  /usr/include/c++/12/limits \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_undef.inc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/coded_stream.h \
+  /usr/include/c++/12/atomic \
+  /usr/include/c++/12/climits \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/c++/12/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/common.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/macros.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/platform_macros.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/port.h \
+  /usr/include/c++/12/stdlib.h \
+  /usr/include/byteswap.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/stringpiece.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/hash.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/logging.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/status.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/strutil.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena_impl.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenaz_sampler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenastring.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/explicitly_constructed.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/once.h \
+  /usr/include/c++/12/mutex \
   /usr/include/c++/12/bits/chrono.h \
   /usr/include/c++/12/ratio \
-  /usr/include/c++/12/limits \
   /usr/include/c++/12/ctime \
+  /usr/include/c++/12/bits/std_mutex.h \
+  /usr/include/c++/12/bits/unique_lock.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/any.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/message_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/metadata_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/has_bits.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/implicit_weak_message.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/repeated_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/repeated_ptr_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/wire_format_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/casts.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_reflection.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/descriptor.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/mutex.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_reflection.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/unknown_field_set.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream_impl_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/callback.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/stl_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/parse_context.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/endian.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/inlined_string_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/message.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map.h \
+  /usr/include/c++/12/functional \
+  /usr/include/c++/12/bits/std_function.h \
+  /usr/include/c++/12/array \
+  /usr/include/c++/12/compare \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map_type_handler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/extension_set.h \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
   /usr/include/c++/12/bits/fs_path.h \
   /usr/include/c++/12/locale \
   /usr/include/c++/12/bits/locale_facets_nonio.h \
@@ -2067,6 +2277,13 @@ CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Cod
   /usr/include/c++/12/bits/stl_deque.h \
   /usr/include/c++/12/bits/refwrap.h \
   /usr/include/c++/12/bits/deque.tcc \
+  /usr/include/c++/12/unordered_map \
+  /usr/include/c++/12/bits/functional_hash.h \
+  /usr/include/c++/12/bits/hash_bytes.h \
+  /usr/include/c++/12/bits/hashtable.h \
+  /usr/include/c++/12/bits/hashtable_policy.h \
+  /usr/include/c++/12/bits/enable_special_members.h \
+  /usr/include/c++/12/bits/unordered_map.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
   /usr/include/c++/12/optional \
@@ -2075,10 +2292,7 @@ CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Cod
   /usr/include/c++/12/bits/cxxabi_init_exception.h \
   /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
   /usr/include/c++/12/typeinfo \
-  /usr/include/c++/12/bits/hash_bytes.h \
   /usr/include/c++/12/bits/nested_exception.h \
-  /usr/include/c++/12/bits/enable_special_members.h \
-  /usr/include/c++/12/bits/functional_hash.h \
   /usr/include/c++/12/set \
   /usr/include/c++/12/bits/stl_set.h \
   /usr/include/c++/12/bits/stl_multiset.h \
@@ -2168,84 +2382,12 @@ CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Cod
   /usr/include/x86_64-linux-gnu/bits/types/error_t.h \
   /usr/include/c++/12/bits/charconv.h \
   /usr/include/c++/12/bits/basic_string.tcc \
-  /usr/include/c++/12/unordered_map \
-  /usr/include/c++/12/bits/hashtable.h \
-  /usr/include/c++/12/bits/hashtable_policy.h \
-  /usr/include/c++/12/bits/unordered_map.h \
   /usr/include/c++/12/vector \
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /usr/include/c++/12/filesystem \
-  /usr/include/c++/12/bits/fs_fwd.h \
-  /usr/include/c++/12/system_error \
-  /usr/include/x86_64-linux-gnu/c++/12/bits/error_constants.h \
-  /usr/include/c++/12/stdexcept \
-  /usr/include/c++/12/bits/chrono.h \
-  /usr/include/c++/12/ratio \
-  /usr/include/c++/12/limits \
-  /usr/include/c++/12/ctime \
-  /usr/include/time.h \
-  /usr/include/x86_64-linux-gnu/bits/time.h \
-  /usr/include/x86_64-linux-gnu/bits/timex.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
-  /usr/include/c++/12/bits/parse_numbers.h \
-  /usr/include/c++/12/bits/fs_path.h \
-  /usr/include/c++/12/locale \
-  /usr/include/c++/12/bits/locale_classes.h \
-  /usr/include/c++/12/ext/atomicity.h \
-  /usr/include/x86_64-linux-gnu/c++/12/bits/gthr.h \
-  /usr/include/x86_64-linux-gnu/c++/12/bits/gthr-default.h \
-  /usr/include/pthread.h \
-  /usr/include/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/sched.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
-  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
-  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
-  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
-  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
-  /usr/include/x86_64-linux-gnu/c++/12/bits/atomic_word.h \
-  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
-  /usr/include/c++/12/bits/locale_classes.tcc \
-  /usr/include/c++/12/bits/locale_facets.h \
-  /usr/include/c++/12/cwctype \
-  /usr/include/wctype.h \
-  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
-  /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_base.h \
-  /usr/include/c++/12/bits/ios_base.h \
-  /usr/include/c++/12/streambuf \
-  /usr/include/c++/12/bits/streambuf.tcc \
-  /usr/include/c++/12/bits/streambuf_iterator.h \
-  /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_inline.h \
-  /usr/include/c++/12/bits/locale_facets.tcc \
-  /usr/include/c++/12/bits/locale_facets_nonio.h \
-  /usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h \
-  /usr/include/x86_64-linux-gnu/c++/12/bits/messages_members.h \
-  /usr/include/libintl.h \
-  /usr/include/c++/12/bits/codecvt.h \
-  /usr/include/c++/12/bits/locale_facets_nonio.tcc \
-  /usr/include/c++/12/bits/locale_conv.h \
-  /usr/include/c++/12/iomanip \
-  /usr/include/c++/12/bits/quoted_string.h \
-  /usr/include/c++/12/sstream \
-  /usr/include/c++/12/istream \
-  /usr/include/c++/12/ios \
-  /usr/include/c++/12/bits/basic_ios.h \
-  /usr/include/c++/12/bits/basic_ios.tcc \
-  /usr/include/c++/12/ostream \
-  /usr/include/c++/12/bits/ostream.tcc \
-  /usr/include/c++/12/bits/istream.tcc \
-  /usr/include/c++/12/bits/sstream.tcc \
-  /usr/include/c++/12/codecvt \
-  /usr/include/c++/12/ext/concurrence.h \
-  /usr/include/c++/12/bits/shared_ptr.h \
-  /usr/include/c++/12/bits/shared_ptr_base.h \
-  /usr/include/c++/12/bits/allocated_ptr.h \
-  /usr/include/c++/12/bits/unique_ptr.h \
-  /usr/include/c++/12/bits/fs_dir.h \
-  /usr/include/c++/12/bits/fs_ops.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
+  /usr/include/c++/12/limits \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_undef.inc \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/coded_stream.h \
@@ -2260,6 +2402,7 @@ CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Cod
   /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
   /usr/include/x86_64-linux-gnu/bits/local_lim.h \
   /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
   /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
   /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
@@ -2279,10 +2422,55 @@ CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Cod
   /usr/include/c++/12/pstl/glue_algorithm_defs.h \
   /usr/include/c++/12/pstl/execution_defs.h \
   /usr/include/c++/12/iostream \
+  /usr/include/c++/12/ostream \
+  /usr/include/c++/12/ios \
+  /usr/include/c++/12/bits/ios_base.h \
+  /usr/include/c++/12/ext/atomicity.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/gthr.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/gthr-default.h \
+  /usr/include/pthread.h \
+  /usr/include/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/sched.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+  /usr/include/x86_64-linux-gnu/bits/cpu-set.h \
+  /usr/include/time.h \
+  /usr/include/x86_64-linux-gnu/bits/time.h \
+  /usr/include/x86_64-linux-gnu/bits/timex.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+  /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+  /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/atomic_word.h \
+  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
+  /usr/include/c++/12/bits/locale_classes.h \
+  /usr/include/c++/12/bits/locale_classes.tcc \
+  /usr/include/c++/12/system_error \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/error_constants.h \
+  /usr/include/c++/12/stdexcept \
+  /usr/include/c++/12/streambuf \
+  /usr/include/c++/12/bits/streambuf.tcc \
+  /usr/include/c++/12/bits/basic_ios.h \
+  /usr/include/c++/12/bits/locale_facets.h \
+  /usr/include/c++/12/cwctype \
+  /usr/include/wctype.h \
+  /usr/include/x86_64-linux-gnu/bits/wctype-wchar.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_base.h \
+  /usr/include/c++/12/bits/streambuf_iterator.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/ctype_inline.h \
+  /usr/include/c++/12/bits/locale_facets.tcc \
+  /usr/include/c++/12/bits/basic_ios.tcc \
+  /usr/include/c++/12/bits/ostream.tcc \
+  /usr/include/c++/12/istream \
+  /usr/include/c++/12/bits/istream.tcc \
   /usr/include/c++/12/memory \
   /usr/include/c++/12/bits/stl_raw_storage_iter.h \
   /usr/include/c++/12/bits/align.h \
   /usr/include/c++/12/bit \
+  /usr/include/c++/12/bits/unique_ptr.h \
+  /usr/include/c++/12/bits/shared_ptr.h \
+  /usr/include/c++/12/bits/shared_ptr_base.h \
+  /usr/include/c++/12/bits/allocated_ptr.h \
+  /usr/include/c++/12/ext/concurrence.h \
   /usr/include/c++/12/bits/shared_ptr_atomic.h \
   /usr/include/c++/12/backward/auto_ptr.h \
   /usr/include/c++/12/pstl/glue_memory_defs.h \
@@ -2307,6 +2495,10 @@ CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Cod
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_util.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/once.h \
   /usr/include/c++/12/mutex \
+  /usr/include/c++/12/bits/chrono.h \
+  /usr/include/c++/12/ratio \
+  /usr/include/c++/12/ctime \
+  /usr/include/c++/12/bits/parse_numbers.h \
   /usr/include/c++/12/bits/std_mutex.h \
   /usr/include/c++/12/bits/unique_lock.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/any.h \
@@ -2341,7 +2533,25 @@ CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Cod
   /usr/include/c++/12/compare \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map_type_handler.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/extension_set.h \
-  /usr/include/c++/12/cassert
+  /usr/include/c++/12/cassert \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
+  /usr/include/c++/12/bits/fs_path.h \
+  /usr/include/c++/12/locale \
+  /usr/include/c++/12/bits/locale_facets_nonio.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h \
+  /usr/include/x86_64-linux-gnu/c++/12/bits/messages_members.h \
+  /usr/include/libintl.h \
+  /usr/include/c++/12/bits/codecvt.h \
+  /usr/include/c++/12/bits/locale_facets_nonio.tcc \
+  /usr/include/c++/12/bits/locale_conv.h \
+  /usr/include/c++/12/iomanip \
+  /usr/include/c++/12/bits/quoted_string.h \
+  /usr/include/c++/12/sstream \
+  /usr/include/c++/12/bits/sstream.tcc \
+  /usr/include/c++/12/codecvt \
+  /usr/include/c++/12/bits/fs_dir.h \
+  /usr/include/c++/12/bits/fs_ops.h
 
 CMakeFiles/transport_catalogue.dir/stat_reader.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.cpp \
   /usr/include/stdc-predef.h \
@@ -2578,17 +2788,17 @@ CMakeFiles/transport_catalogue.dir/stat_reader.cpp.o: /home/ilya/Documents/Code/
   /usr/include/c++/12/bits/stl_uninitialized.h \
   /usr/include/c++/12/bits/stl_deque.h \
   /usr/include/c++/12/bits/deque.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
-  /usr/include/c++/12/optional \
-  /usr/include/c++/12/bits/enable_special_members.h \
-  /usr/include/c++/12/set \
-  /usr/include/c++/12/bits/stl_set.h \
-  /usr/include/c++/12/bits/stl_multiset.h \
   /usr/include/c++/12/unordered_map \
   /usr/include/c++/12/bits/hashtable.h \
   /usr/include/c++/12/bits/hashtable_policy.h \
+  /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/unordered_map.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /usr/include/c++/12/optional \
+  /usr/include/c++/12/set \
+  /usr/include/c++/12/bits/stl_set.h \
+  /usr/include/c++/12/bits/stl_multiset.h \
   /usr/include/c++/12/vector \
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
@@ -3052,16 +3262,16 @@ CMakeFiles/transport_catalogue.dir/transport_catalogue.cpp.o: /home/ilya/Documen
   /usr/include/c++/12/bits/stl_uninitialized.h \
   /usr/include/c++/12/bits/stl_deque.h \
   /usr/include/c++/12/bits/deque.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
-  /usr/include/c++/12/optional \
-  /usr/include/c++/12/bits/enable_special_members.h \
-  /usr/include/c++/12/set \
-  /usr/include/c++/12/bits/stl_set.h \
-  /usr/include/c++/12/bits/stl_multiset.h \
   /usr/include/c++/12/unordered_map \
   /usr/include/c++/12/bits/hashtable.h \
   /usr/include/c++/12/bits/hashtable_policy.h \
+  /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/unordered_map.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /usr/include/c++/12/optional \
+  /usr/include/c++/12/set \
+  /usr/include/c++/12/bits/stl_set.h \
+  /usr/include/c++/12/bits/stl_multiset.h \
   /usr/include/c++/12/vector \
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
@@ -3637,12 +3847,82 @@ CMakeFiles/transport_catalogue.dir/transport_router.cpp.o: /home/ilya/Documents/
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
-  /usr/include/c++/12/filesystem \
-  /usr/include/c++/12/bits/fs_fwd.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
+  /usr/include/c++/12/limits \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_undef.inc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/coded_stream.h \
+  /usr/include/c++/12/atomic \
+  /usr/include/c++/12/climits \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+  /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+  /usr/include/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix1_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/local_lim.h \
+  /usr/include/linux/limits.h \
+  /usr/include/x86_64-linux-gnu/bits/posix2_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/xopen_lim.h \
+  /usr/include/x86_64-linux-gnu/bits/uio_lim.h \
+  /usr/include/c++/12/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/common.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/macros.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/platform_macros.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/port.h \
+  /usr/include/c++/12/stdlib.h \
+  /usr/include/byteswap.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/stringpiece.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/hash.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/logging.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/status.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/strutil.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena_impl.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenaz_sampler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenastring.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/explicitly_constructed.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/once.h \
+  /usr/include/c++/12/mutex \
   /usr/include/c++/12/bits/chrono.h \
   /usr/include/c++/12/ratio \
-  /usr/include/c++/12/limits \
   /usr/include/c++/12/ctime \
+  /usr/include/c++/12/bits/std_mutex.h \
+  /usr/include/c++/12/bits/unique_lock.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/any.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/message_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/metadata_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/has_bits.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/implicit_weak_message.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/repeated_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/repeated_ptr_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/wire_format_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/casts.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_message_reflection.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/descriptor.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/mutex.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_reflection.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/unknown_field_set.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream_impl_lite.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/callback.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/stl_util.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/parse_context.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/endian.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/inlined_string_field.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/message.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map.h \
+  /usr/include/c++/12/functional \
+  /usr/include/c++/12/bits/std_function.h \
+  /usr/include/c++/12/array \
+  /usr/include/c++/12/compare \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map_type_handler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/extension_set.h \
+  /usr/include/c++/12/filesystem \
+  /usr/include/c++/12/bits/fs_fwd.h \
   /usr/include/c++/12/bits/fs_path.h \
   /usr/include/c++/12/locale \
   /usr/include/c++/12/bits/locale_facets_nonio.h \
@@ -3680,6 +3960,26 @@ transport_catalogue.pb.cc:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.cpp:
 
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.cpp:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.cpp:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/main.cpp:
+
+/usr/include/c++/12/bits/fs_dir.h:
+
+/usr/include/c++/12/codecvt:
+
+/usr/include/c++/12/bits/quoted_string.h:
+
+/usr/include/c++/12/bits/locale_facets_nonio.tcc:
+
+/usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h:
+
+/usr/include/c++/12/locale:
+
+/usr/include/c++/12/filesystem:
+
 /usr/include/c++/12/array:
 
 /usr/include/c++/12/bits/std_function.h:
@@ -3713,6 +4013,8 @@ transport_catalogue.pb.cc:
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/metadata_lite.h:
 
 /usr/include/c++/12/bits/std_mutex.h:
+
+/usr/include/c++/12/ctime:
 
 /usr/include/c++/12/mutex:
 
@@ -3766,28 +4068,6 @@ transport_catalogue.pb.cc:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.cpp:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.cpp:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/main.cpp:
-
-/usr/include/c++/12/bits/fs_dir.h:
-
-/usr/include/c++/12/codecvt:
-
-/usr/include/c++/12/bits/quoted_string.h:
-
-/usr/include/c++/12/bits/locale_facets_nonio.tcc:
-
-/usr/include/x86_64-linux-gnu/c++/12/bits/time_members.h:
-
-/usr/include/c++/12/locale:
-
-/usr/include/c++/12/ctime:
-
-/usr/include/c++/12/filesystem:
-
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp:
@@ -3828,9 +4108,9 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/bits/shared_ptr_atomic.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/has_bits.h:
-
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.cpp:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/has_bits.h:
 
 /usr/include/c++/12/ext/concurrence.h:
 
@@ -4184,9 +4464,9 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/bits/stl_function.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_reflection.h:
-
 /usr/include/c++/12/iomanip:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_reflection.h:
 
 /usr/include/c++/12/debug/debug.h:
 

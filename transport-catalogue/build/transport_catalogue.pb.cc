@@ -170,7 +170,7 @@ const char descriptor_table_protodef_transport_5fcatalogue_2eproto[] PROTOBUF_SE
   "e\030\001 \001(\t\022\024\n\014stop_indexes\030\002 \003(\r\022\024\n\014is_roun"
   "dtrip\030\003 \001(\010\"L\n\014StopDistance\022\024\n\014l_stop_in"
   "dex\030\001 \001(\r\022\024\n\014r_stop_index\030\002 \001(\r\022\020\n\010dista"
-  "nce\030\003 \001(\001\"\273\001\n\022TransportCatalogue\0222\n\005stop"
+  "nce\030\003 \001(\005\"\273\001\n\022TransportCatalogue\0222\n\005stop"
   "s\030\001 \003(\0132#.serialize_transport_catalogue."
   "Stop\0221\n\005buses\030\002 \003(\0132\".serialize_transpor"
   "t_catalogue.Bus\022>\n\tdistances\030\003 \003(\0132+.ser"
@@ -1037,11 +1037,11 @@ const char* StopDistance::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
         } else
           goto handle_unusual;
         continue;
-      // double distance = 3;
+      // int32 distance = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 25)) {
-          _impl_.distance_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.distance_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -1086,14 +1086,10 @@ uint8_t* StopDistance::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteUInt32ToArray(2, this->_internal_r_stop_index(), target);
   }
 
-  // double distance = 3;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_distance = this->_internal_distance();
-  uint64_t raw_distance;
-  memcpy(&raw_distance, &tmp_distance, sizeof(tmp_distance));
-  if (raw_distance != 0) {
+  // int32 distance = 3;
+  if (this->_internal_distance() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteDoubleToArray(3, this->_internal_distance(), target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_distance(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1122,13 +1118,9 @@ size_t StopDistance::ByteSizeLong() const {
     total_size += ::_pbi::WireFormatLite::UInt32SizePlusOne(this->_internal_r_stop_index());
   }
 
-  // double distance = 3;
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_distance = this->_internal_distance();
-  uint64_t raw_distance;
-  memcpy(&raw_distance, &tmp_distance, sizeof(tmp_distance));
-  if (raw_distance != 0) {
-    total_size += 1 + 8;
+  // int32 distance = 3;
+  if (this->_internal_distance() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_distance());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -1155,11 +1147,7 @@ void StopDistance::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   if (from._internal_r_stop_index() != 0) {
     _this->_internal_set_r_stop_index(from._internal_r_stop_index());
   }
-  static_assert(sizeof(uint64_t) == sizeof(double), "Code assumes uint64_t and double are the same size.");
-  double tmp_distance = from._internal_distance();
-  uint64_t raw_distance;
-  memcpy(&raw_distance, &tmp_distance, sizeof(tmp_distance));
-  if (raw_distance != 0) {
+  if (from._internal_distance() != 0) {
     _this->_internal_set_distance(from._internal_distance());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);

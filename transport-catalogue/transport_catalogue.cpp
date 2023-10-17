@@ -166,6 +166,10 @@ std::vector<std::string_view> TransportCatalogue::GetBusNames() const {
     return names;
 }
 
+const TransportCatalogue::DistanceMap& TransportCatalogue::GetDistanceMap() const {
+    return stop_distances_;
+}
+
 size_t TransportCatalogue::GetStopCount() const {
     return stops_.size();
 }
