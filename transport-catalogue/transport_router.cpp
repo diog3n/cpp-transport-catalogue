@@ -5,12 +5,12 @@
 #include <cassert>
 #include <variant>
 
-#include "domain.hpp"
-#include "geo.hpp"
-#include "transport_catalogue.hpp"
-#include "transport_router.hpp"
-#include "json_reader.hpp"
-#include "graph.hpp"
+#include "domain.h"
+#include "geo.h"
+#include "transport_catalogue.h"
+#include "transport_router.h"
+#include "json_reader.h"
+#include "graph.h"
 
 namespace transport_router {
 

@@ -1,9 +1,9 @@
 #include <algorithm>
 #include <cstdint>
 
-#include "map_renderer.hpp"
-#include "svg.hpp"
-#include "transport_catalogue.hpp"
+#include "map_renderer.h"
+#include "svg.h"
+#include "transport_catalogue.h"
 
 namespace renderer {
 

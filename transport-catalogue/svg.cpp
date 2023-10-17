@@ -3,7 +3,7 @@
 #include <sstream>
 #include <variant>
 
-#include "svg.hpp"
+#include "svg.h"
 
 namespace svg {
 

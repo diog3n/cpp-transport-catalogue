@@ -8,22 +8,22 @@ find_package(Threads REQUIRED)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS transport_catalogue.proto)
 
-set(CATALOGUE_FILES domain.cpp domain.hpp
-                    geo.cpp geo.hpp
-                    graph.hpp 
-                    input_reader.cpp input_reader.hpp
-                    json_builder.cpp json_builder.hpp
-                    json.cpp json.hpp
-                    json_reader.cpp json_reader.hpp
+set(CATALOGUE_FILES domain.cpp domain.h
+                    geo.cpp geo.h
+                    graph.h 
+                    input_reader.cpp input_reader.h
+                    json_builder.cpp json_builder.h
+                    json.cpp json.h
+                    json_reader.cpp json_reader.h
                     main.cpp map_renderer.cpp
-                    map_renderer.hpp ranges.hpp
-                    request_handler.cpp request_handler.hpp
-                    router.hpp serialization.cpp
-                    serialization.hpp stat_reader.cpp
-                    stat_reader.hpp svg.cpp
-                    svg.hpp transport_catalogue.cpp
-                    transport_catalogue.hpp transport_router.cpp
-                    transport_router.hpp)
+                    map_renderer.h ranges.h
+                    request_handler.cpp request_handler.h
+                    router.h serialization.cpp
+                    serialization.h stat_reader.cpp
+                    stat_reader.h svg.cpp
+                    svg.h transport_catalogue.cpp
+                    transport_catalogue.h transport_router.cpp
+                    transport_router.h)
 
 add_executable(transport_catalogue ${CATALOGUE_FILES} ${PROTO_HDRS} ${PROTO_SRCS})
 

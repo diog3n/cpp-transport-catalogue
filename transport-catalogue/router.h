@@ -1,6 +1,6 @@
 #pragma once
 
-#include "graph.hpp"
+#include "graph.h"
 
 #include <algorithm>
 #include <cassert>

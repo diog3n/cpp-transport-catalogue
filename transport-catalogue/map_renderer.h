@@ -4,10 +4,10 @@
 #include <iostream>
 #include <memory>
 
-#include "domain.hpp"
-#include "geo.hpp"
-#include "svg.hpp"
-#include "transport_catalogue.hpp"
+#include "domain.h"
+#include "geo.h"
+#include "svg.h"
+#include "transport_catalogue.h"
 
 namespace renderer {
 

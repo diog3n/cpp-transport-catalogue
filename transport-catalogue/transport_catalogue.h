@@ -4,8 +4,8 @@
 #include <deque>
 #include <unordered_map>
 
-#include "geo.hpp"
-#include "domain.hpp"
+#include "geo.h"
+#include "domain.h"
 
 namespace transport_catalogue {
 

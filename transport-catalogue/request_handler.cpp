@@ -1,11 +1,11 @@
 #include <algorithm>
 #include <memory>
 
-#include "request_handler.hpp"
-#include "json_reader.hpp"
-#include "map_renderer.hpp"
-#include "transport_catalogue.hpp"
-#include "transport_router.hpp"
+#include "request_handler.h"
+#include "json_reader.h"
+#include "map_renderer.h"
+#include "transport_catalogue.h"
+#include "transport_router.h"
 
 namespace request_handler {
 

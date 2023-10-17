@@ -1,10 +1,10 @@
 #pragma once
 #include <iostream>
 
-#include "geo.hpp"
-#include "transport_catalogue.hpp"
-#include "domain.hpp"
-#include "request_handler.hpp"
+#include "geo.h"
+#include "transport_catalogue.h"
+#include "domain.h"
+#include "request_handler.h"
 
 namespace input_reader {
 

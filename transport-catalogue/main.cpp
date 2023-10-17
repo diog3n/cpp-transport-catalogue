@@ -1,9 +1,9 @@
-#include "transport_catalogue.hpp"
-#include "transport_router.hpp"
-#include "request_handler.hpp"
-#include "serialization.hpp"
-#include "map_renderer.hpp"
-#include "json_reader.hpp"
+#include "transport_catalogue.h"
+#include "transport_router.h"
+#include "request_handler.h"
+#include "serialization.h"
+#include "map_renderer.h"
+#include "json_reader.h"
 
 #include <filesystem>
 #include <iostream>

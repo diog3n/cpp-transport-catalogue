@@ -5,9 +5,9 @@
 #include <string_view>
 #include <algorithm>
 
-#include "geo.hpp"
-#include "input_reader.hpp"
-#include "transport_catalogue.hpp"
+#include "geo.h"
+#include "input_reader.h"
+#include "transport_catalogue.h"
 
 namespace input_reader {
 

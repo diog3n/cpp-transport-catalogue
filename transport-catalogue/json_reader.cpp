@@ -8,15 +8,15 @@
 #include <sstream>
 #include <variant>
 
-#include "json_builder.hpp"
-#include "map_renderer.hpp"
-#include "json_reader.hpp"
-#include "domain.hpp"
-#include "json.hpp"
-#include "router.hpp"
-#include "serialization.hpp"
-#include "transport_catalogue.hpp"
-#include "transport_router.hpp"
+#include "transport_catalogue.h"
+#include "transport_router.h"
+#include "serialization.h"
+#include "map_renderer.h"
+#include "json_builder.h"
+#include "json_reader.h"
+#include "domain.h"
+#include "router.h"
+#include "json.h"
 
 namespace json_reader {
 

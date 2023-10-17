@@ -4,9 +4,9 @@
 #include <memory>
 #include <optional>
 
-#include "transport_catalogue.hpp"
-#include "transport_router.hpp"
-#include "map_renderer.hpp"
+#include "transport_catalogue.h"
+#include "transport_router.h"
+#include "map_renderer.h"
 
 namespace handlers {
 

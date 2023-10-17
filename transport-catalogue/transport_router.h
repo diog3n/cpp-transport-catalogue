@@ -6,10 +6,10 @@
 #include <variant>
 #include <vector>
 
-#include "domain.hpp"
-#include "transport_catalogue.hpp"
-#include "router.hpp"
-#include "graph.hpp"
+#include "domain.h"
+#include "transport_catalogue.h"
+#include "router.h"
+#include "graph.h"
 
 namespace transport_router {
 

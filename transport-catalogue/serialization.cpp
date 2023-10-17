@@ -1,7 +1,7 @@
-#include "serialization.hpp"
-#include "domain.hpp"
-#include "geo.hpp"
-#include "transport_catalogue.hpp"
+#include "serialization.h"
+#include "domain.h"
+#include "geo.h"
+#include "transport_catalogue.h"
 #include "transport_catalogue.pb.h"
 #include <algorithm>
 #include <iterator>

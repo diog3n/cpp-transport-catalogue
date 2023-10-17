@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string_view>
 
-#include "stat_reader.hpp"
+#include "stat_reader.h"
 
 namespace stat_reader {
 

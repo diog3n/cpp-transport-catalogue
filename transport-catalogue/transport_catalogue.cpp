@@ -5,8 +5,8 @@
 #include <ostream>
 #include <string_view>
 
-#include "geo.hpp"
-#include "transport_catalogue.hpp"
+#include "geo.h"
+#include "transport_catalogue.h"
 
 namespace transport_catalogue {
 

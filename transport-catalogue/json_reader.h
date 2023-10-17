@@ -1,13 +1,13 @@
 #pragma once
 #include <memory>
 
-#include "transport_catalogue.hpp"
-#include "transport_router.hpp"
-#include "request_handler.hpp"
-#include "serialization.hpp"
-#include "map_renderer.hpp"
-#include "domain.hpp"
-#include "json.hpp"
+#include "transport_catalogue.h"
+#include "transport_router.h"
+#include "request_handler.h"
+#include "serialization.h"
+#include "map_renderer.h"
+#include "domain.h"
+#include "json.h"
 
 namespace json_reader {
 
