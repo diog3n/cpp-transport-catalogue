@@ -51,13 +51,13 @@ void JSONReader::ParseMakeBaseJSON() {
     const json::Dict& root_map = json_.GetRoot().AsMap();
 
     const json::Array& base_requests = root_map.at("base_requests"s).AsArray();
-    const json::Node& render_settings = root_map.at("render_settings"s);
-    const json::Node& routing_settings = root_map.at("routing_settings"s);
+    // const json::Node& render_settings = root_map.at("render_settings"s);
+    // const json::Node& routing_settings = root_map.at("routing_settings"s);
     const json::Node& serialization_settings = 
                                           root_map.at("serialization_settings");
 
-    render_settings_  = AssembleRenderSettings(render_settings);
-    routing_settings_ = AssembleRoutingSettings(routing_settings);
+    // render_settings_  = AssembleRenderSettings(render_settings);
+    // routing_settings_ = AssembleRoutingSettings(routing_settings);
     serialization_settings_ = AssembleSerializationSettings(
                                                         serialization_settings);
 

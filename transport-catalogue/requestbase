@@ -1,0 +1,6 @@
+if [ -z "$1" ]; then
+    echo "No arguments passed"
+    exit 0
+fi
+
+build/transport_catalogue process_requests < $1

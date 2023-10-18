@@ -68,7 +68,7 @@ void PrintUsage(std::ostream& stream = std::cerr) {
 }
 
 int main(int argc, char* argv[]) {
-    RunTests();
+    //RunTests();
 
     if (argc != 2) {
         PrintUsage();

@@ -3,7 +3,7 @@
 
 CMakeFiles/transport_catalogue.dir/domain.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.cpp \
   /usr/include/stdc-predef.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/optional \
   /usr/include/c++/12/type_traits \
   /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
@@ -163,11 +163,11 @@ CMakeFiles/transport_catalogue.dir/domain.cpp.o: /home/ilya/Documents/Code/Cpp/Y
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h
 
 CMakeFiles/transport_catalogue.dir/geo.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.cpp \
   /usr/include/stdc-predef.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
   /usr/include/c++/12/cmath \
   /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -458,10 +458,10 @@ CMakeFiles/transport_catalogue.dir/input_reader.cpp.o: /home/ilya/Documents/Code
   /usr/include/c++/12/bits/uniform_int_dist.h \
   /usr/include/c++/12/pstl/glue_algorithm_defs.h \
   /usr/include/c++/12/pstl/execution_defs.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/input_reader.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/input_reader.h \
   /usr/include/c++/12/iostream \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/ext/aligned_buffer.h \
@@ -480,7 +480,7 @@ CMakeFiles/transport_catalogue.dir/input_reader.cpp.o: /home/ilya/Documents/Code
   /usr/include/c++/12/bits/hashtable_policy.h \
   /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/unordered_map.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/optional \
   /usr/include/c++/12/set \
   /usr/include/c++/12/bits/stl_set.h \
@@ -489,7 +489,7 @@ CMakeFiles/transport_catalogue.dir/input_reader.cpp.o: /home/ilya/Documents/Code
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.h \
   /usr/include/c++/12/memory \
   /usr/include/c++/12/bits/stl_raw_storage_iter.h \
   /usr/include/c++/12/bits/align.h \
@@ -504,23 +504,23 @@ CMakeFiles/transport_catalogue.dir/input_reader.cpp.o: /home/ilya/Documents/Code
   /usr/include/c++/12/bits/atomic_lockfree_defines.h \
   /usr/include/c++/12/backward/auto_ptr.h \
   /usr/include/c++/12/pstl/glue_memory_defs.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.h \
   /usr/include/c++/12/unordered_set \
   /usr/include/c++/12/bits/unordered_set.h \
   /usr/include/c++/12/cstddef \
   /usr/include/c++/12/variant \
   /usr/include/c++/12/bits/parse_numbers.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.h \
   /usr/include/c++/12/utility \
   /usr/include/c++/12/bits/stl_relops.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h
 
 CMakeFiles/transport_catalogue.dir/json.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.cpp \
   /usr/include/stdc-predef.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.h \
   /usr/include/c++/12/iostream \
   /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -723,8 +723,8 @@ CMakeFiles/transport_catalogue.dir/json.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
 
 CMakeFiles/transport_catalogue.dir/json_builder.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.cpp \
   /usr/include/stdc-predef.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.h \
   /usr/include/c++/12/iostream \
   /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
   /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
@@ -1149,51 +1149,43 @@ CMakeFiles/transport_catalogue.dir/json_reader.cpp.o: /home/ilya/Documents/Code/
   /usr/include/c++/12/variant \
   /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/parse_numbers.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.hpp \
-  /usr/include/c++/12/iostream \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/bits/node_handle.h \
   /usr/include/c++/12/bits/stl_map.h \
   /usr/include/c++/12/bits/stl_multimap.h \
   /usr/include/c++/12/bits/erase_if.h \
-  /usr/include/c++/12/vector \
-  /usr/include/c++/12/bits/stl_vector.h \
-  /usr/include/c++/12/bits/stl_bvector.h \
-  /usr/include/c++/12/bits/vector.tcc \
-  /usr/include/c++/12/stack \
   /usr/include/c++/12/deque \
   /usr/include/c++/12/bits/stl_deque.h \
   /usr/include/c++/12/bits/deque.tcc \
-  /usr/include/c++/12/bits/stl_stack.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
-  /usr/include/c++/12/optional \
-  /usr/include/c++/12/set \
-  /usr/include/c++/12/bits/stl_set.h \
-  /usr/include/c++/12/bits/stl_multiset.h \
   /usr/include/c++/12/unordered_map \
   /usr/include/c++/12/bits/hashtable.h \
   /usr/include/c++/12/bits/hashtable_policy.h \
   /usr/include/c++/12/bits/unordered_map.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
+  /usr/include/c++/12/optional \
+  /usr/include/c++/12/set \
+  /usr/include/c++/12/bits/stl_set.h \
+  /usr/include/c++/12/bits/stl_multiset.h \
+  /usr/include/c++/12/vector \
+  /usr/include/c++/12/bits/stl_vector.h \
+  /usr/include/c++/12/bits/stl_bvector.h \
+  /usr/include/c++/12/bits/vector.tcc \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.h \
   /usr/include/c++/12/unordered_set \
   /usr/include/c++/12/bits/unordered_set.h \
   /usr/include/c++/12/cstddef \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.h \
   /usr/include/c++/12/iterator \
   /usr/include/c++/12/bits/stream_iterator.h \
   /usr/include/c++/12/utility \
   /usr/include/c++/12/bits/stl_relops.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
+  /usr/include/c++/12/iostream \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
   /usr/include/c++/12/limits \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
@@ -1282,11 +1274,19 @@ CMakeFiles/transport_catalogue.dir/json_reader.cpp.o: /home/ilya/Documents/Code/
   /usr/include/c++/12/bits/quoted_string.h \
   /usr/include/c++/12/codecvt \
   /usr/include/c++/12/bits/fs_dir.h \
-  /usr/include/c++/12/bits/fs_ops.h
+  /usr/include/c++/12/bits/fs_ops.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.h \
+  /usr/include/c++/12/stack \
+  /usr/include/c++/12/bits/stl_stack.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.h
 
 CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/main.cpp \
   /usr/include/stdc-predef.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/bits/stl_algobase.h \
@@ -1352,8 +1352,8 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/c++/12/bits/hashtable_policy.h \
   /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/unordered_map.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/optional \
   /usr/include/c++/12/exception \
   /usr/include/c++/12/bits/exception_ptr.h \
@@ -1454,7 +1454,7 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.h \
   /usr/include/c++/12/memory \
   /usr/include/c++/12/bits/stl_tempbuf.h \
   /usr/include/c++/12/bits/stl_raw_storage_iter.h \
@@ -1494,9 +1494,9 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/c++/12/cstddef \
   /usr/include/c++/12/variant \
   /usr/include/c++/12/bits/parse_numbers.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.h \
   /usr/include/c++/12/iterator \
   /usr/include/c++/12/bits/stream_iterator.h \
   /usr/include/c++/12/bits/streambuf_iterator.h \
@@ -1533,10 +1533,10 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/c++/12/bits/ostream.tcc \
   /usr/include/c++/12/istream \
   /usr/include/c++/12/bits/istream.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
   /usr/include/c++/12/limits \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
@@ -1629,8 +1629,8 @@ CMakeFiles/transport_catalogue.dir/main.cpp.o: /home/ilya/Documents/Code/Cpp/Yan
   /usr/include/c++/12/codecvt \
   /usr/include/c++/12/bits/fs_dir.h \
   /usr/include/c++/12/bits/fs_ops.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.hpp
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.h
 
 CMakeFiles/transport_catalogue.dir/map_renderer.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.cpp \
   /usr/include/stdc-predef.h \
@@ -1720,7 +1720,7 @@ CMakeFiles/transport_catalogue.dir/map_renderer.cpp.o: /home/ilya/Documents/Code
   /usr/include/stdint.h \
   /usr/include/x86_64-linux-gnu/bits/wchar.h \
   /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.h \
   /usr/include/c++/12/iostream \
   /usr/include/c++/12/ostream \
   /usr/include/c++/12/ios \
@@ -1842,7 +1842,7 @@ CMakeFiles/transport_catalogue.dir/map_renderer.cpp.o: /home/ilya/Documents/Code
   /usr/include/c++/12/bits/atomic_lockfree_defines.h \
   /usr/include/c++/12/backward/auto_ptr.h \
   /usr/include/c++/12/pstl/glue_memory_defs.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/optional \
   /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/set \
@@ -1859,11 +1859,11 @@ CMakeFiles/transport_catalogue.dir/map_renderer.cpp.o: /home/ilya/Documents/Code
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h \
   /usr/include/c++/12/variant \
   /usr/include/c++/12/bits/parse_numbers.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_map.h \
   /usr/include/c++/12/bits/stl_multimap.h \
@@ -2022,14 +2022,14 @@ CMakeFiles/transport_catalogue.dir/request_handler.cpp.o: /home/ilya/Documents/C
   /usr/include/c++/12/bits/atomic_lockfree_defines.h \
   /usr/include/c++/12/backward/auto_ptr.h \
   /usr/include/c++/12/pstl/glue_memory_defs.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.h \
   /usr/include/c++/12/deque \
   /usr/include/c++/12/bits/stl_deque.h \
   /usr/include/c++/12/bits/range_access.h \
   /usr/include/c++/12/bits/deque.tcc \
   /usr/include/c++/12/optional \
   /usr/include/c++/12/bits/enable_special_members.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/bits/node_handle.h \
@@ -2040,8 +2040,8 @@ CMakeFiles/transport_catalogue.dir/request_handler.cpp.o: /home/ilya/Documents/C
   /usr/include/c++/12/bits/hashtable.h \
   /usr/include/c++/12/bits/hashtable_policy.h \
   /usr/include/c++/12/bits/unordered_map.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/set \
   /usr/include/c++/12/bits/stl_set.h \
   /usr/include/c++/12/bits/stl_multiset.h \
@@ -2082,15 +2082,15 @@ CMakeFiles/transport_catalogue.dir/request_handler.cpp.o: /home/ilya/Documents/C
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.h \
   /usr/include/c++/12/unordered_set \
   /usr/include/c++/12/bits/unordered_set.h \
   /usr/include/c++/12/cstddef \
   /usr/include/c++/12/variant \
   /usr/include/c++/12/bits/parse_numbers.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.h \
   /usr/include/c++/12/iterator \
   /usr/include/c++/12/bits/stream_iterator.h \
   /usr/include/c++/12/bits/streambuf_iterator.h \
@@ -2121,10 +2121,10 @@ CMakeFiles/transport_catalogue.dir/request_handler.cpp.o: /home/ilya/Documents/C
   /usr/include/c++/12/bits/ostream.tcc \
   /usr/include/c++/12/istream \
   /usr/include/c++/12/bits/istream.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
   /usr/include/c++/12/limits \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
@@ -2217,12 +2217,12 @@ CMakeFiles/transport_catalogue.dir/request_handler.cpp.o: /home/ilya/Documents/C
   /usr/include/c++/12/codecvt \
   /usr/include/c++/12/bits/fs_dir.h \
   /usr/include/c++/12/bits/fs_ops.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.hpp
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.h
 
 CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.cpp \
   /usr/include/stdc-predef.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/bits/stl_algobase.h \
@@ -2288,8 +2288,8 @@ CMakeFiles/transport_catalogue.dir/serialization.cpp.o: /home/ilya/Documents/Cod
   /usr/include/c++/12/bits/hashtable_policy.h \
   /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/unordered_map.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/optional \
   /usr/include/c++/12/exception \
   /usr/include/c++/12/bits/exception_ptr.h \
@@ -2777,8 +2777,8 @@ CMakeFiles/transport_catalogue.dir/stat_reader.cpp.o: /home/ilya/Documents/Code/
   /usr/include/c++/12/bits/istream.tcc \
   /usr/include/c++/12/sstream \
   /usr/include/c++/12/bits/sstream.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/ext/aligned_buffer.h \
@@ -2797,8 +2797,8 @@ CMakeFiles/transport_catalogue.dir/stat_reader.cpp.o: /home/ilya/Documents/Code/
   /usr/include/c++/12/bits/hashtable_policy.h \
   /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/unordered_map.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/optional \
   /usr/include/c++/12/set \
   /usr/include/c++/12/bits/stl_set.h \
@@ -2807,7 +2807,7 @@ CMakeFiles/transport_catalogue.dir/stat_reader.cpp.o: /home/ilya/Documents/Code/
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.h \
   /usr/include/c++/12/memory \
   /usr/include/c++/12/bits/stl_raw_storage_iter.h \
   /usr/include/c++/12/bits/align.h \
@@ -2822,21 +2822,21 @@ CMakeFiles/transport_catalogue.dir/stat_reader.cpp.o: /home/ilya/Documents/Code/
   /usr/include/c++/12/bits/atomic_lockfree_defines.h \
   /usr/include/c++/12/backward/auto_ptr.h \
   /usr/include/c++/12/pstl/glue_memory_defs.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.h \
   /usr/include/c++/12/unordered_set \
   /usr/include/c++/12/bits/unordered_set.h \
   /usr/include/c++/12/cstddef \
   /usr/include/c++/12/variant \
   /usr/include/c++/12/bits/parse_numbers.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.h \
   /usr/include/c++/12/iterator \
   /usr/include/c++/12/bits/stream_iterator.h \
   /usr/include/c++/12/utility \
   /usr/include/c++/12/bits/stl_relops.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h
 
 CMakeFiles/transport_catalogue.dir/svg.cpp.o: /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.cpp \
   /usr/include/stdc-predef.h \
@@ -3029,7 +3029,7 @@ CMakeFiles/transport_catalogue.dir/svg.cpp.o: /home/ilya/Documents/Code/Cpp/Yand
   /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/parse_numbers.h \
   /usr/include/c++/12/ext/aligned_buffer.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h \
   /usr/include/c++/12/memory \
   /usr/include/c++/12/bits/stl_uninitialized.h \
   /usr/include/c++/12/bits/stl_tempbuf.h \
@@ -3251,8 +3251,8 @@ CMakeFiles/transport_catalogue.dir/transport_catalogue.cpp.o: /home/ilya/Documen
   /usr/include/c++/12/bits/locale_facets.tcc \
   /usr/include/c++/12/bits/basic_ios.tcc \
   /usr/include/c++/12/bits/ostream.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/ext/aligned_buffer.h \
@@ -3271,7 +3271,7 @@ CMakeFiles/transport_catalogue.dir/transport_catalogue.cpp.o: /home/ilya/Documen
   /usr/include/c++/12/bits/hashtable_policy.h \
   /usr/include/c++/12/bits/enable_special_members.h \
   /usr/include/c++/12/bits/unordered_map.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/optional \
   /usr/include/c++/12/set \
   /usr/include/c++/12/bits/stl_set.h \
@@ -3786,7 +3786,7 @@ CMakeFiles/transport_catalogue.dir/transport_router.cpp.o: /home/ilya/Documents/
   /usr/include/c++/12/variant \
   /usr/include/c++/12/bits/parse_numbers.h \
   /usr/include/c++/12/ext/aligned_buffer.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h \
   /usr/include/c++/12/set \
   /usr/include/c++/12/bits/stl_tree.h \
   /usr/include/c++/12/bits/node_handle.h \
@@ -3804,15 +3804,15 @@ CMakeFiles/transport_catalogue.dir/transport_router.cpp.o: /home/ilya/Documents/
   /usr/include/c++/12/bits/stl_vector.h \
   /usr/include/c++/12/bits/stl_bvector.h \
   /usr/include/c++/12/bits/vector.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h \
   /usr/include/c++/12/map \
   /usr/include/c++/12/bits/stl_map.h \
   /usr/include/c++/12/bits/stl_multimap.h \
   /usr/include/c++/12/deque \
   /usr/include/c++/12/bits/stl_deque.h \
   /usr/include/c++/12/bits/deque.tcc \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.h \
   /usr/include/c++/12/memory \
   /usr/include/c++/12/bits/stl_tempbuf.h \
   /usr/include/c++/12/bits/stl_raw_storage_iter.h \
@@ -3832,9 +3832,9 @@ CMakeFiles/transport_catalogue.dir/transport_router.cpp.o: /home/ilya/Documents/
   /usr/include/c++/12/unordered_set \
   /usr/include/c++/12/bits/unordered_set.h \
   /usr/include/c++/12/cstddef \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.h \
   /usr/include/c++/12/iterator \
   /usr/include/c++/12/bits/stream_iterator.h \
   /usr/include/c++/12/algorithm \
@@ -3846,11 +3846,11 @@ CMakeFiles/transport_catalogue.dir/transport_router.cpp.o: /home/ilya/Documents/
   /usr/include/c++/12/utility \
   /usr/include/c++/12/bits/stl_relops.h \
   /usr/include/c++/12/iostream \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h \
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.h \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h \
   /usr/include/c++/12/limits \
   /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/port_def.inc \
@@ -3941,7 +3941,7 @@ CMakeFiles/transport_catalogue.dir/transport_router.cpp.o: /home/ilya/Documents/
   /usr/include/c++/12/codecvt \
   /usr/include/c++/12/bits/fs_dir.h \
   /usr/include/c++/12/bits/fs_ops.h \
-  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.hpp
+  /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.h
 
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/wire_format.h:
@@ -3960,7 +3960,7 @@ transport_catalogue.pb.cc:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.cpp:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.hpp:
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.h:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.cpp:
 
@@ -3969,6 +3969,8 @@ transport_catalogue.pb.cc:
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.cpp:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/main.cpp:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.h:
 
 /usr/include/c++/12/bits/fs_dir.h:
 
@@ -3994,6 +3996,10 @@ transport_catalogue.pb.cc:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/parse_context.h:
 
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream_impl_lite.h:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/unknown_field_set.h:
+
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/generated_enum_util.h:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/mutex.h:
@@ -4014,8 +4020,6 @@ transport_catalogue.pb.cc:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/implicit_weak_message.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/metadata_lite.h:
-
 /usr/include/c++/12/bits/std_mutex.h:
 
 /usr/include/c++/12/ctime:
@@ -4029,8 +4033,6 @@ transport_catalogue.pb.cc:
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena_impl.h:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arena.h:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/strutil.h:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/hash.h:
 
@@ -4072,10 +4074,6 @@ transport_catalogue.pb.cc:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.pb.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.hpp:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_reader.hpp:
-
 /usr/include/c++/12/bits/fstream.tcc:
 
 /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h:
@@ -4086,29 +4084,21 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/stack:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.hpp:
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json.hpp:
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.h:
 
 /usr/include/c++/12/bits/stl_relops.h:
 
 /usr/include/c++/12/utility:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.hpp:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/io/zero_copy_stream_impl_lite.h:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.hpp:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.hpp:
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/router.h:
 
 /usr/include/c++/12/bits/parse_numbers.h:
 
 /usr/include/c++/12/variant:
 
 /usr/include/c++/12/bits/unordered_set.h:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.hpp:
 
 /usr/include/c++/12/pstl/glue_memory_defs.h:
 
@@ -4124,8 +4114,6 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/ext/concurrence.h:
 
-/usr/include/c++/12/bits/shared_ptr_base.h:
-
 /usr/include/c++/12/bits/shared_ptr.h:
 
 /usr/include/c++/12/functional:
@@ -4140,9 +4128,9 @@ transport_catalogue.pb.cc:
 
 /usr/include/x86_64-linux-gnu/sys/types.h:
 
-/usr/include/x86_64-linux-gnu/bits/waitflags.h:
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.hpp:
+/usr/include/x86_64-linux-gnu/bits/waitflags.h:
 
 /usr/include/c++/12/cctype:
 
@@ -4176,10 +4164,6 @@ transport_catalogue.pb.cc:
 
 /usr/include/x86_64-linux-gnu/bits/types/FILE.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenaz_sampler.h:
-
-/usr/include/x86_64-linux-gnu/sys/select.h:
-
 /usr/include/x86_64-linux-gnu/bits/stdint-intn.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
@@ -4194,6 +4178,8 @@ transport_catalogue.pb.cc:
 
 /usr/include/x86_64-linux-gnu/bits/types/mbstate_t.h:
 
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/ranges.h:
+
 /usr/include/x86_64-linux-gnu/bits/types/wint_t.h:
 
 /usr/include/c++/12/bits/unique_ptr.h:
@@ -4202,23 +4188,23 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/cstdint:
 
-/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/strutil.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/input_reader.hpp:
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.h:
+
+/usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
 /usr/include/byteswap.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/serialization.h:
 
 /usr/include/x86_64-linux-gnu/bits/libc-header-start.h:
 
 /usr/include/c++/12/bits/chrono.h:
 
 /usr/include/c++/12/clocale:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/unknown_field_set.h:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/floatn.h:
 
@@ -4247,8 +4233,6 @@ transport_catalogue.pb.cc:
 /usr/include/c++/12/bits/erase_if.h:
 
 /usr/include/assert.h:
-
-/usr/include/c++/12/bits/range_access.h:
 
 /usr/include/c++/12/bits/stl_multiset.h:
 
@@ -4286,6 +4270,10 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/bits/stl_set.h:
 
+/usr/include/x86_64-linux-gnu/bits/time64.h:
+
+/usr/include/c++/12/bits/hash_bytes.h:
+
 /usr/include/c++/12/bits/locale_facets_nonio.h:
 
 /usr/include/c++/12/bits/exception.h:
@@ -4315,6 +4303,10 @@ transport_catalogue.pb.cc:
 /usr/include/c++/12/backward/binders.h:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.cpp:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/metadata_lite.h:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.h:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/map.h:
 
@@ -4354,10 +4346,6 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/bits/uses_allocator.h:
 
-/usr/include/x86_64-linux-gnu/bits/time64.h:
-
-/usr/include/c++/12/bits/hash_bytes.h:
-
 /usr/include/c++/12/bits/allocated_ptr.h:
 
 /usr/include/c++/12/bits/nested_exception.h:
@@ -4373,6 +4361,8 @@ transport_catalogue.pb.cc:
 /usr/include/c++/12/new:
 
 /usr/include/features.h:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.h:
 
 /usr/include/c++/12/optional:
 
@@ -4412,6 +4402,18 @@ transport_catalogue.pb.cc:
 
 /usr/include/x86_64-linux-gnu/bits/math-vector.h:
 
+/usr/include/c++/12/bits/range_access.h:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/arenaz_sampler.h:
+
+/usr/include/x86_64-linux-gnu/sys/select.h:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/domain.h:
+
+/usr/include/c++/12/bits/fs_fwd.h:
+
+/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
+
 /usr/include/x86_64-linux-gnu/bits/timesize.h:
 
 /usr/include/c++/12/bits/hashtable_policy.h:
@@ -4419,8 +4421,6 @@ transport_catalogue.pb.cc:
 /usr/include/c++/12/bits/uniform_int_dist.h:
 
 /usr/include/c++/12/bits/ptr_traits.h:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/request_handler.hpp:
 
 /usr/include/c++/12/bits/enable_special_members.h:
 
@@ -4582,7 +4582,9 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/bits/stl_bvector.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.hpp:
+/usr/include/c++/12/bits/shared_ptr_base.h:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_catalogue.h:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/geo.cpp:
 
@@ -4597,10 +4599,6 @@ transport_catalogue.pb.cc:
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
 /usr/include/x86_64-linux-gnu/bits/libm-simd-decl-stubs.h:
-
-/usr/include/c++/12/bits/fs_fwd.h:
-
-/usr/include/x86_64-linux-gnu/bits/flt-eval-method.h:
 
 /usr/include/x86_64-linux-gnu/bits/fp-fast.h:
 
@@ -4617,6 +4615,8 @@ transport_catalogue.pb.cc:
 /usr/include/c++/12/cwchar:
 
 /usr/include/c++/12/tr1/bessel_function.tcc:
+
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/input_reader.h:
 
 /usr/include/c++/12/tr1/beta_function.tcc:
 
@@ -4662,6 +4662,8 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/bits/locale_facets.tcc:
 
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/transport_router.h:
+
 /usr/include/c++/12/bits/istream.tcc:
 
 /usr/include/asm-generic/errno.h:
@@ -4675,8 +4677,6 @@ transport_catalogue.pb.cc:
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/lib/Protobuf/include/google/protobuf/stubs/status.h:
 
 /usr/include/c++/12/cassert:
-
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/svg.hpp:
 
 /usr/include/x86_64-linux-gnu/bits/stdio_lim.h:
 
@@ -4722,7 +4722,7 @@ transport_catalogue.pb.cc:
 
 /usr/include/c++/12/pstl/glue_algorithm_defs.h:
 
-/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/map_renderer.hpp:
+/home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/graph.h:
 
 /home/ilya/Documents/Code/Cpp/Yandex\ Practicum/5.\ Development\ of\ complex\ projects\ and\ libraries/7.\ Serialization\ via\ Protobuf/cpp-transport-catalogue/transport-catalogue/input_reader.cpp:
 
