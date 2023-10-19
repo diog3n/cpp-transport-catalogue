@@ -52,10 +52,10 @@ void RunTests() {
     }
     
     {
-        using namespace serialization::transport_catalogue::tests;
+        using namespace serialization::database::tests;
 
-        TestTransportCatalogueSerialization();
-        cerr << "TestTransportCatalogueSerialization OK!"s << endl;
+        TestDatabaseSerialization();
+        cerr << "TestDatabaseSerialization OK!"s << endl;
     }
 
     cerr << "All tests OK!"s << std::endl;

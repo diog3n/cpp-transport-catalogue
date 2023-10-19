@@ -167,23 +167,8 @@ public:
 
     MapRenderer(RenderSettings render_settings); 
 
-    // Draws the route line and adds it to the document
-    void DrawRoute(const std::string_view bus_name, const std::vector<svg::Point>& points);
-
-    // Draws the route label and adds it to the document
-    void DrawRouteName(const std::string_view bus_name, const svg::Point& begin, const svg::Point& end);
-
-    /* Draws the round route label and adds it to the document.
-     * Round route label is only displayed once */
-    void DrawRoundRouteName(const std::string_view bus_name, const svg::Point& begin);
-
-    // Draws a stop circle and adds it to the document
-    void DrawStop(const svg::Point& pos);
-
-    // Draws stop label and adds it to the document
-    void DrawStopName(const std::string_view stop_name, const svg::Point& pos);
-
-    svg::Document RenderMap(const transport_catalogue::TransportCatalogue& catalogue);
+    svg::Document RenderMap(const transport_catalogue
+                                ::TransportCatalogue& catalogue);
 
     svg::Document GetDoc() const;
 
@@ -200,6 +185,27 @@ private:
 
     // Is used to cycle through the colors given in color_palette render setting
     int color_counter_ = 0;
+
+    // Draws the route line and adds it to the document
+    void DrawRoute(const std::string_view bus_name, 
+                   const std::vector<svg::Point>& points);
+
+    // Draws the route label and adds it to the document
+    void DrawRouteName(const std::string_view bus_name, 
+                       const svg::Point& begin, 
+                       const svg::Point& end);
+
+    /* Draws the round route label and adds it to the document.
+     * Round route label is only displayed once */
+    void DrawRoundRouteName(const std::string_view bus_name, 
+                            const svg::Point& begin);
+
+    // Draws a stop circle and adds it to the document
+    void DrawStop(const svg::Point& pos);
+
+    // Draws stop label and adds it to the document
+    void DrawStopName(const std::string_view stop_name, 
+                      const svg::Point& pos);
     
     // Draws a circle with set parameters
     svg::Circle GetStopCircle(const svg::Point pos) const;

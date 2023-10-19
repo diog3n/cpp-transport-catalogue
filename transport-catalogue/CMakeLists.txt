@@ -8,12 +8,12 @@ find_package(Threads REQUIRED)
 
 protobuf_generate_cpp(PROTO_SRCS PROTO_HDRS transport_catalogue.proto
                                             svg.proto
-                                            map_renderer.proto)
+                                            map_renderer.proto
+                                            graph.proto)
 
 set(CATALOGUE_FILES domain.cpp domain.h
                     geo.cpp geo.h
                     graph.h 
-                    input_reader.cpp input_reader.h
                     json_builder.cpp json_builder.h
                     json.cpp json.h
                     json_reader.cpp json_reader.h
@@ -21,8 +21,7 @@ set(CATALOGUE_FILES domain.cpp domain.h
                     map_renderer.h ranges.h
                     request_handler.cpp request_handler.h
                     router.h serialization.cpp
-                    serialization.h stat_reader.cpp
-                    stat_reader.h svg.cpp
+                    serialization.h svg.cpp
                     svg.h transport_catalogue.cpp
                     transport_catalogue.h transport_router.cpp
                     transport_router.h)
@@ -36,3 +35,4 @@ string(REPLACE "protobuf.lib" "protobufd.lib" "Protobuf_LIBRARY_DEBUG" "${Protob
 string(REPLACE "protobuf.a" "protobufd.a" "Protobuf_LIBRARY_DEBUG" "${Protobuf_LIBRARY_DEBUG}")
 
 target_link_libraries(transport_catalogue "$<IF:$<CONFIG:Debug>,${Protobuf_LIBRARY_DEBUG},${Protobuf_LIBRARY}>" Threads::Threads)
+

@@ -95,8 +95,23 @@ struct TransportCatalogueDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 TransportCatalogueDefaultTypeInternal _TransportCatalogue_default_instance_;
+PROTOBUF_CONSTEXPR Database::Database(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.catalogue_)*/nullptr
+  , /*decltype(_impl_.render_settings_)*/nullptr
+  , /*decltype(_impl_.graph_info_)*/nullptr
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct DatabaseDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DatabaseDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~DatabaseDefaultTypeInternal() {}
+  union {
+    Database _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DatabaseDefaultTypeInternal _Database_default_instance_;
 }  // namespace serialize_transport_catalogue
-static ::_pb::Metadata file_level_metadata_transport_5fcatalogue_2eproto[5];
+static ::_pb::Metadata file_level_metadata_transport_5fcatalogue_2eproto[6];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_transport_5fcatalogue_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_transport_5fcatalogue_2eproto = nullptr;
 
@@ -144,6 +159,15 @@ const uint32_t TableStruct_transport_5fcatalogue_2eproto::offsets[] PROTOBUF_SEC
   PROTOBUF_FIELD_OFFSET(::serialize_transport_catalogue::TransportCatalogue, _impl_.stops_),
   PROTOBUF_FIELD_OFFSET(::serialize_transport_catalogue::TransportCatalogue, _impl_.buses_),
   PROTOBUF_FIELD_OFFSET(::serialize_transport_catalogue::TransportCatalogue, _impl_.distances_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::serialize_transport_catalogue::Database, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::serialize_transport_catalogue::Database, _impl_.catalogue_),
+  PROTOBUF_FIELD_OFFSET(::serialize_transport_catalogue::Database, _impl_.render_settings_),
+  PROTOBUF_FIELD_OFFSET(::serialize_transport_catalogue::Database, _impl_.graph_info_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::serialize_transport_catalogue::Coordinates)},
@@ -151,6 +175,7 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 16, -1, -1, sizeof(::serialize_transport_catalogue::Bus)},
   { 25, -1, -1, sizeof(::serialize_transport_catalogue::StopDistance)},
   { 34, -1, -1, sizeof(::serialize_transport_catalogue::TransportCatalogue)},
+  { 43, -1, -1, sizeof(::serialize_transport_catalogue::Database)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -159,29 +184,40 @@ static const ::_pb::Message* const file_default_instances[] = {
   &::serialize_transport_catalogue::_Bus_default_instance_._instance,
   &::serialize_transport_catalogue::_StopDistance_default_instance_._instance,
   &::serialize_transport_catalogue::_TransportCatalogue_default_instance_._instance,
+  &::serialize_transport_catalogue::_Database_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_transport_5fcatalogue_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\031transport_catalogue.proto\022\035serialize_t"
-  "ransport_catalogue\"\'\n\013Coordinates\022\013\n\003lat"
-  "\030\001 \001(\001\022\013\n\003lng\030\002 \001(\001\"U\n\004Stop\022\014\n\004name\030\001 \001("
-  "\t\022\?\n\013coordinates\030\002 \001(\0132*.serialize_trans"
-  "port_catalogue.Coordinates\"\?\n\003Bus\022\014\n\004nam"
-  "e\030\001 \001(\t\022\024\n\014stop_indexes\030\002 \003(\r\022\024\n\014is_roun"
-  "dtrip\030\003 \001(\010\"L\n\014StopDistance\022\024\n\014l_stop_in"
-  "dex\030\001 \001(\r\022\024\n\014r_stop_index\030\002 \001(\r\022\020\n\010dista"
-  "nce\030\003 \001(\005\"\273\001\n\022TransportCatalogue\0222\n\005stop"
-  "s\030\001 \003(\0132#.serialize_transport_catalogue."
-  "Stop\0221\n\005buses\030\002 \003(\0132\".serialize_transpor"
-  "t_catalogue.Bus\022>\n\tdistances\030\003 \003(\0132+.ser"
-  "ialize_transport_catalogue.StopDistanceb"
-  "\006proto3"
+  "ransport_catalogue\032\022map_renderer.proto\032\013"
+  "graph.proto\"\'\n\013Coordinates\022\013\n\003lat\030\001 \001(\001\022"
+  "\013\n\003lng\030\002 \001(\001\"U\n\004Stop\022\014\n\004name\030\001 \001(\t\022\?\n\013co"
+  "ordinates\030\002 \001(\0132*.serialize_transport_ca"
+  "talogue.Coordinates\"\?\n\003Bus\022\014\n\004name\030\001 \001(\t"
+  "\022\024\n\014stop_indexes\030\002 \003(\r\022\024\n\014is_roundtrip\030\003"
+  " \001(\010\"L\n\014StopDistance\022\024\n\014l_stop_index\030\001 \001"
+  "(\r\022\024\n\014r_stop_index\030\002 \001(\r\022\020\n\010distance\030\003 \001"
+  "(\005\"\273\001\n\022TransportCatalogue\0222\n\005stops\030\001 \003(\013"
+  "2#.serialize_transport_catalogue.Stop\0221\n"
+  "\005buses\030\002 \003(\0132\".serialize_transport_catal"
+  "ogue.Bus\022>\n\tdistances\030\003 \003(\0132+.serialize_"
+  "transport_catalogue.StopDistance\"\326\001\n\010Dat"
+  "abase\022D\n\tcatalogue\030\001 \001(\01321.serialize_tra"
+  "nsport_catalogue.TransportCatalogue\022F\n\017r"
+  "ender_settings\030\002 \001(\0132-.serialize_transpo"
+  "rt_catalogue.RenderSettings\022<\n\ngraph_inf"
+  "o\030\003 \001(\0132(.serialize_transport_catalogue."
+  "GraphInfob\006proto3"
   ;
+static const ::_pbi::DescriptorTable* const descriptor_table_transport_5fcatalogue_2eproto_deps[2] = {
+  &::descriptor_table_graph_2eproto,
+  &::descriptor_table_map_5frenderer_2eproto,
+};
 static ::_pbi::once_flag descriptor_table_transport_5fcatalogue_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_transport_5fcatalogue_2eproto = {
-    false, false, 527, descriptor_table_protodef_transport_5fcatalogue_2eproto,
+    false, false, 777, descriptor_table_protodef_transport_5fcatalogue_2eproto,
     "transport_catalogue.proto",
-    &descriptor_table_transport_5fcatalogue_2eproto_once, nullptr, 0, 5,
+    &descriptor_table_transport_5fcatalogue_2eproto_once, descriptor_table_transport_5fcatalogue_2eproto_deps, 2, 6,
     schemas, file_default_instances, TableStruct_transport_5fcatalogue_2eproto::offsets,
     file_level_metadata_transport_5fcatalogue_2eproto, file_level_enum_descriptors_transport_5fcatalogue_2eproto,
     file_level_service_descriptors_transport_5fcatalogue_2eproto,
@@ -1434,6 +1470,298 @@ void TransportCatalogue::InternalSwap(TransportCatalogue* other) {
       file_level_metadata_transport_5fcatalogue_2eproto[4]);
 }
 
+// ===================================================================
+
+class Database::_Internal {
+ public:
+  static const ::serialize_transport_catalogue::TransportCatalogue& catalogue(const Database* msg);
+  static const ::serialize_transport_catalogue::RenderSettings& render_settings(const Database* msg);
+  static const ::serialize_transport_catalogue::GraphInfo& graph_info(const Database* msg);
+};
+
+const ::serialize_transport_catalogue::TransportCatalogue&
+Database::_Internal::catalogue(const Database* msg) {
+  return *msg->_impl_.catalogue_;
+}
+const ::serialize_transport_catalogue::RenderSettings&
+Database::_Internal::render_settings(const Database* msg) {
+  return *msg->_impl_.render_settings_;
+}
+const ::serialize_transport_catalogue::GraphInfo&
+Database::_Internal::graph_info(const Database* msg) {
+  return *msg->_impl_.graph_info_;
+}
+void Database::clear_render_settings() {
+  if (GetArenaForAllocation() == nullptr && _impl_.render_settings_ != nullptr) {
+    delete _impl_.render_settings_;
+  }
+  _impl_.render_settings_ = nullptr;
+}
+void Database::clear_graph_info() {
+  if (GetArenaForAllocation() == nullptr && _impl_.graph_info_ != nullptr) {
+    delete _impl_.graph_info_;
+  }
+  _impl_.graph_info_ = nullptr;
+}
+Database::Database(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:serialize_transport_catalogue.Database)
+}
+Database::Database(const Database& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Database* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.catalogue_){nullptr}
+    , decltype(_impl_.render_settings_){nullptr}
+    , decltype(_impl_.graph_info_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_catalogue()) {
+    _this->_impl_.catalogue_ = new ::serialize_transport_catalogue::TransportCatalogue(*from._impl_.catalogue_);
+  }
+  if (from._internal_has_render_settings()) {
+    _this->_impl_.render_settings_ = new ::serialize_transport_catalogue::RenderSettings(*from._impl_.render_settings_);
+  }
+  if (from._internal_has_graph_info()) {
+    _this->_impl_.graph_info_ = new ::serialize_transport_catalogue::GraphInfo(*from._impl_.graph_info_);
+  }
+  // @@protoc_insertion_point(copy_constructor:serialize_transport_catalogue.Database)
+}
+
+inline void Database::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.catalogue_){nullptr}
+    , decltype(_impl_.render_settings_){nullptr}
+    , decltype(_impl_.graph_info_){nullptr}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+Database::~Database() {
+  // @@protoc_insertion_point(destructor:serialize_transport_catalogue.Database)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void Database::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete _impl_.catalogue_;
+  if (this != internal_default_instance()) delete _impl_.render_settings_;
+  if (this != internal_default_instance()) delete _impl_.graph_info_;
+}
+
+void Database::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Database::Clear() {
+// @@protoc_insertion_point(message_clear_start:serialize_transport_catalogue.Database)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  if (GetArenaForAllocation() == nullptr && _impl_.catalogue_ != nullptr) {
+    delete _impl_.catalogue_;
+  }
+  _impl_.catalogue_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.render_settings_ != nullptr) {
+    delete _impl_.render_settings_;
+  }
+  _impl_.render_settings_ = nullptr;
+  if (GetArenaForAllocation() == nullptr && _impl_.graph_info_ != nullptr) {
+    delete _impl_.graph_info_;
+  }
+  _impl_.graph_info_ = nullptr;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Database::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // .serialize_transport_catalogue.TransportCatalogue catalogue = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          ptr = ctx->ParseMessage(_internal_mutable_catalogue(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .serialize_transport_catalogue.RenderSettings render_settings = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_render_settings(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // .serialize_transport_catalogue.GraphInfo graph_info = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          ptr = ctx->ParseMessage(_internal_mutable_graph_info(), ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* Database::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:serialize_transport_catalogue.Database)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // .serialize_transport_catalogue.TransportCatalogue catalogue = 1;
+  if (this->_internal_has_catalogue()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, _Internal::catalogue(this),
+        _Internal::catalogue(this).GetCachedSize(), target, stream);
+  }
+
+  // .serialize_transport_catalogue.RenderSettings render_settings = 2;
+  if (this->_internal_has_render_settings()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, _Internal::render_settings(this),
+        _Internal::render_settings(this).GetCachedSize(), target, stream);
+  }
+
+  // .serialize_transport_catalogue.GraphInfo graph_info = 3;
+  if (this->_internal_has_graph_info()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(3, _Internal::graph_info(this),
+        _Internal::graph_info(this).GetCachedSize(), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:serialize_transport_catalogue.Database)
+  return target;
+}
+
+size_t Database::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:serialize_transport_catalogue.Database)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // .serialize_transport_catalogue.TransportCatalogue catalogue = 1;
+  if (this->_internal_has_catalogue()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.catalogue_);
+  }
+
+  // .serialize_transport_catalogue.RenderSettings render_settings = 2;
+  if (this->_internal_has_render_settings()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.render_settings_);
+  }
+
+  // .serialize_transport_catalogue.GraphInfo graph_info = 3;
+  if (this->_internal_has_graph_info()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.graph_info_);
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Database::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Database::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Database::GetClassData() const { return &_class_data_; }
+
+
+void Database::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Database*>(&to_msg);
+  auto& from = static_cast<const Database&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:serialize_transport_catalogue.Database)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_has_catalogue()) {
+    _this->_internal_mutable_catalogue()->::serialize_transport_catalogue::TransportCatalogue::MergeFrom(
+        from._internal_catalogue());
+  }
+  if (from._internal_has_render_settings()) {
+    _this->_internal_mutable_render_settings()->::serialize_transport_catalogue::RenderSettings::MergeFrom(
+        from._internal_render_settings());
+  }
+  if (from._internal_has_graph_info()) {
+    _this->_internal_mutable_graph_info()->::serialize_transport_catalogue::GraphInfo::MergeFrom(
+        from._internal_graph_info());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Database::CopyFrom(const Database& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:serialize_transport_catalogue.Database)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Database::IsInitialized() const {
+  return true;
+}
+
+void Database::InternalSwap(Database* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Database, _impl_.graph_info_)
+      + sizeof(Database::_impl_.graph_info_)
+      - PROTOBUF_FIELD_OFFSET(Database, _impl_.catalogue_)>(
+          reinterpret_cast<char*>(&_impl_.catalogue_),
+          reinterpret_cast<char*>(&other->_impl_.catalogue_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Database::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_transport_5fcatalogue_2eproto_getter, &descriptor_table_transport_5fcatalogue_2eproto_once,
+      file_level_metadata_transport_5fcatalogue_2eproto[5]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace serialize_transport_catalogue
 PROTOBUF_NAMESPACE_OPEN
@@ -1456,6 +1784,10 @@ Arena::CreateMaybeMessage< ::serialize_transport_catalogue::StopDistance >(Arena
 template<> PROTOBUF_NOINLINE ::serialize_transport_catalogue::TransportCatalogue*
 Arena::CreateMaybeMessage< ::serialize_transport_catalogue::TransportCatalogue >(Arena* arena) {
   return Arena::CreateMessageInternal< ::serialize_transport_catalogue::TransportCatalogue >(arena);
+}
+template<> PROTOBUF_NOINLINE ::serialize_transport_catalogue::Database*
+Arena::CreateMaybeMessage< ::serialize_transport_catalogue::Database >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::serialize_transport_catalogue::Database >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

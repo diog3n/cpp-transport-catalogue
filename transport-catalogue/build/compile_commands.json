@@ -11,11 +11,6 @@
 },
 {
   "directory": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build",
-  "command": "/usr/bin/c++  -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/lib/Protobuf/include\" -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build\" -g -std=gnu++17 -o CMakeFiles/transport_catalogue.dir/input_reader.cpp.o -c \"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/input_reader.cpp\"",
-  "file": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/input_reader.cpp"
-},
-{
-  "directory": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build",
   "command": "/usr/bin/c++  -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/lib/Protobuf/include\" -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build\" -g -std=gnu++17 -o CMakeFiles/transport_catalogue.dir/json_builder.cpp.o -c \"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.cpp\"",
   "file": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/json_builder.cpp"
 },
@@ -51,11 +46,6 @@
 },
 {
   "directory": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build",
-  "command": "/usr/bin/c++  -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/lib/Protobuf/include\" -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build\" -g -std=gnu++17 -o CMakeFiles/transport_catalogue.dir/stat_reader.cpp.o -c \"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.cpp\"",
-  "file": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/stat_reader.cpp"
-},
-{
-  "directory": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build",
   "command": "/usr/bin/c++  -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/lib/Protobuf/include\" -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build\" -g -std=gnu++17 -o CMakeFiles/transport_catalogue.dir/svg.cpp.o -c \"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/svg.cpp\"",
   "file": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/svg.cpp"
 },
@@ -73,5 +63,20 @@
   "directory": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build",
   "command": "/usr/bin/c++  -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/lib/Protobuf/include\" -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build\" -g -std=gnu++17 -o CMakeFiles/transport_catalogue.dir/transport_catalogue.pb.cc.o -c \"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build/transport_catalogue.pb.cc\"",
   "file": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build/transport_catalogue.pb.cc"
+},
+{
+  "directory": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build",
+  "command": "/usr/bin/c++  -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/lib/Protobuf/include\" -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build\" -g -std=gnu++17 -o CMakeFiles/transport_catalogue.dir/svg.pb.cc.o -c \"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build/svg.pb.cc\"",
+  "file": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build/svg.pb.cc"
+},
+{
+  "directory": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build",
+  "command": "/usr/bin/c++  -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/lib/Protobuf/include\" -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build\" -g -std=gnu++17 -o CMakeFiles/transport_catalogue.dir/map_renderer.pb.cc.o -c \"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build/map_renderer.pb.cc\"",
+  "file": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build/map_renderer.pb.cc"
+},
+{
+  "directory": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build",
+  "command": "/usr/bin/c++  -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/lib/Protobuf/include\" -I\"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build\" -g -std=gnu++17 -o CMakeFiles/transport_catalogue.dir/graph.pb.cc.o -c \"/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build/graph.pb.cc\"",
+  "file": "/home/ilya/Documents/Code/Cpp/Yandex Practicum/5. Development of complex projects and libraries/7. Serialization via Protobuf/cpp-transport-catalogue/transport-catalogue/build/graph.pb.cc"
 }
 ]

@@ -178,8 +178,6 @@ void Document::AddPtr(std::unique_ptr<Object>&& obj) {
 void Document::Render(std::ostream& out) const {
     RenderContext context(out);
     
-    std::cerr << "OBJECT PTRS SIZE: " << object_ptrs_.size() << std::endl;
-
     out << "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"sv << std::endl;
     out << "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">"sv << std::endl;
 

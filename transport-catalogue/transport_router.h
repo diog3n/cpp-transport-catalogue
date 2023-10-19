@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <memory>
 #include <unordered_map>
 #include <unordered_set>
@@ -69,9 +70,49 @@ struct RoutingResult {
     std::vector<RouteItem> items;
 };
 
-/* Вы правы, использование двух классов не было необходимым, поскольку класс 
- * TransportGraph никогда не использовался чем-либо кроме TransportRouter, 
- * так что я решил объединить их. */ 
+class TransportRouterInfo {
+public:
+    using Graph              = graph::DirectedWeightedGraph<Weight>;
+    using Router             = graph::Router<Weight>;
+    using EdgeId             = graph::EdgeId;
+    using VertexId           = graph::VertexId;
+    using TransportCatalogue = transport_catalogue::TransportCatalogue;
+
+    TransportRouterInfo() = default;
+
+    struct VertexInfo {
+        std::string stop_name;
+        VertexId id;
+        bool is_bus_vertex;        
+    };
+
+    struct EdgeInfo {
+        VertexId from;
+        VertexId to;
+        int span_count;
+        bool is_bus_edge;
+        std::string name;
+        Weight weight;
+    };
+
+    void AddVertexInfo(VertexInfo info);
+
+    void AddEdgeInfo(EdgeInfo info);
+
+    void SetRoutingSettings(RoutingSettings routing_settings);
+
+    const std::vector<EdgeInfo>& GetEdgesInfo() const;
+
+    const std::vector<VertexInfo>& GetVertexesInfo() const;
+
+    RoutingSettings GetRoutingSettings() const;
+
+private:
+    std::vector<EdgeInfo> edges_;
+    std::vector<VertexInfo> vertexes_;
+    RoutingSettings routing_settings_;
+};
+
 class TransportRouter {
 public:
     using Graph              = graph::DirectedWeightedGraph<Weight>;
@@ -83,15 +124,33 @@ public:
     explicit TransportRouter(const TransportCatalogue& catalogue, 
                              RoutingSettings settings)
         : catalogue_  (&catalogue)
-        , route_graph_(catalogue_->GetStopCount() * 2)
+        , route_graph_(std::make_unique<Graph>(catalogue_->GetStopCount() * 2))
         , settings_   (std::move(settings)) {
-            BuildGraph();
-            router_ = std::make_unique<Router>(route_graph_);
-        }
     
+        BuildGraph();
+        router_ = std::make_unique<Router>(*route_graph_);
+    }
+    
+    TransportRouter(const TransportCatalogue& catalogue,
+                    const TransportRouterInfo& info)
+        : catalogue_(&catalogue)
+        , route_graph_(std::make_unique<Graph>(catalogue_->GetStopCount() * 2))
+        , settings_(info.GetRoutingSettings()) {
+        
+        BuildGraphFromInfo(info);
+
+        router_ = std::make_unique<Router>(*route_graph_);
+    }
+
+
     // Builds a route for two stop_names
     std::optional<RoutingResult> BuildRoute(std::string_view from, 
                                             std::string_view to) const;
+
+    const Graph& GetRouteGraph() const;
+
+    const TransportRouterInfo ExportRouterInfo() const;
+
 private:    
 
     struct BusEdgeInfo;
@@ -134,6 +193,8 @@ private:
      * and fills stop_name_to_vertex_id_ map (hence not being const) */
     void BuildGraph();
 
+    void BuildGraphFromInfo(const TransportRouterInfo& info);
+
     /* Maps a given stop name to a vertex id (enumerates it, hence the name) 
      * maps a VertexInfo to a vertex id, adds an edge between them with weight 
      * equal to wait_time in the settings */
@@ -147,7 +208,7 @@ private:
     // Transport catalogue 
     const TransportCatalogue* catalogue_;
 
-    Graph route_graph_;
+    std::unique_ptr<Graph> route_graph_;
 
     // A router used to build routes
     std::unique_ptr<Router> router_;

@@ -1,18 +1,49 @@
 #include <exception>
+#include <memory>
 #include <optional>
 #include <ostream>
 #include <sstream>
 #include <cassert>
+#include <stdexcept>
 #include <variant>
 
 #include "domain.h"
 #include "geo.h"
+#include "graph.pb.h"
+#include "router.h"
 #include "transport_catalogue.h"
 #include "transport_router.h"
 #include "json_reader.h"
 #include "graph.h"
 
 namespace transport_router {
+
+void TransportRouterInfo::AddVertexInfo(VertexInfo info) {
+    vertexes_.push_back(std::move(info));
+}
+
+void TransportRouterInfo::AddEdgeInfo(EdgeInfo info) {
+    edges_.push_back(info);
+}
+
+void TransportRouterInfo::SetRoutingSettings(RoutingSettings routing_settings) {
+    routing_settings_ = std::move(routing_settings);
+}
+
+const std::vector<TransportRouterInfo::EdgeInfo>& 
+                  TransportRouterInfo::GetEdgesInfo() const {
+    return edges_;
+}
+
+const std::vector<TransportRouterInfo::VertexInfo>&
+                  TransportRouterInfo::GetVertexesInfo() const {
+    return vertexes_;
+}
+
+RoutingSettings TransportRouterInfo::GetRoutingSettings() const {
+    return routing_settings_;
+}
+
 
 void TransportRouter::EnumerateVertecies(std::string_view stop_name) {
 
@@ -24,7 +55,7 @@ void TransportRouter::EnumerateVertecies(std::string_view stop_name) {
 
     /* Add an edge сonnecting wait_vertex to a stop_vertex. This edge
      * means that passenger waited for bus_wait_time and got on a bus */
-    EdgeId wait_edge = route_graph_.AddEdge({ 
+    EdgeId wait_edge = route_graph_->AddEdge({ 
                         /* from:   */  current_vertex_id,
                         /* to:     */  current_vertex_id + 1,
                         /* weight: */  settings_.bus_wait_time });
@@ -89,15 +120,59 @@ void TransportRouter::BuildGraph() {
                     };
                 }
 
-                EdgeId route_edge = route_graph_.AddEdge({
+                EdgeId route_edge = route_graph_->AddEdge({
                 /* "from":   */ stop_name_to_bus_vertex_id_.at(from_ptr->name),
                 /* "to":     */ stop_name_to_wait_vertex_id_.at(to_ptr->name),
                 /* "weight": */ edge_info.total_time
                 });
 
-                bus_edge_id_to_edge_info_[route_edge] = edge_info;
+                bus_edge_id_to_edge_info_[route_edge] = std::move(edge_info);
             }
         }
+    }
+}
+
+void TransportRouter::BuildGraphFromInfo(const TransportRouterInfo& info) {
+    for (const TransportRouterInfo::VertexInfo& v_info : info.GetVertexesInfo()) {
+        auto stop_ptr = catalogue_->FindStop(v_info.stop_name);
+
+        if (v_info.is_bus_vertex) {
+            stop_name_to_bus_vertex_id_[stop_ptr->name] = v_info.id;
+            continue;
+        }
+
+        stop_name_to_wait_vertex_id_[stop_ptr->name] = v_info.id;
+    }
+
+    current_vertex_id = route_graph_->GetVertexCount();
+
+    for (const TransportRouterInfo::EdgeInfo& e_info : info.GetEdgesInfo()) {
+
+        EdgeId edge = route_graph_->AddEdge({ e_info.from, 
+                                              e_info.to, 
+                                              e_info.weight });
+
+        if (e_info.is_bus_edge) {
+            domain::BusPtr bus_ptr = catalogue_->FindBus(e_info.name);
+
+            BusEdgeInfo edge_info {
+                bus_ptr->name,
+                e_info.span_count,
+                e_info.weight
+            };
+
+            bus_edge_id_to_edge_info_[edge] = std::move(edge_info);
+            continue;
+        } 
+
+        domain::StopPtr stop_ptr = catalogue_->FindStop(e_info.name);
+
+        WaitEdgeInfo edge_info {
+            stop_ptr->name,
+            e_info.weight
+        };
+
+        wait_edge_id_to_edge_info_[edge] = std::move(edge_info);
     }
 }
 
@@ -176,6 +251,72 @@ std::optional<RoutingResult> TransportRouter::BuildRoute(
 
     return RoutingResult{ total_time, route_items };
 }
+
+const TransportRouter::Graph& TransportRouter::GetRouteGraph() const {
+    return *route_graph_;
+}
+
+const TransportRouterInfo TransportRouter::ExportRouterInfo() const {
+    TransportRouterInfo router_info;
+
+    for (const auto& stop_name : catalogue_->GetStopNames()) {
+        TransportRouterInfo::VertexInfo info;
+
+        if (stop_name_to_bus_vertex_id_.count(stop_name) == 0) continue;
+
+        info.is_bus_vertex = true;
+        info.stop_name = stop_name;
+        info.id = stop_name_to_bus_vertex_id_.at(stop_name);
+
+        router_info.AddVertexInfo(info);
+
+        info.is_bus_vertex = false;
+        info.id = stop_name_to_wait_vertex_id_.at(stop_name);
+
+        router_info.AddVertexInfo(info);
+    }
+
+    for (EdgeId edge_id = 0; 
+                edge_id < route_graph_->GetEdgeCount(); edge_id++) {
+
+        if (IsBusEdge(edge_id)) {
+            TransportRouterInfo::EdgeInfo info;
+            auto edge = route_graph_->GetEdge(edge_id);
+            auto internal_bus_edge_info = GetBusEdgeInfo(edge_id);
+
+            info.from = edge.from;
+            info.to = edge.to;
+            info.is_bus_edge = true;
+            info.span_count = internal_bus_edge_info.span_count;
+            info.name = internal_bus_edge_info.bus_name;
+            info.weight = internal_bus_edge_info.total_time;
+
+            router_info.AddEdgeInfo(info);
+        } else if (IsWaitEdge(edge_id)) {
+            TransportRouterInfo::EdgeInfo info;
+            auto edge = route_graph_->GetEdge(edge_id);
+            auto internal_wait_edge_info = GetWaitEdgeInfo(edge_id);
+
+            info.from = edge.from;
+            info.to = edge.to;
+            info.is_bus_edge = false;
+            info.span_count = 0;
+            info.name = internal_wait_edge_info.stop_name;
+            info.weight = internal_wait_edge_info.total_time;
+
+            router_info.AddEdgeInfo(info);
+        } else {
+            std::cerr << "(EXCEPTION) edge id = " << edge_id 
+                      << " is invalid!" << std::endl;
+            throw std::invalid_argument("invalid edge_id");
+        }
+    }
+
+    router_info.SetRoutingSettings(std::move(settings_));
+
+    return router_info;
+}
+
 
 namespace tests {
 

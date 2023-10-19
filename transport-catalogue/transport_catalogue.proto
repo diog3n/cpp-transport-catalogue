@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package serialize_transport_catalogue;
 
+import "map_renderer.proto";
+import "graph.proto";
+
 message Coordinates {
     double lat = 1;
     double lng = 2;
@@ -28,5 +31,11 @@ message TransportCatalogue {
     repeated Stop stops = 1;
     repeated Bus buses = 2;
     repeated StopDistance distances = 3;
+}
+
+message Database {
+    TransportCatalogue catalogue = 1;
+    RenderSettings render_settings = 2;
+    GraphInfo graph_info = 3;
 }
 

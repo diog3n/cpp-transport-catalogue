@@ -94,6 +94,7 @@ Router<Weight>::Router(const Graph& graph)
     const size_t vertex_count = graph.GetVertexCount();
     for (VertexId vertex_through = 0; vertex_through < vertex_count; ++vertex_through) {
 
+
         RelaxRoutesInternalDataThroughVertex(vertex_count, vertex_through);
     }
 }

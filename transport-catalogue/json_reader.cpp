@@ -51,13 +51,13 @@ void JSONReader::ParseMakeBaseJSON() {
     const json::Dict& root_map = json_.GetRoot().AsMap();
 
     const json::Array& base_requests = root_map.at("base_requests"s).AsArray();
-    // const json::Node& render_settings = root_map.at("render_settings"s);
-    // const json::Node& routing_settings = root_map.at("routing_settings"s);
+    const json::Node& render_settings = root_map.at("render_settings"s);
+    const json::Node& routing_settings = root_map.at("routing_settings"s);
     const json::Node& serialization_settings = 
                                           root_map.at("serialization_settings");
 
-    // render_settings_  = AssembleRenderSettings(render_settings);
-    // routing_settings_ = AssembleRoutingSettings(routing_settings);
+    render_settings_  = AssembleRenderSettings(render_settings);
+    routing_settings_ = AssembleRoutingSettings(routing_settings);
     serialization_settings_ = AssembleSerializationSettings(
                                                         serialization_settings);
 
@@ -125,7 +125,6 @@ void JSONReader::LoadJSON(std::istream& in) {
     ParseMakeBaseJSON();
     ExecuteInputQueries();
     ParseRequestsJSON();
-    InitializeRouter();
 }
 
 void JSONReader::LoadMakeBaseJSON(std::istream& in) {
@@ -135,15 +134,14 @@ void JSONReader::LoadMakeBaseJSON(std::istream& in) {
 
     ParseMakeBaseJSON();
     ExecuteInputQueries();
+    InitializeRouter();
     SerializeBase();
 }
 
 void JSONReader::LoadRequestsJSON(std::istream& in) {
     json_ = json::Load(in);
-
     ParseRequestsJSON();
     DeserializeBase();
-    InitializeRouter();
 }
 
 void JSONReader::LoadJSON(const std::string& in) {
@@ -212,9 +210,7 @@ json::Node JSONReader::AssembleStopNode(domain::StopInfoOpt& stop_info_opt,
 json::Node JSONReader::AssembleMapNode(int id) const {
     renderer::MapRenderer renderer(render_settings_);
 
-    request_handler::RequestHandler rh(catalogue_.get(), nullptr, &renderer);
-
-    svg::Document document = rh.RenderMap();
+    svg::Document document = renderer.RenderMap(*catalogue_);
 
     std::ostringstream out;
 
@@ -505,7 +501,6 @@ void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
             
             output_array.push_back(AssembleRouteNode(routing_result, 
                                                      route_query_ptr->id));
-
         }
     });
 
@@ -514,23 +509,26 @@ void JSONReader::ExecuteOutputQueries(std::ostream& out) const {
 }
 
 void JSONReader::SerializeBase() const {
-    using Serializer = serialization::transport_catalogue
-                                    ::TransportCatalogueSerializer;
+    using DatabaseSerializer = serialization::database::DatabaseSerializer;
 
     std::ofstream ofs(serialization_settings_.filename, std::ios::binary);
 
-    Serializer::SerializeTransportCatalogue(*catalogue_, ofs);
+    DatabaseSerializer::Serialize(*catalogue_, render_settings_, *router_, ofs);
 }
 
 void JSONReader::DeserializeBase() {
-    using Serializer = serialization::transport_catalogue
-                                    ::TransportCatalogueSerializer;
+    using DatabaseSerializer = serialization::database::DatabaseSerializer;
     using TransportCatalogue = transport_catalogue::TransportCatalogue;
+    using TransportRouter = transport_router::TransportRouter;
+    using Database = serialization::database::Database;
 
     std::ifstream ifs(serialization_settings_.filename, std::ios::binary);
 
-    catalogue_ = std::make_shared<TransportCatalogue>(
-                                Serializer::DeserializeTransportCatalogue(ifs));
+    Database db = DatabaseSerializer::Deserialize(ifs);
+
+    catalogue_ = std::make_shared<TransportCatalogue>(std::move(db.catalogue));
+    render_settings_ = std::move(db.render_settings);
+    router_ = std::make_shared<TransportRouter>(*catalogue_, db.router_info);
 }
 
 std::string JSONReader::ReadJSON(std::istream& in) {
