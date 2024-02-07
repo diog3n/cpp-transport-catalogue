@@ -5,5 +5,5 @@
 Собрать проект можно с помощью CMake. Для этого в директории, в которой лежит CMakeLists.txt выполните:
 ```bash
 mkdir build && cd build
-cmake -DProtobuf_INCLUDE_DIRS=protobuf/headers/path .. && cmake --build .
+cmake -DCMAKE_PREFIX_PATH=/path/to/protobuf/package  .. && cmake --build .
 ```
